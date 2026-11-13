@@ -15,10 +15,10 @@ it to GitHub Pages on every push to `main`.
 The game is built with Godot 4.7 from a separate repository and published as
 release files here:
 
-- [Windows](https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Windows.zip)
+- [Windows](https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Setup.exe)
 - [Mac](https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Mac.zip)
 
-Each zip has only the game: no Godot install needed.
+No Godot install needed. The Windows installer asks where to put the game (the Desktop by default) and places one file there.
 
 ## Run locally
 
