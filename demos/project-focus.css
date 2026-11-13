@@ -74,20 +74,6 @@ body[data-project-focus].paper-play .desc .project-status {
   text-decoration: none;
 }
 .art-study-link:hover { color: #a34839; }
-/* Platform links under the Download pill: a small paper slip, like the art-study link. */
-.dl-platforms {
-  pointer-events: auto;
-  margin: -12px 0 0;
-  padding: 4px 14px;
-  max-width: min(92%, 420px);
-  color: #000;
-  background: #fffdf5;
-  border-radius: 8px 10px 7px 9px;
-  font: 700 18px/1.3 var(--hand);
-  text-align: center;
-}
-.dl-platforms a { color: inherit; }
-.dl-platforms a:hover { color: #a34839; }
 .closing-projects a { color: #000; font: 700 22px/1.4 var(--hand); }
 body[data-project-focus] .paper-tools:not(.is-touring) {
   top: auto;

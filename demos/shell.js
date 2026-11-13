@@ -93,7 +93,6 @@
   const platform = navigator.userAgentData?.platform || navigator.platform || navigator.userAgent;
   if (/mac/i.test(platform)) {
     document.querySelectorAll('.btn-download[data-dl-mac]').forEach((a) => { a.href = a.dataset.dlMac; });
-    document.querySelectorAll('.dl-mac-hint').forEach((s) => { s.hidden = false; });
   }
 
   // Demo iframes load once they get near the viewport.
