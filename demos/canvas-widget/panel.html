@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sleek" data-default-theme="sleek">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Canvas Companion · Portfolio demo</title>
+<link rel="stylesheet" href="panel.css?v=polish-2"/>
+<link rel="stylesheet" href="widget-design.css?v=urgent-2"/>
+<link rel="stylesheet" href="chart-art.css?v=tech-flat-4"/>
+<link rel="stylesheet" href="racing-theme.css?v=medium-plus-15"/>
+</head>
+<body>
+
+<div id="app">
+      <div id="top-controls" role="group" aria-label="Widget appearance and preferences">
+        <div id="style-wrap" style="position:relative;">
+          <button id="style-icon-btn" type="button" title="Visual theme"
+                  aria-label="Visual theme" aria-haspopup="true" aria-expanded="false">
+            <svg class="theme-stack-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5Z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="theme-button-label">Theme</span><svg class="theme-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div id="style-popup">
+            <div id="style-popup-label">Visual theme</div>
+            <div id="style-options">
+              <button class="style-opt-btn" data-style="sleek">Sleek</button>
+              <button class="style-opt-btn" data-style="nature">Nature</button>
+              <button class="style-opt-btn" data-style="tech">Tech</button>
+              <button class="style-opt-btn" data-style="racing">Racing</button>
+              <button class="style-opt-btn" data-style="orbit">Orbit</button>
+            </div>
+            <!-- Only shown when theme=nature and the bar-chart (tree) style is active -->
+            <div id="tree-species-row" style="display:none;">
+              <select id="tree-species-select" aria-label="Tree species">
+                <option value="oak">Oak</option>
+                <option value="birch">Birch</option>
+                <option value="cherry">Cherry</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="week-wrap" style="position:relative;">
+          <button type="button" id="week-icon-btn" title="First day of week" aria-label="First day of week" aria-expanded="false" aria-controls="week-popup">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/>
+              <path d="M3.5 9.5h17"/>
+              <path d="M8 3.2v3.4M16 3.2v3.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div id="week-popup">
+            <div id="week-popup-label">Week starts on</div>
+            <div id="week-days">
+              <button class="week-day-btn" data-weekday="0" title="Sunday">S</button>
+              <button class="week-day-btn" data-weekday="1" title="Monday">M</button>
+              <button class="week-day-btn" data-weekday="2" title="Tuesday">T</button>
+              <button class="week-day-btn" data-weekday="3" title="Wednesday">W</button>
+              <button class="week-day-btn" data-weekday="4" title="Thursday">T</button>
+              <button class="week-day-btn" data-weekday="5" title="Friday">F</button>
+              <button class="week-day-btn" data-weekday="6" title="Saturday">S</button>
+            </div>
+          </div>
+        </div>
+        <div id="theme-wrap" style="position:relative;">
+          <button type="button" id="theme-icon-btn" title="Accent color" aria-label="Accent color" aria-expanded="false" aria-controls="theme-popup"></button>
+          <div id="theme-popup">
+            <div id="theme-popup-label">Accent color</div>
+            <div id="theme-swatches"></div>
+            <!-- Custom color picker -->
+            <div id="th-custom-panel">
+              <!-- Square saturation/brightness picker -->
+              <div style="position:relative;width:156px;height:120px;margin-bottom:8px;flex-shrink:0;">
+                <canvas id="th-sb-canvas" width="156" height="120" style="display:block;border-radius:4px;cursor:crosshair;"></canvas>
+                <div id="th-sb-handle" style="position:absolute;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,0.5);pointer-events:none;transform:translate(-50%,-50%);top:10%;left:90%;"></div>
+              </div>
+              <!-- Hue slider -->
+              <div style="position:relative;margin-bottom:8px;">
+                <canvas id="th-hue-canvas" width="156" height="12" style="display:block;border-radius:6px;cursor:crosshair;"></canvas>
+                <div id="th-hue-handle" style="position:absolute;top:50%;width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,0.4);transform:translate(-50%,-50%);pointer-events:none;left:0%;"></div>
+              </div>
+              <!-- Full-width color preview rectangle -->
+              <div id="th-preview-dot" style="width:100%;height:28px;border-radius:6px;background:#888;border:1px solid var(--border);margin-bottom:8px;transition:background 0.08s;"></div>
+              <!-- Apply button full width -->
+              <button id="th-hex-apply"  style="width:100%;padding:5px;margin-bottom:8px;">Apply</button>
+              <div id="th-saved-label" style="display:none">Saved</div>
+              <div id="th-saved-swatches" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+            </div>
+            <!-- Right-click context menu for saved colors -->
+            <div id="th-ctx-menu" style="
+              display:none;position:fixed;z-index:9999;
+              background:var(--popup-bg);border:1px solid var(--border);
+              border-radius:8px;padding:4px;
+              box-shadow:0 4px 16px rgba(0,0,0,0.3);min-width:110px;
+            ">
+              <div id="th-ctx-delete" style="
+                padding:6px 10px;font-size:11px;font-weight:700;
+                color:#E74973;cursor:pointer;border-radius:5px;
+                transition:background 0.1s;
+              " 
+                 >
+                Delete color
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="mode-btn" title="Switch color mode" aria-label="Switch color mode"></button>
+      </div>
+<div id="hero">
+    <div id="chart-col" style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;margin-right:0;margin-bottom:12px;">
+      <div id="chart-left" style="margin-right:0;">
+        <div id="ring-wrap">
+          <svg id="ring-svg" width="188" height="188" viewBox="0 0 188 188" style="overflow:visible;display:block;"></svg>
+        </div>
+        <div id="bar-chart-wrap"></div>
+      </div>
+      <div id="chart-style-bar">
+        <div class="chart-switch" role="group" aria-label="Chart display">
+          <button type="button" id="chart-cycle-btn" data-chart-view="rings" aria-pressed="true" title="Show ring chart"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><circle cx="10" cy="10" r="3.5"/></svg><span>Rings</span></button>
+          <button type="button" data-chart-view="bars" aria-pressed="false" title="Show bar chart" tabindex="-1"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 15V8m6 7V4m6 11v-5"/></svg><span>Bars</span></button>
+          <button type="button" data-chart-view="hidden" aria-pressed="false" title="Hide chart" tabindex="-1"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 3l14 14M8 5a8 8 0 0 1 9 5l-2 3M12 15a8 8 0 0 1-9-5l2-3"/></svg><span>Hide</span></button>
+        </div>
+        <button type="button" id="chart-show-btn" hidden aria-label="Show chart" aria-controls="chart-left"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 10s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5Z"/><circle cx="10" cy="10" r="2"/></svg><span>Show chart</span></button>
+      </div>
+    </div>
+    <!-- Weekly overview info -->
+    <div id="ring-info">
+      <div id="hero-title">Weekly Progress</div>
+      <!-- Filled by renderHero() with the current week's real date range -->
+      <h3 class="deadline-heading">Assignments complete</h3>
+      <div id="next-deadlines" aria-label="Weekly assignments completed for each class"></div>
+    </div>
+  </div>
+
+  <button id="overview-return" type="button" hidden>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Overview
+  </button>
+
+  <!-- TABS -->
+  <div id="tabs">
+    <button class="tab-btn" data-tab="assignments" id="tab-assignments" style="position:relative;">
+      Assignments
+      <span id="asgn-notif-dots" class="tab-notif-dots" aria-hidden="true"></span>
+    </button>
+    <button class="tab-btn" data-tab="grades" id="tab-grades" style="position:relative;">
+      Grades
+      <span id="grade-notif-dots" class="tab-notif-dots" aria-hidden="true"></span>
+    </button>
+    <button class="tab-btn" data-tab="gpa">GPA</button>
+  </div>
+
+  <!-- PANELS -->
+  <div id="body">
+
+<!-- Loading state — shown while bg.js fetches Canvas data -->
+<div id="cc-loading" style="
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:220px;
+  gap:14px;
+  position:absolute;
+  inset:0;
+  background:var(--bg);
+  z-index:10;
+">
+  <div style="
+    width:32px;height:32px;border-radius:50%;
+    border:3px solid var(--border);border-top-color:var(--accent);
+    animation:ccspin .85s linear infinite;
+  "></div>
+  <div style="font-size:11px;color:var(--muted)">Loading your Canvas data…</div>
+</div>
+<style>@keyframes ccspin{to{transform:rotate(360deg)}}</style>
+
+<!-- Error state — shown when Canvas API fails -->
+<div id="cc-error" style="display:none;padding:24px;text-align:center">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--err-text);margin-bottom:12px">
+    <path d="M12 9v4"/><path d="M12 17h.01"/>
+    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>
+  </svg>
+  <div id="cc-error-msg"
+       style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px">
+    Could not load Canvas data
+  </div>
+  <div id="cc-error-detail"
+       style="font-size:10px;color:var(--muted);margin-bottom:16px"></div>
+  <button id="cc-retry-btn"
+          style="padding:7px 16px;background:var(--accent);border:none;
+                 border-radius:8px;color:var(--btn-text);font-size:11px;
+                 font-weight:700;cursor:pointer">
+    Try again
+  </button>
+</div>
+
+
+
+    <!-- ASSIGNMENTS -->
+    <div class="panel" id="panel-assignments">
+      <header class="panel-heading"><p>Coursework</p><h1>Your assignments</h1></header>
+      <div id="sort-bar">
+        <label id="sort-label" for="sort-select">Sort by</label>
+        <select id="sort-select">
+          <option value="due" selected>Due Date</option>
+          <option value="course">Course</option>
+        </select>
+      </div>
+      <div id="sl-pending" class="sl">Assignments (0)</div>
+      <div id="list-pending"></div>
+      <div id="sl-done" class="sl" style="display:none">Assignments Completed (0)</div>
+      <div id="list-done"></div>
+    </div>
+
+    <!-- GRADES -->
+    <div class="panel" id="panel-grades">
+      <header class="panel-heading"><p>Grades</p><h1>Course performance</h1></header>
+      <div id="class-cards"></div>
+      <!-- Static footer link — renderGrades() only rewrites #class-cards, so
+           this survives every data refresh -->
+      <a id="tutoring-link" href="https://asuonline.asu.edu/students/tutoring" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 9.5L12 4.5 2 9.5l10 5 10-5z"/>
+          <path d="M6 12v4.5c0 1.66 2.69 3 6 3s6-1.34 6-3V12"/>
+          <path d="M22 9.5V15"/>
+        </svg>
+        <div class="tutoring-text">
+          <div class="tutoring-title">Free ASU Tutoring</div>
+          <div class="tutoring-sub">Online tutoring &amp; academic support for ASU students</div>
+        </div>
+        <span class="tutoring-arrow">↗</span>
+      </a>
+    </div>
+
+    <!-- GPA -->
+    <div class="panel" id="panel-gpa">
+      <header class="panel-heading"><p>Academic planning</p><h1>Your GPA</h1></header>
+      <!-- hidden stubs so existing JS references don't throw -->
+      <div id="gpa-stub-hidden" style="display:none">
+        <div id="info-body"><div class="transcript-inputs" id="transcript-inputs"><input id="inp-honor-pts"/><input id="inp-graded-units"/><div id="transcript-result"></div></div></div>
+        <div id="disp-gpa"></div><div id="disp-honor"></div><div id="disp-units"></div>
+        <div id="gpa-hero"></div><div id="gpa-hero-num"></div><div id="gpa-hero-sub"></div>
+        <div id="gpa-compare-row"></div><div id="gpa-course-rows"></div>
+        <div id="feasibility-banner"></div><div id="focus-card"></div>
+        <div id="needed-cards"></div><div id="scale-table"></div>
+        <div id="cs-current"></div><div id="cs-goal"></div><div id="cs-max"></div>
+        <input id="goal-slider"/><input id="goal-input"/>
+      </div>
+
+      <!-- ── CURRENT GPA ── -->
+      <div class="gpa-section-label">Current GPA</div>
+      <div class="gpa-current-card">
+        <div class="gpa-big-num" id="gpa-current-display">—</div>
+        <div class="gpa-transcript-row">
+          <div class="gpa-t-field">
+            <label for="gpa-honor-pts">Total Grade Points</label>
+            <input type="text" inputmode="decimal" id="gpa-honor-pts" placeholder="e.g. 120.000" />
+          </div>
+          <div class="gpa-t-field">
+            <label for="gpa-graded-units">Graded Units</label>
+            <input type="text" inputmode="decimal" id="gpa-graded-units" placeholder="e.g. 45.000" />
+          </div>
+        </div>
+        <div class="gpa-hint">Find these in <a href="https://my.asu.edu" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none">my.asu.edu</a> → <strong>Grade Detail</strong></div>
+      </div>
+
+      <!-- ── END OF TERM GPA ── -->
+      <div class="gpa-section-label" style="margin-top:16px">End of Term GPA</div>
+      <div class="gpa-eot-card">
+        <div class="gpa-eot-top">
+          <div>
+            <div class="gpa-eot-num" id="gpa-eot-display">—</div>
+            <div class="gpa-eot-sub" id="gpa-eot-sub">Based on current class grades</div>
+          </div>
+          <div class="gpa-delta-badge" id="gpa-delta-badge"></div>
+        </div>
+        <div class="gpa-course-list" id="gpa-course-list"></div>
+      </div>
+
+      <!-- ── GOAL GPA CALCULATOR ── -->
+      <div class="gpa-section-label" style="margin-top:16px">Goal GPA Calculator</div>
+      <div class="gpa-goal-card">
+        <div class="gpa-goal-top">
+          <label class="gpa-goal-label" for="gpa-goal-input">Target cumulative GPA</label>
+          <input type="text" inputmode="decimal" id="gpa-goal-input" class="gpa-goal-inp" value="3.85" />
+        </div>
+        <div id="gpa-max-possible"></div>
+        <div class="gpa-goal-result" id="gpa-goal-result"></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script src="chrome-shim.js?v=grade-directions-2"></script>
+<script src="demo-data.js?v=static-6"></script>
+<script src="racing-art.js?v=continuous-rings-6"></script>
+<script src="panel.js?v=urgent-5"></script>
+<script src="syllabus-parser.js"></script>
+<script src="course-activity.js"></script>
+<script src="canvas-data.js"></script>
+<script src="overview-fit.js?v=grow-7"></script>
+</body>
+</html>

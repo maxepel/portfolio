@@ -1,0 +1,149 @@
+/* The guide: speech bubble, click target, tour stations, tool tutorials. */
+/* A page-sized layer for the bubble and click target, so they scroll with the page.
+   It clips at the page edges, so neither can widen the page. */
+.paper-guide-layer { position: absolute; inset: 0; z-index: 56; overflow: hidden; overflow: clip; pointer-events: none; }
+.paper-guide-layer > * { pointer-events: auto; }
+.paper-play.no-scroll .paper-guide-layer { visibility: hidden; }
+/* Speech bubble and tool tips: a pencil comic. Cream paper, an outline traced twice by a
+   slightly unsteady hand, a drawn tail, and handwriting throughout (Caveat, from shell.css). */
+.paper-bubble, .paper-tip {
+  --sketch: #1f1e1a; --sheet: #fff;
+  border: 1.6px solid var(--sketch); background: var(--sheet); color: var(--sketch);
+  border-radius: 20px 26px 18px 28px / 24px 18px 28px 20px;
+  box-shadow: 2px 3px 0 rgba(40, 34, 22, .09);
+  font: 700 21px/1.12 "Caveat", "Segoe Print", "Bradley Hand", cursive;
+}
+/* The second, lighter pass of the outline, a little off the first. */
+.paper-bubble::before, .paper-tip::before {
+  content: ""; position: absolute; inset: -4px -3px -3px -4px; pointer-events: none;
+  border: 1px solid var(--sketch); opacity: .4; rotate: -1.2deg;
+  border-radius: 26px 18px 28px 20px / 18px 26px 20px 28px;
+}
+.paper-bubble {
+  position: absolute; z-index: 1; left: 0; top: 0; width: max-content; max-width: min(340px, calc(100vw - 24px));
+  padding: 6px 13px 8px; transform-origin: 50% 100%;
+}
+.paper-bubble.is-below { transform-origin: 50% 0; }
+.paper-bubble[hidden], .paper-tip[hidden] { display: none; }
+/* Still while it is read; it only fades in when it opens and out when it closes. */
+.paper-bubble:not([hidden]) { animation: paper-bubble-in .16s ease-out; transition: none; }
+.paper-bubble.is-leaving { animation: paper-bubble-out .15s ease-in forwards; pointer-events: none; }
+@keyframes paper-bubble-in { from { opacity: 0; } }
+@keyframes paper-bubble-out { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .paper-bubble:not([hidden]), .paper-bubble.is-leaving { animation: none; } }
+.paper-bubble-text { margin: 0; text-wrap: balance; -webkit-font-smoothing: auto; }
+.paper-bubble-text:empty { display: none; }
+.paper-bubble-label { display: block; margin-bottom: 3px; color: #17365d; font-size: 23px; }
+.paper-bubble-label:empty { display: none; }
+.paper-bubble-label .paper-guide-name {
+  font-family: inherit;
+  font-size: inherit;
+}
+.paper-bubble.is-tools .paper-bubble-tail { bottom: auto; margin: -10px 0 0 -11px; rotate: -90deg; }
+/* The foreground stage lets his hands and lasso pass in front of the real tray. */
+.paper-tool-stage { position: fixed; inset: 0; z-index: 59; pointer-events: none; }
+.paper-tool-shade { position: fixed; inset: 0; z-index: 54; pointer-events: none; background: var(--paper); opacity: 0; transition: opacity .3s var(--ease); }
+.paper-tool-shade.is-landed { opacity: .78; }
+.paper-tools-practice .paper-tool-shade.is-landed { opacity: .12; }
+.no-scroll .paper-tool-stage { visibility: hidden; }
+.no-scroll .paper-tool-shade { visibility: hidden; }
+.paper-tools.is-touring {
+  left: auto; bottom: auto; right: 12px; top: var(--tour-top);
+  transform: translateX(var(--tour-pull, 0px));
+}
+.paper-tools.is-touring .paper-tray { flex-direction: column; padding: 6px; gap: 3px; }
+.paper-tools.is-touring .paper-tray button:not(.paper-help) { width: 54px; height: 50px; padding: 4px; }
+.paper-tools.is-touring .paper-divider { width: 30px; height: 1px; margin: 3px 0; }
+.paper-tools.is-touring .paper-hint { display: none; }
+.paper-tools.is-touring .paper-help { visibility: hidden; }
+.paper-tools.is-touring .is-hinted { animation: none; background: #f4e4dd; }
+@media (max-width: 600px) {
+  .paper-tools.is-touring { right: 18px; }
+  .paper-tools-tour .paper-bubble { max-width: calc(100vw - 142px); font-size: 20px; }
+  .paper-tools-tour .paper-bubble-label { font-size: 22px; }
+}
+@media (max-height: 520px) {
+  .paper-tools.is-touring .paper-tray button:not(.paper-help) { height: 33px; gap: 1px; font-size: 12px; }
+  .paper-tools.is-touring .paper-tray svg, .paper-tools.is-touring .paper-pin-icon { width: 17px; height: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .paper-tool-shade { transition: none; } }
+.paper-bubble-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; margin-top: 5px; }
+.paper-bubble-actions:empty { display: none; }
+.paper-bubble-actions button {
+  border: 0; background: none; padding: 1px 0; cursor: pointer; font: inherit; font-size: 19px; color: #4d4a41;
+  text-decoration: underline wavy; text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+.paper-bubble-actions button:hover { color: var(--sketch); }
+.paper-bubble-actions button.is-primary {
+  padding: 0 12px 2px; color: var(--sheet); background: var(--sketch); text-decoration: none;
+  border-radius: 14px 18px 12px 17px / 17px 12px 18px 14px; rotate: -1.5deg;
+  transition: background-color .2s var(--ease), rotate .2s var(--ease), scale .2s var(--ease);
+}
+.paper-bubble-actions button.is-primary:hover { background: var(--paper-red); rotate: 1deg; scale: 1.05; }
+.paper-bubble-actions button.is-primary:only-child { margin-inline: auto; }
+.paper-bubble.has-next .paper-bubble-actions { min-height: 28px; padding-right: 38px; }
+.paper-bubble .paper-bubble-actions .paper-bubble-next {
+  position: absolute; right: 12px; bottom: 10px; width: 28px; height: 28px;
+  display: grid; place-items: center; padding: 4px; border: 1.3px solid var(--sketch);
+  border-radius: 46% 54% 48% 52% / 55% 44% 56% 45%;
+  background: var(--sketch); color: #fff; text-decoration: none; rotate: -4deg; scale: none;
+}
+.paper-bubble-next::before {
+  content: ''; position: absolute; inset: -3px -2px -2px -3px;
+  border: 1px solid var(--sketch); border-radius: 53% 47% 55% 45% / 45% 55% 46% 54%;
+  opacity: .45; rotate: 8deg; pointer-events: none;
+}
+.paper-bubble .paper-bubble-actions .paper-bubble-next:hover { background: #333; color: #fff; rotate: 2deg; }
+.paper-bubble-next svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.paper-bubble-next .retrace { stroke-width: .65; opacity: .55; }
+.paper-bubble-actions button:active { scale: .96; }
+.paper-bubble button:focus-visible, .paper-tip button:focus-visible { outline: 1.5px dashed var(--sketch); outline-offset: 3px; border-radius: 8px; }
+/* The tail's top sits over the bubble's edge, so its fill opens the outline where they meet. */
+.paper-bubble-tail { position: absolute; z-index: 2; bottom: -18px; width: 26px; height: 20px; margin-left: -11px; pointer-events: none; }
+.paper-bubble-tail svg { display: block; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--sketch); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.paper-bubble-tail .fill { fill: var(--sheet); stroke: none; }
+.paper-bubble-tail .faint { stroke-width: 1; opacity: .4; }
+.paper-bubble.is-below .paper-bubble-tail { bottom: auto; top: -18px; scale: 1 -1; }
+/* Ends on scale none / rotate none, so the text settles onto whole pixels and stays crisp. */
+@keyframes paper-pop { from { opacity: 0; scale: .6; rotate: -4deg; } to { opacity: 1; scale: none; rotate: none; } }
+
+/* An invisible, keyboard-reachable button sitting on top of him. */
+/* He can be picked up, so the pointer over him is an open hand, closed while he dangles. */
+.paper-guide-spot { position: absolute; left: 0; top: 0; width: 34px; height: 48px; padding: 0; border: 0; background: transparent; pointer-events: none; touch-action: none; }
+.paper-guide-hit { position: absolute; left: 0; top: 0; width: 34px; height: 48px; overflow: visible; fill: none; pointer-events: none; }
+.paper-guide-hit path { stroke: transparent; stroke-width: 12px; stroke-linecap: round; stroke-linejoin: round; pointer-events: stroke; cursor: pointer; }
+.paper-guide-hit path { cursor: grab; }
+.paper-guide-spot.is-lifting .paper-guide-hit path { cursor: grabbing; }
+.paper-guide-head { fill: transparent; stroke: none; pointer-events: all; cursor: pointer; }
+.paper-guide-spot:focus-visible { outline: 2px dashed var(--ink); outline-offset: 2px; border-radius: 10px; }
+
+body.paper-tour .paper-playground-note, body.paper-tour .paper-playground-caption { opacity: 0; }
+
+/* Tutorials: a small ? on each tool, and the popover it opens. */
+.paper-tray .paper-tool { position: relative; display: flex; }
+.paper-tray .paper-help {
+  position: absolute; top: -3px; right: -1px; min-width: 0; width: 16px; height: 16px; padding: 0; border-radius: 50%;
+  border: 1px solid #cfc9ba; background: #fffdf7; color: var(--muted); font: 600 9px/1 var(--sans);
+  opacity: .8; display: grid; place-items: center;
+}
+.paper-tray .paper-help:hover:not(:disabled) { background: var(--ink); color: #fff; border-color: var(--ink); opacity: 1; }
+.paper-tray .paper-help:disabled { opacity: .8; }
+.paper-tip { position: fixed; z-index: 62; width: min(250px, calc(100vw - 24px)); padding: 6px 12px 9px; font-size: 19px; transform-origin: 50% 100%; }
+.paper-tip strong { display: block; font-size: 24px; line-height: 1.1; }
+.paper-tip p { margin: 0; color: #3d3b33; }
+.paper-tip:not([hidden]) { animation: paper-pop .26s cubic-bezier(.34, 1.56, .64, 1) both; }
+
+@media (max-width: 600px) {
+  .paper-tray .paper-help { top: -5px; right: -3px; width: 17px; height: 17px; }
+  .paper-bubble { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paper-bubble:not([hidden]), .paper-tip:not([hidden]) { animation: none; }
+}
+
+/* The demo frame he is headed for, and the tray tool he is talking about. */
+.paper-tour-target { outline: 2px dashed #6a685c; outline-offset: 8px; border-radius: 14px; }
+/* The tool he is teaching pulses gently, so the eye finds it in the tray. */
+.paper-tray .is-hinted { box-shadow: 0 0 0 2px var(--paper-red); animation: paper-target 1.6s ease-in-out infinite; }
+@keyframes paper-target { 50% { box-shadow: 0 0 0 2px var(--paper-red), 0 0 0 6px color-mix(in srgb, var(--paper-red) 22%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .paper-tray .is-hinted { animation: none; } }

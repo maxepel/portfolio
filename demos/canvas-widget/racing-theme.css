@@ -1,0 +1,47 @@
+/* Racing is isolated from the four existing themes. */
+html[data-theme="racing"]{--font:"Neue Haas Grotesk Display","Helvetica Neue",Arial,sans-serif;--display-font:var(--font);--label-font:"JetBrains Mono",monospace;--bg:#000;--surface:#000;--card-bg-alt:#000;--input-bg:#000;--stat-bg:#000;--border:#363C44;--text:#F4F3EE;--muted:#ABB0B8;--popup-bg:#000;--ring-track:#343A42;--bar-track:#343A42;--asgn-hover:#191D22;--theme-ink:#F27858;--race-curb:#DA5947;--asgn-check-border:#78818C;--card-radius:7px;--control-radius:5px;--card-shadow:none}
+html[data-theme="racing"][data-mode="light"]{--bg:#fff;--surface:#fff;--card-bg-alt:#fff;--input-bg:#fff;--stat-bg:#fff;--border:#D1D2CB;--text:#20262D;--muted:#697079;--popup-bg:#fff;--ring-track:#DADDDC;--bar-track:#DADDDC;--asgn-hover:#F1F0EA;--theme-ink:#B3432C;--race-curb:#C4513D;--asgn-check-border:#7C858C}
+html[data-theme="racing"] #widget-identity{display:none}
+html[data-theme="racing"] #app::before{border-bottom:0}
+html[data-theme="racing"] #hero{padding-top:64px;scrollbar-width:none}
+html[data-theme="racing"] :is(#hero,#body)::-webkit-scrollbar{display:none}
+html[data-theme="racing"] #body{scrollbar-width:none}
+html[data-theme="racing"] #ring-info{border-top:0;padding-top:6px}
+html[data-theme="racing"] #app #tabs{border-top:0}
+html[data-theme="racing"] #ring-wrap{width:min(243.8px,calc(100vw - 32px));aspect-ratio:1;margin:0 auto}
+html[data-theme="racing"] #ring-svg{width:100%;height:auto}
+html[data-theme="racing"] #hero-title{font:500 9px "JetBrains Mono",monospace;letter-spacing:1.5px}
+html[data-theme="racing"] #hero-date{font-size:29px;font-style:italic;font-weight:500;letter-spacing:-1px}
+html[data-theme="racing"] #hero-complete strong{font-family:"JetBrains Mono",monospace;font-size:21px;letter-spacing:-1.1px}
+html[data-theme="racing"] .cbar-track,html[data-theme="racing"] .cbar-fill{border-radius:0;height:5px}
+html[data-theme="racing"] .cbar-code{font:10px "JetBrains Mono",monospace;width:64px}
+html[data-theme="racing"] .cbar-progress-number{font:10px "JetBrains Mono",monospace}
+html[data-theme="racing"] .chart-switch{border:0;padding:0;background:none;gap:6px}
+html[data-theme="racing"] #chart-style-bar .chart-switch button{border:0;background:none;box-shadow:none;border-radius:4px;padding:8px 10px;min-height:36px;color:var(--muted);font:10px "JetBrains Mono",monospace}
+html[data-theme="racing"] #chart-style-bar .chart-switch button[aria-pressed="true"]{background:var(--surface);color:var(--theme-ink)}
+html[data-theme="racing"] #chart-style-bar .chart-switch button:hover{background:var(--surface);color:var(--text)}
+html[data-theme="racing"] #bar-chart-wrap.active{display:block;width:100%;max-width:340px;height:auto;padding:8px 0 0}
+html[data-theme="racing"] #bar-chart-wrap.many-courses.active{max-height:300px;overflow:auto;scrollbar-width:none}
+html[data-theme="racing"] .racing-straights{display:block;width:100%;height:auto;overflow:visible}
+html[data-theme="racing"] .race-svg-caption{font:7px "JetBrains Mono",monospace;letter-spacing:.5px;fill:var(--muted)}
+html[data-theme="racing"] .race-svg-course{font:9px "JetBrains Mono",monospace;fill:var(--text)}
+html[data-theme="racing"] .race-svg-value{font:10px "JetBrains Mono",monospace;fill:var(--text)}
+html[data-theme="racing"] .racing-car{filter:drop-shadow(0 1px 1px #00000030)}
+.style-opt-btn[data-style="racing"]::before{border:1px solid var(--muted);border-radius:1px;background:repeating-conic-gradient(var(--text) 0% 25%,var(--bg) 0% 50%) 50%/8px 8px;transform:skewY(-8deg)}
+html[data-theme="racing"] :is(button,a,input,select):focus-visible{outline:2px solid var(--theme-ink);outline-offset:3px}
+@media(max-width:340px){html[data-theme="racing"] #hero-date{font-size:25px}html[data-theme="racing"] .cbar-code{width:57px;font-size:9px}}
+/* Pit-wall instruments and car-number legends. All styling stays in Racing. */
+html[data-theme="racing"]{--race-lane-line:#89919A;--race-hub-edge:#4D555F}
+html[data-theme="racing"][data-mode="light"]{--race-lane-line:#7E878A;--race-hub-edge:#555D66}
+html[data-theme="racing"] .race-hub-percent{fill:#F5F4EE;font:500 21px "JetBrains Mono",monospace;letter-spacing:-1.5px}
+html[data-theme="racing"] .race-hub-label{fill:#CDD0D2;font:5.5px "JetBrains Mono",monospace;letter-spacing:1.1px}
+html[data-theme="racing"] #course-bars{counter-reset:race-car}
+html[data-theme="racing"] .cbar-row{counter-increment:race-car;margin-bottom:12px}
+html[data-theme="racing"] .cbar-dot{display:flex;align-items:center;justify-content:center;flex:0 0 21px;width:21px;height:16px;margin-right:7px;border:0;border-left:2px solid var(--orbit-color);border-radius:0;background:var(--surface)!important}
+html[data-theme="racing"] .cbar-dot::before{content:counter(race-car,decimal-leading-zero);font:9px "JetBrains Mono",monospace;color:var(--text);letter-spacing:-.5px}
+html[data-theme="racing"] #hero-title{display:flex;align-items:center;gap:7px}
+html[data-theme="racing"] #hero-title::before{content:"";display:block;width:13px;height:10px;background:repeating-conic-gradient(var(--text) 0% 25%,var(--bg) 0% 50%) 0 0/6px 6px;transform:skewY(-8deg);opacity:.7}
+html[data-theme="racing"] #chart-style-bar .chart-switch button{position:relative;border-radius:2px}
+html[data-theme="racing"] #tabs .tab-btn{font:10px "JetBrains Mono",monospace;border-radius:2px;letter-spacing:-.3px}
+html[data-theme="racing"] #tabs .tab-btn.active{border-color:transparent;background:var(--surface);box-shadow:none}
+html[data-theme="racing"] #top-controls :is(#week-icon-btn,#style-icon-btn,#mode-btn){border-radius:3px}

@@ -1,0 +1,279 @@
+/* The selected curiosity opening. Scoped here so the projects keep their paper rhythm. */
+.paper-play .curiosity-intro {
+  position: relative;
+  isolation: isolate;
+  grid-template-columns: 1.08fr 1fr;
+  min-height: calc(100svh - var(--nav-h));
+  gap: clamp(32px, 5vw, 76px);
+  padding: 48px 112px 48px clamp(32px, 5vw, 80px);
+}
+.paper-play .curiosity-intro h1 {
+  margin: 0;
+  font: 700 clamp(76px, calc(8vw + 2px), 120px)/1.02 var(--hand);
+  letter-spacing: -.025em;
+  translate: 0 -3px;
+}
+.curiosity-intro mark {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  background: transparent;
+  isolation: isolate;
+}
+.curiosity-intro mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 40% -9px 3%;
+  /* Uneven translucent ink and fine bands left by the broad felt nib. */
+  background:
+    repeating-linear-gradient(178deg, transparent 0 3px, #eec60026 3px 4px, transparent 4px 7px),
+    linear-gradient(90deg, #ffe32970 0%, #ffe32999 5%, #ffdc00d4 18%, #ffdc00d4 78%, #edc900e6 99%);
+  opacity: .94;
+  clip-path: polygon(
+    0 14%, 2% 9%, 7% 11%, 13% 6%, 20% 9%, 29% 4%,
+    38% 7%, 47% 3%, 57% 6%, 66% 2%, 76% 5%, 85% 1%,
+    93% 4%, 98% 0, 99% 12%, 98.5% 29%, 100% 48%,
+    99% 67%, 100% 84%, 97% 91%, 91% 88%, 83% 94%,
+    74% 91%, 64% 96%, 54% 93%, 43% 98%, 33% 94%,
+    23% 99%, 14% 96%, 7% 100%, 2% 95%, 2.5% 78%,
+    1% 59%, 2% 39%, 0 25%
+  );
+  transform: rotate(-1.8deg);
+  transform-origin: left center;
+  /* Reveal pigment at its final size rather than stretching the whole stroke. */
+  -webkit-mask-image: linear-gradient(90deg, #000 0 calc(100% - 4px), transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0 calc(100% - 4px), transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: curiosity-highlight-swipe .24s linear 1.15s both;
+}
+@keyframes curiosity-highlight-swipe {
+  0% { mask-size: 0% 100%; -webkit-mask-size: 0% 100%; opacity: .7; }
+  12% { mask-size: 4% 100%; -webkit-mask-size: 4% 100%; opacity: .94; }
+  78% { mask-size: 92% 100%; -webkit-mask-size: 92% 100%; }
+  100% { mask-size: 102% 100%; -webkit-mask-size: 102% 100%; opacity: .94; }
+}
+
+.paper-play .curiosity-intro .paper-intro-copy > p:not(.eyebrow) {
+  max-width: 420px;
+  margin: 28px 0;
+  color: var(--ink);
+  font: 700 28px/1.4 var(--hand);
+  translate: none;
+  text-wrap: pretty;
+}
+.curiosity-art { min-width: 0; padding-top: 6px; }
+.curiosity-sketches {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+  max-width: 530px;
+  margin: 0 auto 30px;
+}
+.paper-play .curiosity-intro .curiosity-sketch {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  color: #a36a19;
+  font: 700 19px/1.25 var(--hand);
+  text-decoration: none;
+  translate: none;
+  transform: rotate(-5deg);
+  transition: transform .2s ease, color .2s ease;
+}
+.curiosity-sketch .doodle { display: block; width: 100%; max-width: 128px; height: 116px; }
+.paper-play .curiosity-intro .curiosity-sketch[href="#node-maps"] { color: #39803f; transform: rotate(5deg); }
+.paper-play .curiosity-intro .curiosity-sketch[href="#disney"] { color: #cb367d; transform: rotate(-3deg); }
+.curiosity-sketch span { white-space: nowrap; }
+.paper-play .curiosity-intro .curiosity-sketch:hover,
+.paper-play .curiosity-intro .curiosity-sketch:focus-visible { transform: translateY(-5px) rotate(0); }
+.curiosity-sketch:hover span { text-decoration: underline; text-underline-offset: 4px; }
+.curiosity-intro .paper-playground { height: 270px; margin: 0; }
+@media (min-width: 1500px) {
+  .paper-play .curiosity-intro { padding-left: 88px; padding-right: 120px; }
+}
+@media (max-width: 1050px) and (min-width: 851px) {
+  .paper-play .curiosity-intro { gap: 28px; padding-left: 32px; padding-right: 96px; }
+  .paper-play .curiosity-intro h1 { font-size: 86px; }
+  .curiosity-sketches { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+  .curiosity-sketch .doodle { height: 86px; }
+  .paper-play .curiosity-intro .curiosity-sketch { font-size: 17px; }
+}
+@media (max-width: 850px) {
+  .paper-play .curiosity-intro {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    min-height: calc(100svh - var(--nav-h));
+    padding: 42px 96px 38px 32px;
+  }
+  .paper-play .curiosity-intro h1 { font-size: clamp(76px, calc(12vw + 2px), 104px); }
+  .curiosity-art { width: 100%; max-width: 530px; justify-self: center; }
+  .curiosity-sketches { margin-bottom: 26px; }
+  .curiosity-intro .paper-playground { height: 250px; }
+}
+@media (max-width: 600px) {
+  .paper-play .curiosity-intro { padding: 34px 26px 36px; gap: 34px; }
+  .paper-play .curiosity-intro h1 { font-size: clamp(64px, calc(16vw + 2px), 94px); }
+  .paper-play .curiosity-intro .paper-intro-copy > p:not(.eyebrow) { font-size: 26px; margin: 24px 0 18px; }
+  .curiosity-sketches { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; margin-bottom: 26px; }
+  .curiosity-sketch .doodle { height: 80px; max-width: 88px; }
+  .paper-play .curiosity-intro .curiosity-sketch { font-size: 17px; }
+      .curiosity-intro .paper-playground { height: 250px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .curiosity-intro mark::before { animation: none; }
+  .paper-play .curiosity-intro .curiosity-sketch { transition: none; }
+}
+/* Leave headroom for the guide's opening speech above the string on phones. */
+@media (max-width: 600px) {
+  .curiosity-sketches { margin-bottom: 96px; }
+  }
+
+/* Both lines of the introduction and the sketch captions rest on the ruling. */
+.paper-play .curiosity-intro .paper-intro-copy > p:not(.eyebrow),
+.paper-play .curiosity-intro .curiosity-sketch span {
+  line-height: var(--paper-line-height);
+  translate: 0 var(--paper-line-shift, 0px);
+}
+.paper-play .curiosity-intro .curiosity-sketch,
+.paper-play .curiosity-intro .curiosity-sketch[href="#node-maps"],
+.paper-play .curiosity-intro .curiosity-sketch[href="#disney"],
+.paper-play .curiosity-intro .curiosity-sketch:hover,
+.paper-play .curiosity-intro .curiosity-sketch:focus-visible {
+  transform: none;
+}
+.curiosity-sketch .doodle { transform: rotate(-5deg); transition: transform .2s ease; }
+.curiosity-sketch[href="#node-maps"] .doodle { transform: rotate(5deg); }
+.curiosity-sketch[href="#disney"] .doodle { transform: rotate(-3deg); }
+.curiosity-sketch:hover .doodle,
+.curiosity-sketch:focus-visible .doodle { transform: translateY(-5px); }
+@media (prefers-reduced-motion: reduce) {
+  .curiosity-sketch .doodle { transition: none; }
+}
+
+/* Descriptions carry the story; feature lists recede one step. */
+.paper-play .desc :is(.why, .lead) { color: var(--ink); }
+.paper-play .features { color: var(--muted); }
+.paper-play .curiosity-sketch span { color: var(--ink); }
+
+.doodle-magnifier, .doodle-flag { transform-box: fill-box; }
+.doodle-magnifier { transform-origin: center; }
+.doodle-flag { transform-origin: left bottom; }
+@media (prefers-reduced-motion: no-preference) {
+  .curiosity-sketch.is-settled:is(:hover, :focus-visible) .doodle-magnifier {
+    animation: curiosity-search .6s ease-in-out both;
+  }
+  .curiosity-sketch.is-settled:is(:hover, :focus-visible) .doodle-check {
+    stroke-dasharray: 42;
+    animation: curiosity-tick .4s ease-out both;
+  }
+  .curiosity-sketch.is-settled:is(:hover, :focus-visible) .doodle-connections {
+    stroke-dasharray: 7 4;
+    animation: curiosity-connect .75s linear 2;
+  }
+  .curiosity-sketch.is-settled:is(:hover, :focus-visible) .doodle-flag {
+    animation: curiosity-wave .35s ease-in-out 3 alternate;
+  }
+}
+@keyframes curiosity-search {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  45% { transform: translate(-6px, -3px) rotate(-9deg); }
+  75% { transform: translate(3px, -2px) rotate(4deg); }
+}
+@keyframes curiosity-tick { from { stroke-dashoffset: 42; } to { stroke-dashoffset: 0; } }
+@keyframes curiosity-connect { to { stroke-dashoffset: -22; } }
+@keyframes curiosity-wave { to { transform: skewY(-10deg) scaleX(.92); } }
+
+.paper-play .curiosity-intro .curiosity-sketch[href="#canvas-widget"] { color: #267ca5; }
+.paper-play .curiosity-intro .curiosity-sketch[href="#content-finder"] { translate: -10px 0; }
+
+/* The navigation is a strip of notebook paper with a pencilled edge. */
+#top.nav {
+  background: var(--paper, #f8f6ef);
+  background-image: var(--paper-grain), var(--pencil-rule);
+  background-size: 180px 180px, 100% 6px;
+  background-position: 0 0, bottom;
+  background-repeat: repeat, no-repeat;
+  border-bottom: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#top.nav .nav-links a::after { background: var(--link-accent, var(--ink)); transform: scaleX(0); }
+#top.nav .nav-links a:is(.is-active, :hover, :focus-visible)::after { transform: scaleX(1); }
+
+#top.nav :is(.nav-brand, .nav-links a){color:#000;}
+
+/* Handwritten invitations to explore. */
+.curiosity-intro:not([data-entrance-complete="true"]) :is(.explore-invitation, .explore-scroll) {
+  visibility: hidden;
+}
+.paper-play .curiosity-intro { padding-bottom: 112px; }
+.curiosity-art { position: relative; }
+.explore-invitation {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto 26px;
+  color: var(--ink);
+  font: 700 23px/1.2 var(--hand);
+  transform: rotate(-3deg);
+}
+.explore-invitation svg {
+  position: absolute;
+  width: 68px;
+  height: 40px;
+  top: 8px;
+  left: calc(100% + 5px);
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.paper-play .curiosity-intro .explore-scroll {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  translate: -50% 0;
+  color: var(--ink);
+  font: 700 21px/1.3 var(--hand);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.explore-scroll svg {
+  width: 20px;
+  height: 36px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .2s ease;
+}
+.explore-scroll:hover span { color: var(--ink); }
+.explore-scroll:hover svg { transform: translateY(4px); }
+@media (max-width: 1050px) {
+  .explore-invitation { font-size: 21px; margin-bottom: 24px; }
+  .explore-invitation svg { left: auto; right: -28px; top: 18px; width: 43px; }
+}
+@media (max-width: 600px) {
+  .paper-play .curiosity-intro { padding-bottom: 112px; }
+  .explore-invitation { margin-bottom: 28px; }
+  .paper-play .curiosity-intro .explore-scroll { font-size: 20px; bottom: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explore-scroll svg { transition: none; }
+}
+
+/* A little thread home occupies the former starter string course. */
+.curiosity-intro .paper-playground { height: 350px; }
+@media (max-width: 600px) {
+  .curiosity-intro .paper-playground { height: 310px; }
+}

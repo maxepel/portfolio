@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dungeon Kit - Level 1 (voxel demo)</title>
+<meta name="description" content="Playable one-level demo of the Dungeon Kit: the Upper Crypts and the Bone Warden, rebuilt for the browser.">
+<link rel="preload" href="assets/fonts/KenneyPixelSquare.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/game.css">
+<script type="importmap">
+{ "imports": {
+  "three": "./js/vendor/three.module.min.js",
+  "three/addons/": "./js/vendor/addons/"
+} }
+</script>
+</head>
+<body>
+<div id="app">
+  <canvas id="view" tabindex="0" aria-label="Dungeon Kit game view"></canvas>
+
+  <div id="hud" class="layer hidden" aria-live="polite">
+    <div id="vignette"></div>
+    <div id="status" class="abs"></div>
+    <div id="hp-back" class="abs"></div>
+    <div id="hp-fill" class="abs"></div>
+    <div id="hp-label" class="abs ol"></div>
+    <div id="gold" class="abs ol"></div>
+    <div id="weapon" class="abs ol"></div>
+    <div id="qlabel" class="abs ol">Q</div>
+    <div id="pips"></div>
+    <div id="potions" class="abs ol"></div>
+    <div id="boss" class="abs hidden">
+      <div id="boss-name" class="abs ol"></div>
+      <div id="boss-back" class="abs"></div>
+      <div id="boss-fill" class="abs"></div>
+    </div>
+    <div id="card" class="abs"><div id="card-text" class="ol"></div></div>
+    <div id="bark" class="abs ol"></div>
+    <div id="prompt" class="abs ol"></div>
+    <button id="soundbtn" type="button" aria-pressed="false">Sound: on (M)</button>
+  </div>
+
+  <div id="screen-title" class="screen hidden">
+    <div class="shade"></div>
+    <div class="stack">
+      <div class="title ol">DUNGEON KIT</div>
+      <div class="sub ol">Upper Crypts</div>
+      <div class="accent ol">Style: Voxel</div>
+      <div class="demo-note" role="note">ONE-LEVEL DEMO, NOT THE FULL GAME</div>
+      <button id="play" class="btn" type="button">Play</button>
+      <div class="gold ol blink">Press Enter or click to descend</div>
+      <div class="controls ol">WASD move &nbsp; mouse aim &nbsp; click / J attack &nbsp; Space dodge &nbsp; Q ability &nbsp; 1 2 3 potions &nbsp; E interact</div>
+    </div>
+  </div>
+
+  <div id="screen-end" class="screen hidden">
+    <div class="shade"></div>
+    <div class="stack">
+      <div class="title win ol">YOU WIN!</div>
+      <div class="accent ol" id="end-picked"></div>
+      <div class="gold ol" id="end-stats"></div>
+      <div class="demo-note" role="note">ONE-LEVEL DEMO, NOT THE FULL GAME</div>
+      <div class="row">
+        <button id="again" class="btn" type="button">Replay</button>
+        <button id="close" class="btn secondary" type="button">Return to page</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-pause" class="screen hidden">
+    <div class="stack"><div class="title small ol">PAUSED</div><div class="gold ol blink">Click or press any key to resume</div></div>
+  </div>
+
+  <!-- Always on top: leave the game from any screen. -->
+  <button id="exitbtn" type="button" aria-label="Exit the game and return to the page">&#x2715; Exit</button>
+
+  <div id="loading" class="screen"><div class="stack"><div class="title ol">DUNGEON KIT</div><div class="sub ol" id="loading-text">Digging the crypts...</div></div></div>
+</div>
+<noscript><p style="color:#f1ead8;padding:2rem">This demo needs JavaScript and WebGL.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Max's Portfolio</title>
+<meta name="description" content="Max's projects: Content Finder, Canvas Widget, Questboard, and Disney, each with something you can try.">
+<link rel="stylesheet" href="shell.css?v=medium-plus-15-next-deadlines-7&amp;quiet=1&amp;native-cursors=1&amp;wrap=1&amp;pages=1&amp;dj=2&amp;notes=3">
+<link rel="stylesheet" href="paper-play.css?logos=3">
+<link rel="stylesheet" href="sketch.css?v=project-description-format-23&amp;stickothy=1&amp;wrap=1&amp;pages=1&amp;logos=3">
+<!-- The playground's modules import each other three levels deep; fetch them all up front. -->
+<link rel="modulepreload" href="paper-play.js?tour=14&amp;walk-frequency=1&amp;climb-fall=1&amp;description-wrap=1&amp;pin-visibility=1&amp;pin-highlight=1&amp;polish=6&amp;stickothy=1&amp;recognition=1&amp;quiet=1&amp;native-cursors=1&amp;wrap=1&amp;pages=1&amp;dj=2&amp;notes=3">
+<link rel="modulepreload" href="paper-physics.js">
+<link rel="modulepreload" href="paper-art.js">
+<link rel="modulepreload" href="paper-guide.js?tour=12&amp;pin-visibility=1&amp;walk-frequency=1&amp;climb-fall=1&amp;description-wrap=1&amp;polish=6&amp;stickothy=1&amp;recognition=1&amp;quiet=1&amp;native-cursors=1&amp;wrap=1&amp;pages=1&amp;dj=2&amp;notes=3">
+<link rel="modulepreload" href="paper-pose.js?fall=2">
+<link rel="modulepreload" href="paper-tour.js?v=wall-1">
+<link rel="modulepreload" href="paper-tool-show.js?tour=9">
+<link rel="preload" href="paper-guide.css?tools-tour=8&amp;wrap=1&amp;pages=1&amp;dj=2&amp;notes=3" as="style">
+<link rel="preload" href="assets/fonts/Caveat-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="curiosity-header.css?v=22">
+<link rel="stylesheet" href="project-focus.css?v=32">
+</head>
+<body data-project-focus="true">
+
+<header class="nav" id="top">
+  <a class="nav-brand" href="#top" aria-label="Max's Portfolio, back to top">Max's Portfolio</a>
+  <nav class="nav-links" aria-label="Projects">
+    <a href="#content-finder" data-link="content-finder">Content Finder</a>
+    <a href="#canvas-widget" data-link="canvas-widget">Canvas Widget</a>
+    <a href="#node-maps" data-link="node-maps">Questboard</a>
+    <a href="#disney" data-link="disney">Disney</a>
+  </nav>
+</header>
+
+<div class="music-controls" role="group" aria-label="Background music">
+<button class="music-skip music-previous" type="button" aria-label="Previous track" title="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M18 5 8 12l10 7Z"/></svg></button>
+<button class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music" title="Play background music">
+  <svg class="music-notes" viewBox="0 0 36 36" aria-hidden="true">
+    <path class="music-note-stems" d="M12 25Q12.4 17 11.8 9.2Q19 7.6 27.1 5.2L27.5 21.8M12.1 13.3Q19.6 11.2 27.2 9.2"/>
+    <path class="music-note-retrace" d="M13 23.9L12.7 9.9L26.3 6.2M28.2 7.5L28.4 21"/>
+    <ellipse cx="8.6" cy="25.7" rx="5" ry="3.3" transform="rotate(-23 8.6 25.7)"/>
+    <ellipse cx="24" cy="22.6" rx="5" ry="3.3" transform="rotate(-23 24 22.6)"/>
+  </svg>
+</button>
+<button class="music-skip music-next" type="button" aria-label="Next track" title="Next track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M6 5l10 7-10 7Z"/></svg></button>
+</div>
+
+<section class="paper-intro curiosity-intro" aria-labelledby="paper-title" data-entrance-complete="true"><div class="paper-intro-copy"><h1 id="paper-title">Made of<br><mark>curiosity.</mark></h1><p>Useful tools, playful experiments,<br>and ideas I wanted to try.</p></div><div class="curiosity-art"><div class="paper-playground" aria-label="Stickothy's thread house, made of draggable pins and string"></div></div><a class="explore-scroll" href="#content-finder"><span>Explore the projects</span><svg viewBox="0 0 24 48" fill="none" aria-hidden="true"><path d="M12 3C9 12 15 22 12 40M4 32l8 10 8-10"/></svg></a></section>
+
+
+<main class="page">
+
+  <!-- 1 · Content Finder -->
+  <section class="project" id="content-finder" data-month="Mar" data-accent="finder">
+    <div class="desc">
+      <h2 class="title">Content Finder</h2>
+      <div class="project-text">
+      <p class="lead">The multimedia team wanted to find images by what they contained, without digging through folders and filenames. I built a working prototype they responded well to, though a move to Synology prevented adoption.</p>
+      <div class="project-notes">
+        <aside class="project-note">
+          <h3>Searching by memory</h3>
+          <p>The team had over 5 TB of media, mostly named IMG and a string of numbers. The tool tags what’s in each image and reads its date and location, so you search by what you remember.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>How much should AI describe?</h3>
+          <p>The main subject, plus a little setting and color. Anything fluffier clutters the library, and a search like “green” would bury the image you actually wanted.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>Useful, not groundbreaking</h3>
+          <p>I built it in March, as AI use was becoming known across the office. It’s essentially Google Images for your own files, and with another pass I’d refine the design and UX.</p>
+        </aside>
+      </div>
+      </div>
+      <dl class="chips">
+        <div><dt>Built with</dt><dd><span class="brand-logo" data-ai="gpt" title="GPT"><img src="assets/logos/pencil-transparent/web/codex.webp" alt="GPT" width="44" height="44"></span><span class="brand-logo" title="HTML"><img src="assets/logos/pencil-transparent/web/html.webp" alt="HTML" width="36" height="36"></span><span class="brand-logo" title="JavaScript"><img src="assets/logos/pencil-transparent/web/javascript.webp" alt="JavaScript" width="36" height="36"></span></dd></div>
+      </dl>
+    </div>
+    <div class="demo">
+      <figure class="frame" data-frame>
+        <div class="frame-body">
+          <iframe title="Content Finder demo: drag a folder in, then search it" data-src="content-finder/index.html?v=sidebar-style-2" loading="lazy"></iframe>
+        </div>
+      </figure>
+    </div>
+
+  </section>
+
+  <!-- 2 · Canvas Widget -->
+  <section class="project" id="canvas-widget" data-month="Jul" data-accent="widget">
+    <div class="desc">
+      <h2 class="title">Canvas Widget</h2>
+      <div class="project-text">
+      <p class="lead">I wanted to help students stay on top of weekly assignments and bring information from multiple Canvas and MyASU pages into one simple location. Having assignment progress, course grades, and GPA tools together makes it easier to see what needs attention and understand how the semester is going.</p>
+      <div class="project-notes">
+        <aside class="project-note">
+          <h3>What I learned</h3>
+          <p>A focused tool can provide meaningful value without an extensive feature set. While the widget offers customization, its strength is making everyday tasks simpler. I also gained experience integrating live data and testing that the tool consistently presented accurate, up-to-date information.</p>
+        </aside>
+      </div>
+      </div>
+      <dl class="chips">
+        <div><dt>Built with</dt><dd><span class="brand-logo" data-ai="claude" title="Claude"><img src="assets/logos/pencil-transparent/web/claude.webp" alt="Claude" width="44" height="44" loading="lazy"></span><span class="brand-logo" data-ai="codex" title="Codex"><img src="assets/logos/pencil-transparent/web/codex.webp" alt="Codex" width="44" height="44" loading="lazy"></span><span class="brand-logo" title="Canvas"><img src="assets/logos/pencil-transparent/web/canvas.webp" alt="Canvas" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="Chrome Manifest V3"><img src="assets/logos/pencil-transparent/web/chrome.webp" alt="Chrome Manifest V3" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="JavaScript"><img src="assets/logos/pencil-transparent/web/javascript.webp" alt="JavaScript" width="36" height="36" loading="lazy"></span><span class="brand-logo brand-wordmark" title="pdf.js"><img src="assets/logos/pencil-transparent/web/pdfjs.webp" alt="pdf.js" width="76" height="36" loading="lazy"></span><span class="brand-logo brand-wordmark" title="mammoth.js"><img src="assets/logos/pencil-transparent/web/mammothjs.webp" alt="mammoth.js" width="112" height="36" loading="lazy"></span></dd></div>
+      </dl>
+    </div>
+    <div class="demo">
+      <div class="widget-stack">
+        <button class="tut-btn" type="button" aria-pressed="false">Tutorial</button>
+        <figure class="frame" data-frame>
+          <div class="frame-body">
+            <iframe title="Canvas Widget demo, running on fake courses" data-src="canvas-widget/panel.html?v=static-8" loading="lazy"></iframe>
+          </div>
+        </figure>
+      </div>
+      <p class="demo-context">Demo uses sample courses and grades.</p>
+    </div>
+
+  </section>
+
+  <!-- 3 · Questboard -->
+  <section class="project" id="node-maps" data-month="Aug" data-accent="nodes">
+    <div class="desc">
+      <h2 class="title">Questboard</h2>
+      <div class="project-text">
+      <p class="lead">Questboard began as an experiment with node-based tools, a format I hadn’t used before and wanted to explore. I focused on mini-games with the possibility of creating educational games for courses.</p>
+      <div class="project-notes">
+        <aside class="project-note">
+          <h3>The goal</h3>
+          <p>Explore whether a connected map could speed up early game development, helping establish the structure and generate ideas and storylines in an hour or less.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>What I learned</h3>
+          <p>A node-based workflow made an AI-generated game easier to understand, troubleshoot, and refine. I could locate sound effects or level progression issues through the map, communicate targeted fixes to AI, or make adjustments myself without another prompt.</p>
+        </aside>
+      </div>
+      </div>
+    </div>
+    <div class="demo">
+      <figure class="frame frame-preview" data-frame>
+        <figcaption class="frame-bar"><span class="frame-title">Dungeon Crawler &middot; map</span>
+          <span class="frame-actions"><button class="btn-try" type="button" data-fullscreen>Try it out<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 1.5h3v3M10.5 1.5L6.5 5.5M4.5 2H2.5a1 1 0 00-1 1v6.5a1 1 0 001 1H9a1 1 0 001-1V7.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span></figcaption>
+        <div class="frame-body">
+          <iframe title="Preview of the finished Dungeon Crawler map" data-src="node-maps/index.html?mode=preview" data-try-src="node-maps/index.html" loading="lazy" tabindex="-1" inert allow="fullscreen"></iframe>
+          <button class="try-big" type="button" data-fullscreen><span>Explore the example</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </figure>
+      <p class="demo-context demo-context-one-line">* Prepared map example. Edits won’t generate a new game.</p>
+    </div>
+      <dl class="chips">
+        <div><dt>Built with</dt><dd><span class="brand-logo" data-ai="claude" title="Claude"><img src="assets/logos/pencil-transparent/web/claude.webp" alt="Claude" width="44" height="44" loading="lazy"></span><span class="brand-logo" title="React"><img src="assets/logos/pencil-transparent/web/react.webp" alt="React" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="Vite"><img src="assets/logos/pencil-transparent/web/vite.webp" alt="Vite" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="MCP server"><img src="assets/logos/pencil-transparent/web/mcp.webp" alt="MCP server" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="TypeScript"><img src="assets/logos/pencil-transparent/web/typescript.webp" alt="TypeScript" width="36" height="36" loading="lazy"></span><span class="brand-logo brand-wordmark" title="xyflow"><img src="assets/logos/pencil-transparent/web/xyflow.webp" alt="xyflow" width="92" height="36" loading="lazy"></span></dd></div>
+      </dl>
+  </section>
+
+  <!-- 4 · Disney -->
+  <section class="project disney" id="disney" data-month="Oct" data-accent="disney">
+    <div class="desc">
+      <h2 class="title">Disneyland Papercraft</h2>
+      <div class="project-text">
+      <p class="lead">My first finished game, a playable park made for friends and coworkers who are Disney fans. Explore familiar places, ride coasters, meet characters, collect pins, and discover small interactions. A nostalgic interpretation of Disneyland through paper shapes and color. I built it in my free time over a couple of months.</p>
+      <div class="project-notes">
+        <aside class="project-note">
+          <h3>Pins are the progress</h3>
+          <p>Friends and family who collect pins at the park inspired the reward system. Pins are how you advance and beat the game, so each one has purpose.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>My top sights to see</h3>
+          <p>Start with the scenic train ride and the Buzz Lightyear ride. The train was the hardest build: music, station narration, and sound effects all had to line up with the screen, and it’s the closest to the real ride.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>Letting AI try 3D</h3>
+          <p>This game was originally going to be a 2D pixel-art game, similar to the original Pokémon games on Game Boy and DS. To my surprise, AI was extremely incapable of creating reliable pixel art. After many iterations, experiments with tools, and continually disappointing outputs, I attempted a 3D revamp.</p>
+        </aside>
+        <aside class="project-note">
+          <h3>Finished, not perfect</h3>
+          <p>Players commented on the art, features, and mini-game instructions, and I improved each over time. I call it finished, not perfectly polished. I could refine the art and UX/UI all day, but I’ve learned it’s best to move on to the next project, so I can keep experimenting with more difficult projects.</p>
+        </aside>
+      </div>
+      </div>
+    </div>
+    <div class="demo banner">
+      <img src="assets/disney-main-street.jpg" width="2560" height="960" alt="Main Street in the papercraft park, looking up the street to the castle" loading="lazy" decoding="async">
+      <div class="banner-cta">
+        <a class="btn-download" href="https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Windows.zip" data-dl-mac="https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Mac.zip">Download<i class="shine" aria-hidden="true"></i><i class="sp s1" aria-hidden="true"></i><i class="sp s2" aria-hidden="true"></i><i class="sp s3" aria-hidden="true"></i><i class="sp s4" aria-hidden="true"></i></a>
+        <p class="dl-platforms">For <a href="https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Windows.zip">Windows</a> and <a href="https://github.com/maxepel/portfolio/releases/latest/download/Disneyland-Papercraft-Mac.zip">Mac</a>. No install needed: unzip and open.<span class="dl-mac-hint" hidden> If your Mac blocks it, choose Open Anyway in System Settings › Privacy &amp; Security.</span></p>
+        <a class="art-study-link" href="disney-art-study/">View the art study</a>
+      </div>
+    </div>
+      <dl class="chips">
+        <div><dt>Built with</dt><dd><span class="brand-logo" data-ai="claude" title="Claude"><img src="assets/logos/pencil-transparent/web/claude.webp" alt="Claude" width="44" height="44" loading="lazy"></span><span class="brand-logo" data-ai="codex" title="Codex"><img src="assets/logos/pencil-transparent/web/codex.webp" alt="Codex" width="44" height="44" loading="lazy"></span><span class="brand-logo" data-ai="gemini" title="Gemini"><img src="assets/logos/pencil-transparent/web/gemini.webp" alt="Gemini" width="44" height="44" loading="lazy"></span><span class="brand-logo" title="Godot"><img src="assets/logos/pencil-transparent/web/godot.webp" alt="Godot" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="Blender"><img src="assets/logos/pencil-transparent/web/blender.webp" alt="Blender" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="Aseprite"><img src="assets/logos/pencil-transparent/web/aseprite.webp" alt="Aseprite" width="36" height="36" loading="lazy"></span><span class="brand-logo" title="NumPy — procedural textures and audio synthesis"><img src="assets/logos/pencil-transparent/web/numpy.webp" alt="NumPy" width="58" height="58" loading="lazy"></span><span class="brand-logo" title="Pillow — image processing"><img src="assets/logos/pencil-transparent/web/pillow.webp" alt="Pillow" width="58" height="58" loading="lazy"></span><span class="brand-logo" title="SciPy — geometry analysis and audio processing"><img src="assets/logos/pencil-transparent/web/scipy.webp" alt="SciPy" width="58" height="58" loading="lazy"></span><span class="brand-logo" title="FFmpeg — audio conversion and mixing"><img src="assets/logos/pencil-transparent/web/ffmpeg.webp" alt="FFmpeg" width="58" height="58" loading="lazy"></span><span class="brand-logo" title="GDScript — game scripting"><img src="assets/logos/pencil-transparent/web/gdscript.webp" alt="GDScript" width="58" height="58" loading="lazy"></span><span class="brand-logo" title="Python — asset and build scripts"><img src="assets/logos/pencil-transparent/web/python.webp" alt="Python" width="58" height="58" loading="lazy"></span></dd></div>
+      </dl>
+  </section>
+
+</main>
+
+
+
+<footer class="page-closing" aria-labelledby="closing-title">
+  <h2 id="closing-title">Thanks for stopping by!</h2>
+  <p class="closing-projects"><a href="#content-finder">Back to the projects ↑</a></p>
+</footer>
+
+
+
+<script src="shell.js?v=polish-22"></script>
+
+<script src="music.js?v=dj-2" defer></script>
+<script type="module" src="paper-play.js?tour=14&amp;walk-frequency=1&amp;climb-fall=1&amp;description-wrap=1&amp;pin-visibility=1&amp;pin-highlight=1&amp;polish=6&amp;stickothy=1&amp;recognition=1&amp;quiet=1&amp;native-cursors=1&amp;wrap=1&amp;pages=1&amp;dj=2&amp;notes=3"></script>
+<script type="module" src="paper-ruling.js?v=demo-rule-18"></script>
+</body>
+</html>

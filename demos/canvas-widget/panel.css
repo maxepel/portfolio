@@ -1,0 +1,1518 @@
+/* Neue Haas Grotesk Display — 4 real weights bundled (fonts/), covering
+   every font-weight value actually used in this file (400 implicit default,
+   500/600/700/800/900 explicit). No exact face exists for 600 or 800; CSS
+   font matching resolves an unmatched weight to the nearest available face
+   (searching upward first for requests >500), so 600→700(Bold) and
+   800→900(Black) automatically — no need to touch individual font-weight
+   declarations below. */
+@font-face{
+  font-family:"Neue Haas Grotesk Display";
+  src:url("fonts/NeueHaasDisplayLight.ttf") format("truetype");
+  font-weight:300;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Neue Haas Grotesk Display";
+  src:url("fonts/NeueHaasDisplayRoman.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Neue Haas Grotesk Display";
+  src:url("fonts/NeueHaasDisplayMediu.ttf") format("truetype");
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Neue Haas Grotesk Display";
+  src:url("fonts/NeueHaasDisplayBold.ttf") format("truetype");
+  font-weight:700;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Neue Haas Grotesk Display";
+  src:url("fonts/NeueHaasDisplayBlack.ttf") format("truetype");
+  font-weight:900;font-style:normal;font-display:swap;
+}
+
+/* Theme fonts (Geometric/Nature/Tech) — SIL Open Font License, see fonts/LICENSE-google-fonts.txt */
+@font-face{
+  font-family:"Archivo Black";
+  src:url("fonts/ArchivoBlack-Regular.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"JetBrains Mono";
+  src:url("fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"JetBrains Mono";
+  src:url("fonts/JetBrainsMono-Medium.ttf") format("truetype");
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"JetBrains Mono";
+  src:url("fonts/JetBrainsMono-Bold.ttf") format("truetype");
+  font-weight:700;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Quicksand";
+  src:url("fonts/Quicksand-Regular.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Quicksand";
+  src:url("fonts/Quicksand-Medium.ttf") format("truetype");
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Quicksand";
+  src:url("fonts/Quicksand-Bold.ttf") format("truetype");
+  font-weight:700;font-style:normal;font-display:swap;
+}
+
+:root {
+  --font: "Neue Haas Grotesk Display","Helvetica Neue",Arial,sans-serif;
+  --accent: #00A3E0;
+  /* Redesign direction (2026-07-23), mixing patriziagarganti.com (stark
+     cream/black contrast, hairline borders, pill-only radius, restraint —
+     no shadows) with moheim.com (single-family typographic discipline,
+     flat bordered surfaces instead of filled blocks, circle-or-flat radius
+     only). Two radii only: --card-radius for containers, --radius-pill for
+     every control/tag/chip/button — no radius values outside this scale. */
+  --card-radius: 4px;
+  --radius-pill: 999px;
+  /* Border thickness scale — themes other than Sleek override this once to
+     thicken every hairline border, instead of touching each declaration. */
+  --stroke-w: 1px;
+  /* The panel renders under the page-dark double filter (root invert(0.92)
+     + the wrap's counter invert(1)), which maps every color c → 20.4+0.84c.
+     Authoring pure black is the only value that lands on 20.4 — the exact
+     shade Canvas's white becomes — so the page/panel seam disappears. Do
+     not warm this one off pure black; every other dark-mode color is free
+     to carry the cream-black palette's warmth. */
+  --bg: #000000;
+  --surface: #000000;
+  --border: #2A2A24;
+  --text: #EDECE7;
+  /* #9E9E9E clears WCAG AA (4.5:1) on both the black page (7.8:1) and the
+     #161613 input backgrounds; kept unwarmed since it's a contrast-critical
+     value, not a mood one. */
+  --muted: #9E9E9E;
+  --input-bg: #161613;
+  --tab-inactive-bg: transparent;
+  --tab-text: #8A8880;
+  --tab-active-text: var(--accent);
+  --ring-track: #4E4E4E;
+  --cbar-track: #2a2a2a;
+  --cbar-count: #444444;
+  --sort-bg: transparent;
+  --sort-border: var(--border);
+  --sort-color: var(--muted);
+  --asgn-hover: #141410;
+  --asgn-check-border: #444444;
+  --hero-title: var(--text);
+  --hero-complete: #8A8880;
+  --chart-btn-bg: #161613;
+  --chart-btn-border: var(--border);
+  --chart-btn-color: var(--muted);
+  --mode-btn-light: #555555;
+  --mode-btn-dark: #000000;
+  --popup-bg: var(--bg);
+  --popup-shadow: rgba(0,0,0,0.3);
+  --bar-track: #4E4E4E;
+  /* Flattened to match --bg — cards read as bordered outlines on the page,
+     not filled blocks, per both reference sites. */
+  --card-bg-alt: #000000;
+  /* Inner stat cells (grade stat boxes, announcements button) — the one
+     deliberate fill exception, so nested content still reads as nested. */
+  --stat-bg: #131310;
+  --stat-border: var(--border);
+  --ok-bg:#162315; --ok-border:#2A4A2E; --ok-text:#7ADE9A;
+  --err-bg:#231515; --err-border:#4A2A2A; --err-text:#E87A7A;
+  --info-bg:#000000; --info-border:var(--border); --info-text:#ccc; --info-calc-bg:#131310;
+  --btn-text: #FFFFFF;
+}
+
+[data-mode="light"] {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --border: #E3E0D8;
+  --text: #111111;
+  /* #666660 clears WCAG AA (5.6:1+ on pure white, verified higher than the
+     5.06:1 it held against the darker cream this replaced). */
+  --muted: #666660;
+  --input-bg: #F7F6F2;
+  --tab-inactive-bg: transparent;
+  --tab-text: #666660;
+  --tab-active-text: var(--accent);
+  --ring-track: #ECEAE4;
+  --cbar-track: #EEECE6;
+  --cbar-count: #BBBBBB;
+  --sort-bg: transparent;
+  --sort-border: var(--border);
+  --sort-color: var(--muted);
+  --asgn-hover: #F7F6F2;
+  --asgn-check-border: #CCCCCC;
+  --hero-title: var(--text);
+  --hero-complete: #666660;
+  --chart-btn-bg: #F7F6F2;
+  --chart-btn-border: var(--border);
+  --chart-btn-color: #999999;
+  --mode-btn-light: #CCCCCC;
+  --mode-btn-dark: #FFFFFF;
+  --popup-bg: #FFFFFF;
+  --popup-shadow: rgba(0,0,0,0.1);
+  --bar-track: #ECEAE4;
+  --card-bg-alt: #FFFFFF;
+  --stat-bg: #F7F6F2;
+  --stat-border: #E3E0D8;
+  --ok-bg:#EBF7EE; --ok-border:#B8DFC2; --ok-text:#1A5C30;
+  --err-bg:#FAEAEA; --err-border:#F0C0C0; --err-text:#6B1A1A;
+  --info-bg:#FFFFFF; --info-border:#E3E0D8; --info-text:#444; --info-calc-bg:#F7F6F2;
+}
+
+/* Visual themes — structural palette/shape/font overrides. Only variables
+   that actually differ from the Sleek (:root) baseline are redeclared here;
+   everything else cascades through unchanged. Accent color is independent
+   of these and keeps working the same under every theme. */
+[data-theme="geometric"] {
+  --card-radius: 14px;
+  --stroke-w: 3px;
+  --font: "Archivo Black","Arial Black",sans-serif;
+  --bg:#0A0A08; --surface:#0A0A08; --border:#3A3A32;
+  --ring-track:#585858; --bar-track:#585858;
+}
+[data-theme="geometric"][data-mode="light"] {
+  --bg:#FFFFFF; --surface:#FFFFFF; --border:#D8D4C8; --text:#111;
+  --ring-track:#E0DED4; --bar-track:#E0DED4;
+}
+
+[data-theme="tech"] {
+  --card-radius: 0px;
+  --font: "JetBrains Mono", monospace;
+  --bg:#050A10; --surface:#050A10; --border:#1C3A4A; --text:#D8ECF5; --muted:#5C8CA0;
+  --ring-track:#12222C; --bar-track:#12222C;
+  --hex-accent-glow:#00E0FF;
+}
+[data-theme="tech"][data-mode="light"] {
+  --bg:#FFFFFF; --surface:#FFFFFF; --border:#B9D6E0; --text:#0B2530; --muted:#4A7688;
+  --ring-track:#D6EAF0; --bar-track:#D6EAF0;
+  --hex-accent-glow:#0088AA;
+}
+
+/* Nature theme — sculptural botanical rings (rose vine, mossy log, flowering
+   cactus) and species-tinted tree bars. The legacy vine/trunk tokens remain
+   shared with the tree renderer and the surrounding Nature UI. */
+[data-theme="nature"] {
+  --card-radius: 16px;
+  --font: "Quicksand", sans-serif;
+  --bg:#000000; --surface:#000000; --border:#2A4A32; --text:#E9F3EA; --muted:#7FA98C;
+  --ring-track:#243A2A; --bar-track:#243A2A;
+  --vine-stroke:#8A6642;
+  --leaf-color:#3E7C4A;
+}
+[data-theme="nature"][data-mode="light"] {
+  --bg:#FFFFFF; --surface:#FFFFFF; --border:#CFE0D2; --text:#16241A; --muted:#5C8A66;
+  --ring-track:#E3EFE5; --bar-track:#E3EFE5;
+  --vine-stroke:#8A6642;
+  --leaf-color:#3E7C4A;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body,input,select,button,textarea,span,div,p,a,li,ol,ul,label{font-family:var(--font);}
+html,body{height:100%;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+#app{width:100%;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── TOP CONTROLS — shared by overview and content tabs ── */
+#top-controls{
+  display:flex;flex-direction:row;align-items:center;
+  gap:6px;position:absolute;top:10px;right:10px;z-index:50;
+}
+/* Narrow panel (~240-288px, Canvas's native sidebar width): hero stacks
+   vertically — chart centered on top, info below. */
+#hero{
+  flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 12px 10px;
+  position:relative;
+}
+/* Defeat panel.js's inline marginRight writes (row-era leftovers) */
+#chart-col{margin-right:0 !important;}
+#theme-icon-btn{
+  width:19px;height:19px;border-radius:50%;
+  background:var(--accent);border:none;cursor:pointer;
+  transition:transform 0.12s;flex-shrink:0;
+}
+#theme-icon-btn:hover{transform:scale(1.1);}
+/* Mode button — angle animated via JS, no CSS keyframe */
+#mode-btn{
+  width:22px;height:22px;border-radius:50%;
+  border:2px solid #444;cursor:pointer;flex-shrink:0;
+}
+#mode-btn:hover{opacity:0.85;}
+[data-mode="light"] #mode-btn{border-color:#bbb;}
+
+/* Theme popup */
+#theme-wrap{position:relative;}
+#theme-popup{
+  display:none;position:absolute;top:26px;right:0;z-index:200;
+  background:var(--popup-bg);border-radius:var(--card-radius);padding:10px 12px;
+  box-shadow:0 6px 20px var(--popup-shadow);border:var(--stroke-w) solid var(--border);min-width:180px;
+}
+#theme-popup.open{display:block;}
+#theme-popup-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;}
+
+/* Week-start popup — same chrome as #theme-popup, day buttons in place of swatches */
+#week-wrap{position:relative;}
+#week-icon-btn{
+  width:26px;height:26px;border-radius:50%;
+  border:var(--stroke-w) solid var(--border);background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);flex-shrink:0;transition:border-color 0.14s,color 0.14s;box-sizing:border-box;
+}
+#week-icon-btn:hover,#week-icon-btn:has(+ #week-popup.open){border-color:var(--accent);color:var(--accent);}
+#week-popup{
+  display:none;position:absolute;top:34px;right:0;z-index:200;
+  background:var(--popup-bg);border-radius:var(--card-radius);padding:12px;
+  box-shadow:0 8px 24px var(--popup-shadow);border:var(--stroke-w) solid var(--border);width:max-content;
+}
+#week-popup.open{display:block;}
+#week-popup-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:8px;white-space:nowrap;}
+#week-days{display:flex;gap:4px;align-items:center;}
+.week-day-btn{
+  width:30px;height:30px;padding:0;border-radius:50%;
+  border:none;background:transparent;
+  color:var(--text);font-size:12px;font-weight:500;letter-spacing:0.1px;
+  cursor:pointer;flex-shrink:0;text-align:center;font-family:inherit;
+  transition:background 0.12s,color 0.12s;
+}
+.week-day-btn:hover{background:var(--input-bg);}
+.week-day-btn.active{background:var(--accent);color:var(--btn-text);font-weight:600;}
+
+/* Visual-theme (Sleek/Geometric/Nature/Tech) popup — same chrome as #theme-popup,
+   named "style" throughout to avoid colliding with the existing accent-color
+   picker's "theme" identifiers. */
+#style-wrap{position:relative;}
+#style-icon-btn{
+  width:26px;height:26px;border-radius:50%;
+  border:var(--stroke-w) solid var(--border);background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);flex-shrink:0;transition:border-color 0.14s,color 0.14s;box-sizing:border-box;
+  padding:0;
+}
+#style-icon-btn:hover,#style-icon-btn:has(+ #style-popup.open){border-color:var(--accent);color:var(--accent);}
+#style-popup{
+  display:none;position:absolute;top:34px;right:0;z-index:200;
+  background:var(--popup-bg);border-radius:var(--card-radius);padding:10px 12px;
+  box-shadow:0 8px 24px var(--popup-shadow);border:var(--stroke-w) solid var(--border);width:max-content;
+}
+#style-popup.open{display:block;}
+#style-popup-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;white-space:nowrap;}
+#style-options{display:flex;flex-direction:column;gap:4px;}
+.style-opt-btn{
+  padding:6px 10px;border-radius:6px;border:none;background:transparent;
+  color:var(--text);font-size:12px;font-weight:500;font-family:inherit;
+  cursor:pointer;text-align:left;white-space:nowrap;transition:background 0.12s,color 0.12s;
+}
+.style-opt-btn:hover{background:var(--input-bg);}
+.style-opt-btn.active{background:var(--accent);color:var(--btn-text);font-weight:600;}
+
+#theme-swatches{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:0;}
+.th-swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.12s,border-color 0.12s;flex-shrink:0;}
+.th-swatch.active{border-color:var(--text);transform:scale(1.18);}
+/* Add custom color button */
+#th-add-btn{
+  width:20px;height:20px;border-radius:50%;cursor:pointer;
+  border:2px dashed var(--muted);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--muted);flex-shrink:0;
+  transition:border-color 0.15s,color 0.15s;
+}
+#th-add-btn{
+  width:20px;height:20px;border-radius:50%;cursor:pointer;
+  border:2px dashed var(--muted);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;line-height:1;color:var(--muted);flex-shrink:0;
+  transition:border-color 0.15s,color 0.15s;
+  padding:0;
+}
+#th-add-btn:hover{border-color:var(--text);color:var(--text);}
+/* Custom color picker panel */
+#th-custom-panel{
+  display:none;margin-top:10px;padding-top:10px;
+  border-top:var(--stroke-w) solid var(--border);
+}
+#th-custom-panel.open{display:block;}
+/* Canvas wheel */
+#th-wheel-canvas{
+  display:block;margin:0 auto 8px;cursor:crosshair;border-radius:50%;
+}
+.th-hex-row{display:flex;gap:5px;align-items:center;}
+#th-hex-apply{
+  padding:4px 9px;border-radius:var(--radius-pill);border:var(--stroke-w) solid var(--border);
+  background:transparent;color:var(--muted);
+  font-size:10px;font-weight:700;cursor:pointer;
+  font-family:var(--font);transition:border-color 0.15s,color 0.15s;white-space:nowrap;
+}
+#th-hex-apply:hover{border-color:var(--accent);color:var(--text);}
+/* Saved custom colors label */
+#th-saved-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:8px 0 5px;}
+
+/* ── HERO SECTION ── */
+#ring-wrap{flex-shrink:0;position:relative;}
+[data-theme="nature"] #ring-wrap{
+  width:min(304px,calc(100vw - 28px));aspect-ratio:1;
+  display:grid;place-items:center;overflow:visible;
+}
+[data-theme="nature"] #ring-svg{
+  width:100%;height:auto;max-width:304px;display:block;overflow:visible;
+}
+[data-theme="nature"] .nature-material-ring{pointer-events:none;}
+#ring-info{width:100%;min-width:0;}
+#hero-title{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0;margin-bottom:4px;white-space:nowrap;}
+#hero-date{font-size:26px;font-weight:300;color:var(--hero-title);line-height:1.05;letter-spacing:-0.8px;margin-bottom:6px;}
+#hero-complete{font-size:12px;font-weight:400;color:var(--hero-complete);margin-bottom:10px;}
+
+/* Chart left column hidden state */
+#chart-left{
+  flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;
+  transition:width 0.3s ease, margin 0.3s ease, opacity 0.3s ease;overflow:hidden;
+}
+#chart-left.chart-hidden{
+  width:0;opacity:0;pointer-events:none;
+}
+/* When chart is hidden, collapse the whole chart-col */
+#chart-col:has(#chart-left.chart-hidden){
+  margin-bottom:0;
+  transition:margin 0.3s ease;
+}
+/* Chart toggle buttons — sit naturally below chart inside hero column */
+#chart-style-bar{
+  display:flex;gap:5px;justify-content:center;
+  margin-top:8px;flex-shrink:0;
+}
+.chart-cycle-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
+  border:1px solid var(--accent);border-radius:var(--radius-pill);padding:6px 10px;cursor:pointer;
+  font-family:var(--font);font-size:12.5px;font-weight:500;letter-spacing:-0.1px;
+  background:transparent;color:var(--accent);
+  transition:background 0.14s,color 0.14s,border-color 0.14s;white-space:nowrap;
+}
+.chart-cycle-btn svg{opacity:0.85;flex-shrink:0;}
+.chart-cycle-btn.hidden-state{
+  background:transparent;border-color:var(--chart-btn-border);color:var(--muted);
+}
+.chart-cycle-btn:hover{opacity:0.88;}
+
+/* Bar chart (alternative to rings) */
+#bar-chart-wrap{
+  width:160px;height:160px;flex-shrink:0;
+  display:none;align-items:flex-end;justify-content:center;gap:7px;
+}
+#bar-chart-wrap.active{display:flex;}
+#ring-wrap.hidden{display:none;}
+[data-theme="nature"] #bar-chart-wrap{
+  width:min(260px,100%);height:210px;gap:4px;padding:12px 0 0;
+}
+[data-theme="nature"] #hero-title{
+  color:var(--text);font-size:22px;font-weight:700;letter-spacing:-0.2px;
+  margin-top:16px;margin-bottom:0;
+}
+[data-theme="nature"] #hero-date{
+  color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0;
+  line-height:1.25;margin-top:2px;margin-bottom:0;
+}
+[data-theme="nature"] #hero-complete{
+  color:#C7DDCA;font-size:12.5px;font-weight:600;margin-top:10px;margin-bottom:12px;
+}
+
+/* Course bars (right side info) */
+.cbar-row{margin-bottom:6px;}
+.cbar-label{display:flex;align-items:center;}
+.cbar-dot{display:none;width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.cbar-code{font-size:10px;font-weight:800;letter-spacing:-0.1px;width:54px;flex-shrink:0;}
+/* overflow must stay visible so the fill's glow isn't clipped by the track */
+.cbar-track{flex:1;height:6px;background:var(--cbar-track);border-radius:var(--radius-pill);margin:0 7px;}
+.cbar-fill{height:100%;border-radius:var(--radius-pill);transition:width 0.5s;}
+
+/* ── PROGRESS GLOW (ring arcs + course bars), colored per course ── */
+.chart-glow{filter:drop-shadow(0 0 4px currentColor);}
+.cbar-glow{box-shadow:0 0 6px currentColor;}
+/* No glow on light backgrounds — dark mode only */
+[data-mode="light"] .chart-glow{filter:none;}
+[data-mode="light"] .cbar-glow{box-shadow:none;}
+.cbar-count{font-size:9px;font-weight:600;color:var(--cbar-count);width:22px;text-align:right;flex-shrink:0;}
+[data-theme="nature"] .cbar-row{margin-bottom:9px;}
+[data-theme="nature"] .cbar-label{gap:9px;}
+[data-theme="nature"] .cbar-dot{display:block;}
+[data-theme="nature"] .cbar-code{color:var(--text)!important;font-size:11px;font-weight:600;width:56px;}
+[data-theme="nature"] .cbar-track{height:6px;margin:0;background:#243A2A;}
+[data-theme="nature"] .cbar-count{display:none;}
+[data-theme="nature"][data-mode="light"] #hero-complete{color:#466B4F;}
+[data-theme="nature"][data-mode="light"] .cbar-track{background:#E3EFE5;}
+
+/* ── TABS ── */
+#tabs{
+  display:flex;gap:4px;padding:8px 10px;flex-shrink:0;
+}
+.tab-btn{
+  flex:1;background:var(--tab-inactive-bg);
+  border:var(--stroke-w) solid var(--border);
+  color:var(--tab-text);padding:6px 4px;border-radius:var(--radius-pill);
+  cursor:pointer;font-weight:500;font-size:12.5px;
+  transition:all 0.15s;white-space:nowrap;
+  letter-spacing:-0.1px;
+}
+.tab-btn.active{
+  background:transparent;
+  border-color:var(--accent);
+  color:var(--tab-active-text);
+}
+
+/* ── BODY (scrollable panel area) ── */
+#body{flex:1;overflow-y:auto;padding:0 10px 14px;background:var(--bg);}
+#body::-webkit-scrollbar{width:3px;}
+#body::-webkit-scrollbar-thumb{background:#333;border-radius:2px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* ── SHARED ELEMENTS ── */
+.sl{font-size:11px;font-weight:500;letter-spacing:0;color:var(--muted);margin:10px 0 6px;}
+.card{background:var(--surface);border-radius:var(--card-radius);border:var(--stroke-w) solid var(--border);padding:12px 14px;margin-bottom:8px;}
+.inp{width:100%;padding:8px 10px;border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);font-size:11px;font-weight:500;color:var(--text);background:var(--input-bg);outline:none;box-sizing:border-box;margin-bottom:6px;transition:border-color 0.15s;}
+.inp:focus{border-color:var(--accent);}
+.big-btn{width:100%;padding:9px;border-radius:var(--radius-pill);border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:500;font-size:12px;cursor:pointer;margin-bottom:9px;transition:background 0.15s,color 0.15s;}
+.big-btn:hover{background:var(--accent);color:var(--btn-text);}
+
+/* Visible keyboard-focus ring for real <button>/<a> controls (tabs, sort,
+   chart style, week-day, big/calc buttons, tutoring/announce links). Div-
+   based controls (theme swatches, mode/theme icon buttons) aren't natively
+   focusable and need a separate tabindex+keydown pass, not just CSS. */
+button:focus-visible,a:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;
+}
+
+/* ── SORT CONTROLS ── */
+#sort-bar{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+#sort-label{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0;}
+#sort-select{
+  background:var(--sort-bg);border:1.5px solid var(--sort-border);border-radius:var(--radius-pill);
+  padding:4px 24px 4px 10px;font-size:10.5px;font-weight:500;color:var(--sort-color);
+  cursor:pointer;transition:all 0.15s;font-family:var(--font);
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;
+}
+#sort-select:hover,#sort-select:focus{border-color:var(--accent);color:var(--accent);outline:none;}
+
+/* Tree species picker (Nature theme, tree/bar chart only) — same chrome as #sort-select */
+#tree-species-row{margin-top:8px;}
+#tree-species-select{
+  width:100%;
+  background:var(--sort-bg);border:var(--stroke-w) solid var(--sort-border);border-radius:var(--radius-pill);
+  padding:4px 24px 4px 10px;font-size:10.5px;font-weight:500;color:var(--sort-color);
+  cursor:pointer;transition:all 0.15s;font-family:var(--font);
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;
+}
+#tree-species-select:hover,#tree-species-select:focus{border-color:var(--accent);color:var(--accent);outline:none;}
+/* Course group header in sorted view */
+.course-group-header{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 0 4px;margin-top:6px;
+}
+.course-group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.course-group-name{font-size:10px;font-weight:800;letter-spacing:0.5px;}
+.asgn-item{
+  background:var(--input-bg);border-radius:var(--card-radius);padding:9px 11px;
+  margin-bottom:5px;border:var(--stroke-w) solid var(--border);
+  display:flex;align-items:flex-start;gap:9px;cursor:pointer;transition:all 0.15s;
+}
+.asgn-item:hover{background:var(--asgn-hover);}
+.asgn-item.done{opacity:0.45;}
+.asgn-check{
+  width:17px;height:17px;border-radius:50%;
+  border:1.5px solid var(--asgn-check-border);flex-shrink:0;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;transition:all 0.15s;
+}
+.asgn-check.done{background:#4ade80;border-color:#4ade80;}
+/* The rest of the row is a real link to the assignment's Canvas page —
+   visually identical to the plain div it replaces. */
+.asgn-link{display:block;flex:1;min-width:0;text-decoration:none;color:inherit;cursor:pointer;}
+.asgn-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.asgn-item.done .asgn-name{text-decoration:line-through;color:var(--muted);}
+.asgn-meta{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
+.course-tag{font-size:9px;font-weight:800;padding:2px 6px;border-radius:var(--radius-pill);}
+.due-label{font-size:9px;font-weight:600;color:var(--muted);}
+.asgn-type-label{font-size:9px;font-weight:700;color:var(--muted);background:var(--input-bg);border:var(--stroke-w) solid var(--border);border-radius:var(--radius-pill);padding:0 5px;text-transform:uppercase;letter-spacing:0.4px;}
+.due-label.overdue{color:#d9534f;font-weight:700;}
+.due-label.today{color:#FF7F32;font-weight:700;}
+.due-label.soon{color:#c89a00;font-weight:700;}
+
+/* ── GRADES TAB ── */
+.grade-card{
+  border-radius:var(--card-radius);padding:12px 10px;margin-bottom:12px;
+  border:var(--stroke-w) solid var(--border);
+  background:var(--card-bg-alt);
+  position:relative;
+  display:flex;gap:8px;align-items:stretch;
+}
+.grade-card-left{
+  width:3px;border-radius:0;flex-shrink:0;
+  align-self:stretch;
+}
+.grade-card-main{flex:1;min-width:0;}
+.grade-card-heading{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;position:relative;}
+.grade-card-title{font-size:14px;font-weight:500;color:var(--text);flex:1;min-width:0;line-height:1.25;}
+.grade-card-menu-wrap{position:relative;flex-shrink:0;}
+.grade-card-menu-btn{
+  width:27px;height:27px;display:grid;place-items:center;padding:0;
+  color:var(--muted);background:transparent;border:var(--stroke-w) solid transparent;
+  border-radius:var(--radius-pill);cursor:pointer;transition:color .14s,border-color .14s,background .14s;
+}
+.grade-card-menu-btn svg{fill:currentColor;}
+.grade-card-menu-btn:hover,.grade-card-menu-btn:focus-visible{
+  color:var(--text);border-color:var(--border);background:var(--input-bg);outline:none;
+}
+.grade-card-menu{
+  display:none;position:absolute;z-index:20;right:0;top:32px;min-width:142px;
+  padding:5px;background:var(--popup-bg);border:var(--stroke-w) solid var(--border);
+  border-radius:var(--card-radius);box-shadow:0 10px 26px var(--popup-shadow);
+}
+.grade-card-menu.open{display:block;}
+.grade-card-menu button{
+  width:100%;display:flex;align-items:center;gap:8px;padding:8px 9px;
+  color:var(--text);background:transparent;border:0;border-radius:var(--card-radius);
+  font:inherit;font-size:11px;font-weight:600;text-align:left;cursor:pointer;
+}
+.grade-card-menu button:hover,.grade-card-menu button:focus-visible{
+  color:var(--accent);background:var(--input-bg);outline:none;
+}
+/* 2x2 grid (Grade / Score / Assignments / Announcements) — one flex row
+   can't fit the narrow sidebar width. */
+.grade-stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;align-items:stretch;}
+.gstat-box{
+  min-width:0;
+  background:var(--stat-bg);border:1px solid var(--stat-border);
+  border-radius:var(--card-radius);padding:8px 6px;text-align:center;
+}
+.gstat-v{font-size:22px;font-weight:800;line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums;}
+.gstat-k{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);white-space:nowrap;}
+/* Announcements button — fills its grid cell like the stat boxes */
+.announce-btn{
+  min-width:0;align-self:stretch;
+  background:var(--stat-bg);border:1px solid var(--stat-border);
+  border-radius:var(--card-radius);padding:6px 5px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color 0.15s;text-decoration:none;
+}
+.announce-btn:hover{border-color:var(--accent);}
+.announce-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;line-height:1.3;}
+.announce-icon{font-size:15px;color:var(--text);margin-bottom:3px;}
+/* Tutoring link — static footer card under the class cards, same chrome as
+   .grade-card but border-highlighted on hover like .announce-btn */
+#tutoring-link{
+  display:flex;align-items:center;gap:10px;
+  border-radius:var(--card-radius);padding:11px 12px;margin-bottom:12px;
+  border:var(--stroke-w) solid var(--border);
+  background:var(--card-bg-alt);
+  text-decoration:none;cursor:pointer;
+  transition:border-color 0.15s;
+}
+#tutoring-link:hover{border-color:var(--accent);}
+#tutoring-link svg{flex-shrink:0;color:var(--accent);}
+.tutoring-text{flex:1;min-width:0;}
+.tutoring-title{font-size:12px;font-weight:500;color:var(--text);letter-spacing:-0.2px;}
+.tutoring-sub{font-size:9px;font-weight:500;color:var(--muted);margin-top:2px;line-height:1.35;}
+.tutoring-arrow{font-size:12px;font-weight:800;color:var(--accent);flex-shrink:0;}
+/* Grade breakdown (weighted categories + score-needed) */
+.grade-bd{margin-top:10px;}
+.bd-toggle{display:flex;align-items:center;justify-content:space-between;
+  background:var(--input-bg);border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);
+  padding:6px 10px;cursor:pointer;font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);}
+.bd-caret{font-size:9px;transition:transform 0.2s;display:inline-block;}
+.bd-body{margin-top:6px;background:var(--input-bg);border:var(--stroke-w) solid var(--border);
+  border-radius:var(--card-radius);padding:8px 10px;}
+.bd-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:10px;
+  border-top:var(--stroke-w) solid var(--border);}
+.bd-row:first-child{border-top:none;}
+.bd-cat{flex:1;font-weight:600;color:var(--text);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+.bd-weight{color:var(--muted);font-weight:600;width:34px;text-align:right;flex-shrink:0;}
+.bd-your{font-weight:800;width:34px;text-align:right;flex-shrink:0;}
+.bd-mean{color:var(--muted);font-weight:500;font-size:9px;width:48px;text-align:right;flex-shrink:0;}
+.bd-note{margin-top:6px;font-size:10px;color:var(--muted);font-weight:600;}
+/* Dropped-assignment subline under a category row (Canvas drop rules) */
+.bd-dropped{font-size:9px;color:var(--muted);font-weight:500;padding:0 0 3px 8px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bd-target-row{display:flex;align-items:center;gap:8px;margin-top:8px;
+  padding-top:8px;border-top:var(--stroke-w) solid var(--border);}
+.bd-target-label{font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.5px;color:var(--muted);}
+.bd-target-inp{width:46px;font-size:11px;font-weight:700;color:var(--text);
+  background:transparent;border:none;border-bottom:1px dashed var(--border);
+  outline:none;padding:1px 2px;text-align:center;}
+.bd-need{flex:1;font-size:10px;font-weight:700;color:var(--accent);text-align:right;}
+
+/* Analysis result */
+.syllabus-result{
+  margin-top:10px;background:var(--input-bg);
+  border-radius:var(--card-radius);padding:9px 11px;
+  font-size:10px;color:var(--text);line-height:1.8;
+  border:var(--stroke-w) solid var(--border);display:none;
+  white-space:pre-line;
+}
+.syllabus-result.visible{display:block;}
+.syllabus-result-title{font-size:10px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.syllabus-result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.syllabus-open-btn{
+  font-size:9px;font-weight:700;color:var(--accent);text-decoration:none;
+  background:var(--input-bg);border:var(--stroke-w) solid var(--border);border-radius:var(--radius-pill);
+  padding:2px 8px;white-space:nowrap;transition:border-color 0.15s;
+}
+.syllabus-open-btn:hover{border-color:var(--accent);}
+.syllabus-clear{
+  margin-top:5px;background:none;border:var(--stroke-w) solid var(--border);
+  border-radius:var(--radius-pill);padding:3px 9px;font-size:9px;cursor:pointer;color:var(--muted);
+}
+/* Color swatches on right side */
+.grade-card-swatches{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:5px;padding-left:4px;flex-shrink:0;
+}
+.gcp-swatch{
+  width:10px;height:10px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:transform 0.12s,border-color 0.12s;flex-shrink:0;
+}
+.gcp-swatch.selected{border-color:var(--text);transform:scale(1.25);}
+
+/* Dedicated weekly grade-trend view opened from a course's Grades-card menu. */
+.grade-trend-view{padding:2px 0 8px;}
+.grade-trend-back{
+  display:inline-flex;align-items:center;gap:5px;margin:2px 0 18px;padding:5px 9px 5px 6px;
+  color:var(--muted);background:transparent;border:var(--stroke-w) solid var(--border);
+  border-radius:var(--radius-pill);font:inherit;font-size:10px;font-weight:600;cursor:pointer;
+  transition:color .14s,border-color .14s,background .14s;
+}
+.grade-trend-back:hover,.grade-trend-back:focus-visible{
+  color:var(--text);border-color:var(--accent);background:var(--input-bg);outline:none;
+}
+.grade-trend-heading{margin:0 3px 15px;}
+.grade-trend-eyebrow{
+  display:flex;align-items:center;gap:6px;margin-bottom:6px;
+  color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.75px;
+}
+.grade-trend-eyebrow span{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.grade-trend-heading h2{margin:0;color:var(--text);font-size:22px;font-weight:500;line-height:1.12;letter-spacing:-.45px;}
+.grade-trend-heading p{margin:5px 0 0;color:var(--muted);font-size:11px;font-weight:500;}
+.grade-trend-card{
+  padding:14px 10px 12px;background:var(--card-bg-alt);
+  border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);
+}
+.grade-trend-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:15px;}
+.grade-trend-summary>div{
+  padding:10px 8px;background:var(--input-bg);border:var(--stroke-w) solid var(--border);
+  border-radius:var(--card-radius);text-align:center;
+}
+.grade-trend-summary strong{
+  display:block;color:var(--trend-course);font-size:22px;font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.grade-trend-summary span{
+  display:block;margin-top:4px;color:var(--muted);font-size:8px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.55px;
+}
+.grade-trend-chart-label{margin:0 0 3px 32px;color:var(--muted);font-size:9px;font-weight:600;}
+.grade-trend-chart-shell{position:relative;min-height:215px;}
+.grade-trend-chart{display:block;width:100%;height:auto;overflow:visible;}
+.grade-trend-grid-row line{stroke:var(--border);stroke-width:1;vector-effect:non-scaling-stroke;}
+.grade-trend-grid-row text,.grade-trend-x-tick text{
+  fill:var(--muted);font:600 9px var(--font);font-variant-numeric:tabular-nums;
+}
+.grade-trend-x-tick line{stroke:var(--muted);stroke-width:1;vector-effect:non-scaling-stroke;}
+.grade-trend-average line{
+  stroke:var(--trend-course);stroke-width:1;stroke-dasharray:4 4;opacity:.72;
+  vector-effect:non-scaling-stroke;
+}
+.grade-trend-average text{fill:var(--trend-course);font:700 9px var(--font);}
+.grade-trend-point{cursor:default;outline:none;}
+.grade-trend-point-halo{fill:none;stroke:var(--border);stroke-width:1.5;vector-effect:non-scaling-stroke;}
+.grade-trend-point-dot{stroke:var(--bg);stroke-width:1.2;vector-effect:non-scaling-stroke;transition:r .12s ease;}
+.grade-trend-point:hover .grade-trend-point-dot,
+.grade-trend-point:focus .grade-trend-point-dot{r:6.5px;stroke-width:2;}
+.grade-trend-empty{
+  position:absolute;left:52px;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:11px;font-weight:600;text-align:center;
+}
+.grade-trend-tooltip{
+  position:absolute;z-index:5;transform:translate(-50%,-100%);max-width:184px;
+  padding:7px 9px;background:var(--popup-bg);border:var(--stroke-w) solid var(--border);
+  border-radius:var(--card-radius);box-shadow:0 8px 22px var(--popup-shadow);
+  pointer-events:none;color:var(--text);line-height:1.25;
+}
+.grade-trend-tooltip strong{
+  display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:11px;font-weight:700;
+}
+.grade-trend-tooltip span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:600;}
+.grade-trend-legend{
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-top:2px;
+  color:var(--muted);font-size:9px;font-weight:600;
+}
+.grade-trend-legend span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.grade-trend-legend i{width:7px;height:7px;border-radius:50%;}
+.grade-trend-legend i.green{background:#78BE20;}
+.grade-trend-legend i.yellow{background:#FFC627;}
+.grade-trend-legend i.red{background:#E74973;}
+.grade-trend-note{margin:12px 2px 0;color:var(--muted);font-size:9px;font-weight:500;line-height:1.45;}
+
+/* Nature-only per-course chart-material picker. The illustrated circles
+   replace the tiny color swatches without changing any other theme's cards. */
+.nature-material-picker{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:-2px 0 10px;padding:7px 8px;
+  background:#101D13;border:1px solid #294432;border-radius:var(--card-radius);
+}
+.nature-material-picker-label{
+  color:var(--muted);font-size:9px;font-weight:700;
+  letter-spacing:.55px;text-transform:uppercase;white-space:nowrap;
+}
+.nature-material-options{
+  display:grid;grid-template-columns:repeat(3,48px);gap:5px;
+}
+.nature-material-option{
+  width:48px;height:48px;padding:0;display:grid;place-items:center;position:relative;
+  isolation:isolate;border-radius:50%;border:none;background:transparent;
+  cursor:pointer;flex-shrink:0;overflow:visible;
+  transition:transform .14s ease;
+}
+.nature-material-option:hover{transform:translateY(-1px) scale(1.05);}
+/* Sits behind the art (z-index 0 vs the SVG's 1) so the selection ring reads as
+   a glow *under* every flower/mushroom rather than a line cutting across them. */
+.nature-material-option::before{
+  content:"";position:absolute;inset:-2px;border-radius:50%;z-index:0;
+  transition:box-shadow .18s ease,background .18s ease;
+}
+.nature-material-option.selected::before{
+  background:radial-gradient(circle,rgba(184,207,72,.32),rgba(184,207,72,0) 72%);
+  box-shadow:0 0 0 2px #101D13,0 0 0 3.5px #B8CF48,0 0 12px 2px rgba(184,207,72,.5);
+}
+.nature-material-option:focus-visible{
+  outline:2px solid #B8CF48;outline-offset:2px;
+}
+.nature-material-art{
+  width:46px;height:46px;display:block;overflow:visible;
+  position:relative;z-index:1;line-height:0;
+}
+/* The medallion's hero botanical leans/bobs on hover; sub-ornaments stay put so
+   the motion reads as one plant swaying, not the whole scene wobbling. */
+.orn-main{transform-box:fill-box;transform-origin:center bottom;}
+.nature-material-option:hover .orn-main{animation:nature-bob 2.4s ease-in-out infinite;}
+@keyframes nature-bob{
+  0%,100%{transform:translateY(0) rotate(0);}
+  50%{transform:translateY(-1.2px) rotate(-3deg);}
+}
+@media(prefers-reduced-motion:reduce){
+  .nature-material-option,.nature-material-option::before{transition:none;}
+  .orn-main{animation:none!important;}
+}
+[data-theme="nature"][data-mode="light"] .nature-material-picker{
+  background:#F3F8F3;border-color:#CFE0D2;
+}
+[data-theme="nature"][data-mode="light"] .nature-material-option.selected::before{
+  background:radial-gradient(circle,rgba(120,150,40,.22),rgba(120,150,40,0) 72%);
+  box-shadow:0 0 0 2px #F3F8F3,0 0 0 3.5px #6E9A2E,0 0 12px 2px rgba(120,150,40,.35);
+}
+.scale-note{font-size:9px;color:var(--muted);margin-top:4px;font-style:italic;}
+
+/* ── GPA (placeholder) ── */
+#panel-gpa{
+  /* hidden stubs for JS */
+}
+#gpa-stub-hidden{display:none;}
+
+/* ── INFO BOX ── */
+.info-box{background:var(--info-bg);border:1px solid var(--info-border);border-radius:var(--card-radius);padding:10px 12px;margin-bottom:10px;}
+.info-box-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.info-box-title{font-size:11px;font-weight:700;color:var(--info-text);}
+.info-box-toggle{font-size:10px;color:var(--muted);font-weight:600;}
+.info-box-body{margin-top:7px;font-size:10px;color:var(--info-text);line-height:1.6;display:none;}
+.info-box-body.open{display:block;}
+.info-box-body ol{padding-left:13px;margin-top:4px;}
+.info-box-body li{margin-bottom:3px;font-size:10px;}
+.info-box-body a{color:var(--accent);font-weight:700;text-decoration:underline;}
+.transcript-inputs{margin-top:9px;padding:9px 10px 10px;background:var(--info-calc-bg);border-radius:var(--card-radius);border:1px solid var(--info-border);display:none;}
+.transcript-inputs.open{display:block;}
+.transcript-row{display:flex;gap:7px;margin-bottom:7px;}
+.transcript-field{flex:1;}
+.transcript-field label{display:block;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;}
+.transcript-field input{width:100%;padding:6px 8px;border:1.5px solid var(--info-border);border-radius:var(--card-radius);font-size:13px;font-weight:700;color:var(--text);background:var(--input-bg);outline:none;text-align:center;transition:border-color 0.15s;}
+.transcript-field input:focus{border-color:var(--accent);}
+.calc-transcript-btn{width:100%;padding:6px;border-radius:var(--radius-pill);border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:500;font-size:11px;cursor:pointer;transition:background 0.15s,color 0.15s;}
+.calc-transcript-btn:hover{background:var(--accent);color:var(--btn-text);}
+.transcript-result{margin-top:7px;padding:6px 9px;background:var(--input-bg);border-radius:var(--card-radius);border:1px solid var(--info-border);font-size:10px;font-weight:700;color:var(--text);display:none;text-align:center;}
+.transcript-result.visible{display:block;}
+.transcript-chips{display:flex;gap:6px;margin-bottom:9px;}
+.tc-chip{flex:1;background:var(--surface);border-radius:var(--card-radius);border:var(--stroke-w) solid var(--border);padding:7px 5px;text-align:center;}
+.tc-val{font-size:13px;font-weight:700;color:var(--accent);}
+.tc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-top:2px;}
+.row-2{display:flex;gap:5px;margin-bottom:5px;}
+.row-2 .inp{margin-bottom:0;}
+/* ── GPA TAB ── */
+.gpa-section-label{
+  font-size:11px;font-weight:500;letter-spacing:0;
+  color:var(--muted);margin:0 0 7px;
+}
+.gpa-current-card{
+  background:var(--card-bg-alt);border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);padding:16px 15px;margin-bottom:4px;
+}
+.gpa-big-num{
+  font-size:58px;font-weight:300;color:var(--accent);line-height:1;
+  letter-spacing:-2px;margin-bottom:4px;font-variant-numeric:tabular-nums;
+}
+.gpa-big-sub{font-size:10px;color:var(--muted);font-weight:500;margin-bottom:14px;}
+.gpa-transcript-row{display:flex;gap:8px;margin-bottom:8px;}
+.gpa-t-field{flex:1;}
+.gpa-t-field label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:4px;}
+.gpa-t-field input{
+  width:100%;padding:7px 6px;border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);
+  font-size:12px;font-weight:700;color:var(--text);background:var(--input-bg);
+  outline:none;text-align:center;transition:border-color 0.15s;
+}
+.gpa-t-field input:focus{border-color:var(--accent);}
+.gpa-hint{font-size:9px;color:var(--muted);line-height:1.5;}
+.gpa-hint strong{color:var(--text);}
+
+/* End of term */
+.gpa-eot-card{
+  background:var(--card-bg-alt);border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);padding:16px 15px;margin-bottom:4px;
+}
+.gpa-eot-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.gpa-eot-num{font-size:46px;font-weight:300;color:var(--text);line-height:1;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;}
+.gpa-eot-sub{font-size:10px;color:var(--muted);font-weight:500;margin-top:4px;}
+.gpa-delta-badge{
+  font-size:13px;font-weight:800;padding:5px 10px;
+  border-radius:var(--radius-pill);min-width:56px;text-align:center;flex-shrink:0;
+}
+.gpa-delta-badge.up{background:var(--ok-bg);color:var(--ok-text);}
+.gpa-delta-badge.down{background:var(--err-bg);color:var(--err-text);}
+.gpa-delta-badge.flat{background:var(--surface);color:var(--muted);}
+[data-mode="light"] .gpa-delta-badge.flat{background:var(--tab-inactive-bg);color:var(--muted);}
+
+.gpa-course-list{display:flex;flex-direction:column;gap:6px;}
+.gpa-crs-row{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 0;border-top:1px solid rgba(255,255,255,0.07);
+}
+[data-mode="light"] .gpa-crs-row{border-top:var(--stroke-w) solid var(--border);}
+.gpa-course-list .gpa-crs-row:first-child{border-top:none;}
+.gpa-crs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.gpa-crs-name{flex:1;font-size:11px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+.gpa-crs-credits{font-size:9px;color:var(--muted);font-weight:600;width:30px;text-align:right;flex-shrink:0;}
+.gpa-crs-credits-input{font-size:9px;color:var(--muted);font-weight:600;width:34px;text-align:right;flex-shrink:0;background:transparent;border:none;border-bottom:1px dashed var(--border);outline:none;padding:0 1px;cursor:text;}
+/* Hidden at the narrow sidebar width — the letter grade + points column
+   already carry the info, and the name column needs the room. */
+.gpa-crs-pct{display:none;}
+/* Letter grade alignment in GPA EOT */
+.gpa-letter-wrap{display:inline-flex;align-items:baseline;flex-shrink:0;width:26px;}
+.gpa-crs-letter{font-size:13px;font-weight:800;width:10px;text-align:center;flex-shrink:0;}
+.gpa-crs-letter-mod{font-size:13px;font-weight:800;flex-shrink:0;}
+.gpa-crs-pts{font-size:10px;color:var(--muted);font-weight:600;width:30px;text-align:right;flex-shrink:0;}
+
+/* Goal calculator */
+.gpa-goal-card{
+  background:var(--card-bg-alt);border:var(--stroke-w) solid var(--border);border-radius:var(--card-radius);padding:18px 16px 14px;margin-bottom:4px;
+}
+.gpa-goal-top{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;gap:10px;
+}
+.gpa-goal-label{
+  font-size:12px;font-weight:600;color:var(--muted);
+  line-height:1.3;flex:1;
+}
+.gpa-goal-inp{
+  font-size:46px;font-weight:300;
+  color:var(--text);background:transparent;
+  border:none;outline:none;text-align:right;
+  width:104px;flex-shrink:0;letter-spacing:-1.5px;
+  padding:0;font-variant-numeric:tabular-nums;
+}
+#gpa-max-possible{
+  font-size:10px;font-weight:600;color:var(--muted);
+  margin-bottom:12px;padding:0 2px;
+}
+.gpa-goal-result{display:flex;flex-direction:column;}
+.gpa-goal-crs-row{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 0;border-top:1px solid rgba(255,255,255,0.07);
+}
+[data-mode="light"] .gpa-goal-crs-row{border-top:var(--stroke-w) solid var(--border);}
+.gpa-goal-crs-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.gpa-goal-crs-name{flex:1;font-size:11px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* No bubble — just colored text */
+.gpa-need-badge{
+  font-size:10px;font-weight:700;
+  white-space:nowrap;flex-shrink:0;
+  background:none;border:none;padding:0;
+}
+.gpa-need-badge.ok{color:var(--ok-text);}
+.gpa-need-badge.warn{color:var(--muted);}
+.gpa-need-badge.impossible{color:var(--err-text);}
+.gpa-goal-summary{
+  font-size:10px;color:var(--muted);
+  padding:10px 0 2px;line-height:1.5;
+  border-top:1px solid rgba(255,255,255,0.07);
+}
+[data-mode="light"] .gpa-goal-summary{border-top:var(--stroke-w) solid var(--border);}
+
+/* Theme finish: shared spacing and surfaces, with a distinct visual vocabulary
+   for each theme. Root backgrounds stay unchanged for Canvas's dark filter. */
+:root{
+  --chart-ink:#080808;
+  --detail:color-mix(in srgb,var(--accent) 15%,transparent);
+}
+[data-mode="light"]{--chart-ink:#24241F;}
+#hero{padding-top:44px;}
+#ring-wrap{width:min(212px,calc(100vw - 32px));aspect-ratio:1;}
+#ring-svg{width:100%;height:auto;}
+#chart-col,#chart-left{max-width:100%;}
+#hero-title{text-transform:uppercase;font-size:10px;font-weight:700;letter-spacing:1.3px;}
+#hero-date{font-size:27px;margin-top:5px;}
+#hero-complete{color:var(--muted);font-size:11px;line-height:1.4;}
+#chart-style-bar{margin-top:10px;}
+.chart-cycle-btn{font-size:11px;padding:6px 12px;}
+.chart-guide{fill:none;stroke:var(--border);stroke-width:.6;}
+.chart-tick{fill:none;stroke:var(--muted);stroke-width:.7;opacity:.6;}
+#bar-chart-wrap{width:min(212px,calc(100vw - 32px));height:212px;gap:9px;padding:10px 4px 0;}
+.graphic-bar-column{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px;}
+.graphic-bar-value{font-size:11px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+.graphic-bar-value small{font-size:8px;font-weight:400;margin-left:1px;color:var(--muted);}
+.graphic-bar-track{width:100%;height:148px;position:relative;background:var(--bar-track);overflow:hidden;}
+.graphic-bar-fill{position:absolute;bottom:0;left:0;right:0;transition:height .5s ease;}
+.graphic-bar-code{font-size:8px;line-height:1.3;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.graphic-bar-track.sleek{border-radius:var(--radius-pill);}
+.graphic-bar-track.sleek .graphic-bar-fill{border-radius:var(--radius-pill);}
+.graphic-bar-track.sleek .graphic-bar-fill::after{content:"";position:absolute;top:3px;left:4px;right:4px;height:1px;background:#fff;opacity:.6;}
+.graphic-bar-track.geometric{border:2px solid var(--chart-ink);border-radius:5px;box-shadow:3px 3px 0 var(--chart-ink);overflow:visible;}
+.graphic-bar-track.geometric .graphic-bar-fill{border-radius:2px;box-shadow:inset 0 2px 0 var(--chart-ink);}
+.graphic-bar-track.tech{background:none;display:flex;flex-direction:column;gap:3px;}
+.pixel-cell{flex:1;background:var(--bar-track);position:relative;box-shadow:inset 0 0 0 1px var(--border);}
+.pixel-cell i{position:absolute;bottom:0;left:0;right:0;box-shadow:inset 0 1px 0 #ffffff45;}
+.cbar-count{color:var(--muted);font-variant-numeric:tabular-nums;}
+.tab-btn{padding:8px 3px;font-size:11px;}
+.tab-btn.active{background:var(--detail);}
+.asgn-item{padding:11px 10px;gap:8px;}
+.asgn-name{line-height:1.3;}
+.asgn-meta{gap:5px;margin-top:4px;}
+.card,.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card,#tutoring-link{transition:border-color .18s ease;}
+.grade-card-title{line-height:1.3;}
+.gstat-v{font-weight:500;}
+#body{scrollbar-color:var(--border) var(--bg);}
+#body::-webkit-scrollbar-thumb{background:var(--border);}
+#style-popup,#theme-popup,#week-popup{max-width:calc(100vw - 24px);}
+#week-days{gap:1px;}
+.week-day-btn{width:26px;height:28px;}
+.style-opt-btn{display:flex;align-items:center;gap:9px;}
+.style-opt-btn::before{content:"";width:17px;height:17px;flex-shrink:0;border:1px solid currentColor;}
+.style-opt-btn[data-style="sleek"]::before{border-radius:50%;box-shadow:inset 0 0 0 4px var(--popup-bg);background:currentColor;}
+.style-opt-btn[data-style="geometric"]::before{border-width:3px;border-radius:4px;transform:rotate(-8deg);}
+.style-opt-btn[data-style="nature"]::before{border-radius:12px 1px 12px 1px;background:color-mix(in srgb,currentColor 20%,transparent);}
+.style-opt-btn[data-style="tech"]::before{background:repeating-linear-gradient(0deg,currentColor 0 2px,transparent 2px 5px);border:none;clip-path:polygon(0 0,75% 0,100% 25%,100% 100%,0 100%);}
+
+/* Sleek: quiet editorial surfaces, precise lines, restrained progress art. */
+[data-theme="sleek"]{--card-radius:7px;--ring-track:#20201F;--bar-track:#20201F;}
+[data-theme="sleek"][data-mode="light"]{--ring-track:#EEEDE9;--bar-track:#EEEDE9;}
+[data-theme="sleek"] .asgn-item{background:var(--surface);border-color:transparent;border-bottom-color:var(--border);border-radius:0;}
+[data-theme="sleek"] .asgn-item:hover{background:var(--asgn-hover);border-radius:var(--card-radius);}
+[data-theme="sleek"] .cbar-track{height:4px;}
+[data-theme="sleek"] .cbar-glow{box-shadow:none;}
+[data-theme="sleek"] .tab-btn{border-color:transparent;border-bottom-color:var(--border);border-radius:0;}
+[data-theme="sleek"] .tab-btn.active{border-bottom-color:var(--accent);background:none;}
+[data-theme="sleek"] .grade-card-left{width:2px;}
+[data-theme="sleek"] .gpa-big-num{font-size:62px;}
+
+/* Geometric: printed blocks, chunky outlines, offset ink, and friendly corners. */
+[data-theme="geometric"]{
+  --stroke-w:2px;--card-radius:12px;--radius-pill:8px;
+  --input-bg:#181815;--card-bg-alt:#10100D;--stat-bg:#20201B;
+  --popup-bg:#10100D;--asgn-hover:#25251E;--border:#555348;
+  --ring-track:#34342D;--bar-track:#34342D;--tab-text:#B8B6AB;
+}
+[data-theme="geometric"][data-mode="light"]{
+  --input-bg:#F7F4E9;--card-bg-alt:#FFFEF7;--stat-bg:#EEEADD;
+  --popup-bg:#FFFEF7;--asgn-hover:#EFEADB;--border:#24241F;
+  --ring-track:#E5E1D4;--bar-track:#E5E1D4;--tab-text:#58564C;
+}
+[data-theme="geometric"] :is(.asgn-item,.grade-card,.card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card,#tutoring-link){box-shadow:3px 3px 0 var(--border);margin-right:4px;margin-bottom:11px;}
+[data-theme="geometric"] #hero-date{font-size:24px;font-weight:900;letter-spacing:-1.1px;}
+[data-theme="geometric"] #hero-title{font-size:9px;letter-spacing:1px;}
+[data-theme="geometric"] :is(.asgn-name,.grade-card-title,.tab-btn){font-family:"Neue Haas Grotesk Display",sans-serif;font-weight:700;}
+[data-theme="geometric"] .gstat-v{font-weight:900;font-size:24px;}
+[data-theme="geometric"] .tab-btn.active{background:var(--accent);color:#080808;box-shadow:2px 2px 0 var(--border);}
+[data-theme="geometric"] .asgn-check{border-radius:5px;border-width:2px;}
+[data-theme="geometric"] .cbar-track{height:9px;border-radius:2px;}
+[data-theme="geometric"] .cbar-fill{border-radius:2px;box-shadow:none;}
+[data-theme="geometric"] :is(#week-icon-btn,#style-icon-btn){border-radius:7px;}
+[data-theme="geometric"] #top-controls svg{stroke-width:2.5;}
+
+/* Tech: instrument readouts, circuit-grid surfaces, and crisp segmented bars. */
+[data-theme="tech"]{
+  --muted:#8CAABA;--input-bg:#0C141B;--card-bg-alt:#080F15;
+  --stat-bg:#101E28;--stat-border:#28404F;--popup-bg:#0C141B;
+  --asgn-hover:#11222E;--tab-text:#8CAABA;--hero-complete:#8CAABA;
+  --radius-pill:3px;
+}
+[data-theme="tech"][data-mode="light"]{
+  --muted:#486775;--input-bg:#F0F7FA;--card-bg-alt:#FAFDFE;
+  --stat-bg:#EAF3F7;--stat-border:#BCD2DD;--popup-bg:#FAFDFE;
+  --asgn-hover:#E3F1F6;--tab-text:#486775;--hero-complete:#486775;
+}
+[data-theme="tech"] #chart-left{background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:24px 24px;background-position:center;border:1px solid var(--border);}
+[data-theme="tech"] #hero-date{font-size:22px;font-weight:500;letter-spacing:-1px;}
+[data-theme="tech"] #hero-title{font-size:9px;letter-spacing:1.5px;}
+[data-theme="tech"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){background-image:linear-gradient(135deg,var(--detail),transparent 70%);border-top:2px solid var(--accent);}
+[data-theme="tech"] .asgn-item{border-left:2px solid var(--accent);}
+[data-theme="tech"] .asgn-name{font-size:11px;}
+[data-theme="tech"] .asgn-check{border-radius:2px;}
+[data-theme="tech"] .cbar-track{height:7px;border-radius:0;}
+[data-theme="tech"] .cbar-fill{border-radius:0;box-shadow:none;background-image:repeating-linear-gradient(90deg,transparent 0 5px,var(--bg) 5px 7px)!important;}
+[data-theme="tech"] .tab-btn{font-size:10px;}
+[data-theme="tech"] .tab-btn.active{box-shadow:inset 0 -2px 0 var(--accent);}
+[data-theme="tech"] :is(#week-icon-btn,#style-icon-btn){border-radius:2px;}
+[data-theme="tech"] #top-controls svg{stroke-width:1.5;stroke-linecap:square;}
+[data-theme="tech"] .gstat-v{font-size:21px;}
+
+/* Nature: botanical specimen cards, soft paper, and leaf-shaped controls. */
+[data-theme="nature"]{
+  --input-bg:#101A13;--card-bg-alt:#0A110C;--stat-bg:#142119;
+  --stat-border:#304A35;--popup-bg:#0C160F;--asgn-hover:#1A2C1E;
+  --muted:#9BB8A1;--tab-text:#9BB8A1;--hero-complete:#BCD0C0;
+}
+[data-theme="nature"][data-mode="light"]{
+  --input-bg:#F3F7EE;--card-bg-alt:#FBFCF7;--stat-bg:#EDF3E7;
+  --stat-border:#D0DEC7;--popup-bg:#FBFCF7;--asgn-hover:#EAF1E2;
+  --muted:#506E52;--tab-text:#506E52;--hero-complete:#506E52;
+}
+[data-theme="nature"] #hero-title{text-transform:none;font-size:21px;letter-spacing:-.5px;margin-top:7px;}
+[data-theme="nature"] #hero-date{font-size:12px;letter-spacing:.2px;}
+[data-theme="nature"] #bar-chart-wrap{height:auto;min-height:130px;padding-top:20px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 50% 80%,var(--detail),transparent 70%);}
+[data-theme="nature"] :is(.asgn-item,.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){border-radius:17px 5px 17px 5px;}
+[data-theme="nature"] .grade-card-left{border-radius:8px;width:4px;}
+[data-theme="nature"] .cbar-track{background:var(--ring-track);}
+[data-theme="nature"] .cbar-glow{box-shadow:none;}
+[data-theme="nature"] .cbar-count{display:block;font-size:8px;width:24px;}
+[data-theme="nature"] :is(#week-icon-btn,#style-icon-btn){border-radius:11px 3px 11px 3px;}
+[data-theme="nature"] .asgn-check{border-radius:7px 2px 7px 2px;}
+[data-theme="nature"] .nature-material-picker{background:var(--input-bg);border-color:var(--border);flex-direction:column;align-items:stretch;gap:8px;}
+[data-theme="nature"] .nature-material-options{justify-content:center;}
+[data-theme="nature"] .nature-material-option.selected::before{box-shadow:0 0 0 2px var(--card-bg-alt),0 0 0 3.5px var(--accent);background:var(--detail);}
+[data-theme="nature"] .nature-material-option:focus-visible{outline-color:var(--accent);}
+[data-theme="nature"] .nature-material-art{filter:drop-shadow(0 2px 2px #0002);}
+
+/* Respect system motion preferences, including inline SVG growth transitions. */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+}
+@media(max-width:260px){
+  #hero{padding-left:10px;padding-right:10px;}
+  [data-theme="tech"] #hero-date{font-size:19px;}
+  [data-theme="geometric"] #hero-date{font-size:22px;}
+  .cbar-code{width:48px;}
+  [data-theme="nature"] .cbar-code{width:48px;}
+  .gstat-k{font-size:8px;letter-spacing:.2px;}
+}
+
+/* Legibility pass: course numbers identify chart marks without relying on hue.
+   Counts remain the authoritative reading beside illustrative plants/planets. */
+#chart-col:has(#chart-left.chart-hidden){display:none;}
+#chart-left.chart-hidden{display:none;}
+.cbar-index{width:15px;flex-shrink:0;color:var(--muted);font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;}
+.cbar-dot{display:block;width:7px;height:7px;margin-right:6px;border:1px solid var(--muted);}
+.cbar-code{color:var(--text)!important;font-size:11px;font-weight:600;}
+.cbar-count,[data-theme="nature"] .cbar-count{font-size:10px;width:30px;color:var(--text);font-weight:600;}
+.cbar-row{margin-bottom:8px;}
+.ring-number circle{fill:var(--surface);stroke:var(--muted);stroke-width:.65;}
+.ring-number text{fill:var(--text);font:700 9px var(--font);text-anchor:middle;dominant-baseline:middle;}
+#chart-capacity-note{color:var(--muted);font-size:10px;line-height:1.4;}
+#chart-capacity-note:not(:empty){margin:8px 0;}
+.graphic-bar-value{font-size:12px;}
+.graphic-bar-code,.tree-index{font-size:10px;font-weight:700;color:var(--muted);}
+.graphic-bar-track{background-image:repeating-linear-gradient(to top,transparent 0 35px,var(--border) 35px 37px);}
+.graphic-bar-fill{outline:1px solid color-mix(in srgb,var(--text) 60%,transparent);outline-offset:-1px;}
+.tree-value{font-size:11px;font-weight:700;color:var(--text);margin-top:5px;font-variant-numeric:tabular-nums;}
+.tree-index{margin-top:2px;}
+[data-theme="nature"] .cbar-label{gap:5px;}
+[data-theme="nature"] .cbar-dot{margin-right:0;}
+[data-theme="nature"] .ring-number text{font-size:10px;}
+/* Dense grids stay away from the data strokes; corners retain instrument detail. */
+[data-theme="tech"] #chart-left{background-image:none;background-color:var(--surface);border-style:dashed;}
+[data-theme="tech"] .chart-guide{stroke-dasharray:2 5;}
+[data-theme="tech"] .asgn-name{font-size:12px;line-height:1.45;}
+[data-theme="sleek"] .chart-guide{stroke-dasharray:1 5;}
+[data-theme="sleek"] .gstat-k{letter-spacing:1px;}
+[data-theme="geometric"] .graphic-bar-track{border-radius:0;}
+[data-theme="geometric"] .graphic-bar-code{border-bottom:2px solid var(--text);padding:0 4px 2px;}
+[data-theme="geometric"] #chart-style-bar{transform:rotate(-1deg);}
+
+/* Orbit: restrained space-age poster art with exact circular progress orbits.
+   Stars live on the chart margin; typography and data surfaces stay solid. */
+[data-theme="orbit"]{
+  --font:"Neue Haas Grotesk Display","Helvetica Neue",sans-serif;
+  --card-radius:12px;--radius-pill:999px;--stroke-w:1px;
+  --bg:#000000;--surface:#0D1223;--text:#F1F3FD;--muted:#AFB9D6;
+  --border:#35425E;--input-bg:#11192D;--card-bg-alt:#0C1224;
+  --stat-bg:#171F36;--stat-border:#3B4662;--popup-bg:#11192D;
+  --tab-text:#AFB9D6;--ring-track:#333E59;--bar-track:#1D2943;
+  --cbar-track:#2C3650;--asgn-hover:#1B2846;--asgn-check-border:#8998BA;
+  --hero-title:#F1F3FD;--hero-complete:#AFB9D6;--orbit-sun:#F4C478;
+  --info-bg:#0C1224;--info-border:#35425E;--info-text:#DCE3F6;--info-calc-bg:#171F36;
+}
+[data-theme="orbit"][data-mode="light"]{
+  --bg:#FFFFFF;--surface:#F8F9FF;--text:#1B2845;--muted:#53617D;
+  --border:#B9C5DE;--input-bg:#F0F3FC;--card-bg-alt:#F8F9FF;
+  --stat-bg:#EAF0FB;--stat-border:#B9C5DE;--popup-bg:#F8F9FF;
+  --tab-text:#53617D;--ring-track:#D7DFEE;--bar-track:#E2E8F4;
+  --cbar-track:#D7DFEE;--asgn-hover:#E5ECFA;--asgn-check-border:#7887A5;
+  --hero-title:#1B2845;--hero-complete:#53617D;--orbit-sun:#D19C41;
+  --info-bg:#F8F9FF;--info-border:#B9C5DE;--info-text:#1B2845;--info-calc-bg:#EAF0FB;
+}
+[data-theme="orbit"] #hero-title{letter-spacing:2px;font-size:10px;}
+[data-theme="orbit"] #hero-date{font-size:28px;letter-spacing:-.7px;}
+[data-theme="orbit"] #ring-wrap{border-radius:50%;background:radial-gradient(circle,var(--detail),transparent 68%);}
+.orbit-star{fill:none;stroke:var(--muted);stroke-width:1;opacity:.6;}
+[data-theme="orbit"] .chart-guide{stroke:var(--border);stroke-dasharray:2 8;}
+[data-theme="orbit"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){border-top:2px solid var(--accent);}
+[data-theme="orbit"] .asgn-item{border-radius:12px 12px 12px 3px;}
+[data-theme="orbit"] .tab-btn.active{box-shadow:inset 0 -2px 0 var(--accent);}
+[data-theme="orbit"] .cbar-glow{box-shadow:none;}
+[data-theme="orbit"] .graphic-bar-track{overflow:visible;background:repeating-linear-gradient(to top,var(--bar-track) 0 35px,var(--border) 35px 37px);border-bottom:1px solid var(--muted);}
+[data-theme="orbit"] .graphic-bar-fill{outline:none;background-image:linear-gradient(to top,var(--bar-track),transparent);opacity:1;}
+.orbit-ship{position:absolute;width:24px;height:32px;left:50%;top:-18px;transform:translateX(-50%);overflow:visible;}
+[data-theme="orbit"] .graphic-bar-value{margin-bottom:10px;}
+[data-theme="orbit"] .graphic-bar-track{height:138px;}
+.style-opt-btn[data-style="orbit"]::before{border-radius:50%;width:17px;height:10px;transform:rotate(-25deg);background:radial-gradient(circle,currentColor 0 3px,transparent 4px);}
+@media(max-width:260px){
+  .cbar-code,[data-theme="nature"] .cbar-code{width:48px;}
+  [data-theme="geometric"] .cbar-code{font-size:10px;}
+}
+/* Extra courses get readable small multiples instead of ever thinner bars. */
+#bar-chart-wrap.many-courses.active{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  height:240px;min-height:0;overflow-y:auto;overflow-x:hidden;
+  width:min(240px,calc(100vw - 44px));gap:16px 14px;padding:16px 8px 10px;
+  scrollbar-color:var(--muted) var(--bg);scrollbar-width:thin;
+}
+#bar-chart-wrap.many-courses .graphic-bar-track{height:108px;}
+#bar-chart-wrap.many-courses .nature-tree{min-height:140px;}
+/* User-picked white/black/pale colors still need a visible data boundary. */
+.pixel-cell i{outline:1px solid var(--muted);outline-offset:-1px;}
+[data-theme="orbit"] .graphic-bar-fill{outline:1px solid var(--muted);outline-offset:-1px;}
+.cbar-fill:not([style*="width:0%;"]){outline:1px solid var(--muted);outline-offset:-1px;}
+.gstat-v{color:var(--text)!important;}
+.gpa-crs-letter,.gpa-crs-letter-mod,.gpa-crs-pts{color:var(--text)!important;}
+[data-theme="orbit"] #ring-wrap{width:min(264px,calc(100vw - 28px));}
+.orbit-planet-label{display:block;color:var(--muted);font-size:9px;line-height:1.4;font-weight:500;}
+[data-theme="orbit"] .cbar-label:has(.orbit-planet-label){min-height:27px;}
+[data-theme="orbit"] .cbar-code:has(.orbit-planet-label){width:62px;}
+/* Orbit motion and accent-filled tracks: numeric values remain in the course
+   summary; planets and stars carry the illustration without index badges. */
+[data-theme="orbit"] .cbar-index{display:none;}
+.solar-ring-track{fill:none;stroke:var(--accent);stroke-width:6;opacity:.38;}
+.solar-ring-progress{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:butt;}
+.orbit-sky-star{fill:none;stroke:var(--muted);stroke-width:1;opacity:.65;}
+.orbit-motion{
+  transform-origin:132px 132px;transform-box:view-box;
+  animation:orbit-revolve var(--orbit-period) linear infinite;
+}
+@keyframes orbit-revolve{
+  from{transform:rotate(var(--orbit-phase));}
+  to{transform:rotate(calc(var(--orbit-phase) + 360deg));}
+}
+@media(prefers-reduced-motion:reduce){
+  .orbit-motion{animation:none!important;transform:rotate(var(--orbit-phase));}
+}
+/* Tint near-black space by the accent preference; arc length encodes progress. */
+[data-theme="orbit"]{--orbit-space:color-mix(in srgb,var(--accent) 28%,#02040B);}
+.orbit-space-base{fill:var(--orbit-space);}
+.solar-ring-track{stroke-width:8;opacity:.62;}
+.solar-ring-progress{stroke-width:8;}
+[data-theme="orbit"] .orbit-sun image{filter:brightness(1.18);}
+[data-theme="orbit"] :is(.graphic-bar-fill,.cbar-fill){
+  background-color:var(--orbit-space)!important;
+  background-image:
+    radial-gradient(circle at 4px 4px,#F3F1FF 0 .7px,transparent 1px),
+    radial-gradient(circle at 13px 11px,#D9E8FF 0 .5px,transparent .9px),
+    radial-gradient(circle at 7px 19px,#FFF 0 .6px,transparent 1px)!important;
+  background-size:19px 23px,23px 29px,31px 25px!important;
+  outline:1px solid var(--accent);outline-offset:-1px;
+}
+[data-theme="orbit"] .cbar-track{height:8px;}
+[data-theme="orbit"] .cbar-fill[style*="width:0%;"]{outline:none;}
+/* Nature refinement: botanical field-guide typography and matte materials. */
+[data-theme="nature"]{--stat-bg:#142017;--card-bg-alt:#0C140E;--border:#344A38;}
+[data-theme="nature"][data-mode="light"]{
+  --card-bg-alt:#FCFCF8;--input-bg:#F3F5ED;--stat-bg:#EFF2E9;
+  --border:#D1DACC;--stat-border:#D1DACC;--ring-track:#E9EEE5;
+}
+[data-theme="nature"] :is(#hero-title,.grade-card-title){
+  font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.35px;
+}
+[data-theme="nature"] #hero-title{font-size:25px;}
+[data-theme="nature"] .grade-card-title{font-size:18px;line-height:1.25;}
+[data-theme="nature"] #hero-date{letter-spacing:.5px;}
+[data-theme="nature"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){
+  background-image:linear-gradient(135deg,#B7C6A708,transparent 60%);
+  border-radius:14px;
+}
+[data-theme="nature"] .nature-material-picker{
+  padding:11px 8px;border-radius:12px;border-color:var(--border);gap:10px;
+}
+[data-theme="nature"] .nature-material-picker-label{font-size:8px;letter-spacing:1.3px;}
+[data-theme="nature"] .nature-material-options{gap:8px;}
+[data-theme="nature"] .nature-material-art{filter:none;}
+[data-theme="nature"] .nature-material-option.selected::before{
+  box-shadow:0 0 0 1.5px var(--accent);background:var(--detail);inset:-1px;
+}
+[data-theme="nature"] .nature-material-option:hover .orn-main{animation:none;}
+[data-theme="nature"] .nature-material-option:hover{transform:translateY(-1px);}
+[data-theme="nature"] .ring-number circle{stroke-width:.6;stroke:var(--border);}
+[data-theme="nature"] .ring-number text{font-size:9px;font-weight:600;}
+[data-theme="nature"] .asgn-item{border-radius:12px 3px 12px 3px;}
+[data-theme="nature"] #bar-chart-wrap{background:radial-gradient(ellipse at 50% 85%,#819F5B0A,transparent 65%);}
+[data-theme="orbit"] .orbit-sun image{filter:brightness(1.35) saturate(1.5);}
+/* Course colors from Grades own the starfield, edge, and progress fills. */
+[data-theme="orbit"] :is(.graphic-bar-column,.cbar-row){
+  --orbit-space:color-mix(in srgb,var(--orbit-color,var(--accent)) 28%,#02040B);
+}
+[data-theme="orbit"] :is(.graphic-bar-fill,.cbar-fill){outline-color:var(--orbit-color,var(--accent));}
+
+/* Content tabs take the viewport; preserve the hidden hero's animation DOM. */
+#app{position:relative;}
+#app.panel-focused #hero{
+  position:absolute;top:0;left:0;right:0;
+  visibility:hidden;pointer-events:none;
+}
+#overview-return{
+  display:flex;align-items:center;gap:5px;align-self:flex-start;
+  flex-shrink:0;padding:9px 11px;margin:4px 10px 0;
+  background:transparent;color:var(--muted);border:0;
+  border-radius:0;font:500 11px var(--font);cursor:pointer;
+}
+#overview-return[hidden]{display:none;}
+#overview-return:hover{color:var(--text);}
+#app.panel-focused #tabs{padding-top:10px;}
+#body{min-height:0;}
+
+/* Keep shared controls outside the hidden overview and give them their own row. */
+#app.panel-focused #overview-return{margin-top:44px;}
+/* Notification dots stay inside each tab, wrapping without touching the label. */
+.tab-btn{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.tab-notif-dots{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3px;width:100%;pointer-events:none;}
+.tab-notif-dots:empty{display:none;}
+.tab-notif-dot{display:block;width:7px;height:7px;flex:0 0 7px;border-radius:50%;border:1px solid var(--bg);}
+
+/* Sleek keeps the inline indicator row; other themes use rounded tabs and
+   top-right bubbles with room above the buttons for wrapped course dots. */
+[data-theme]:not([data-theme="sleek"]) .tab-btn{border-radius:999px;position:relative;}
+[data-theme]:not([data-theme="sleek"]) #app #tabs{padding-top:32px;}
+[data-theme]:not([data-theme="sleek"]) .tab-notif-dots{
+  position:absolute;bottom:calc(100% - 4px);right:3px;width:max-content;max-width:calc(100% - 6px);
+  justify-content:flex-end;gap:2px;padding:2px;background:var(--bg);border-radius:9px;
+}
+[data-theme]:not([data-theme="sleek"]) .tab-notif-dot{width:6px;height:6px;flex-basis:6px;}
+
+/* Tech: open instrument dial, etched segments, and squared controls. */
+[data-theme="tech"] #chart-left{background:none;border:0;}
+[data-theme="tech"] .chart-tick{stroke:var(--muted);opacity:.45;}
+[data-theme="tech"] .tech-reticle{fill:none;stroke:var(--accent);stroke-width:.8;opacity:.7;}
+[data-theme="tech"] .tech-segment-lit{filter:drop-shadow(0 0 1px color-mix(in srgb,var(--accent) 18%,transparent));}
+[data-theme="tech"] .graphic-bar-track.tech{gap:4px;padding:0 2px;}
+[data-theme="tech"] .pixel-cell{background:var(--ring-track);box-shadow:inset 0 0 0 1px var(--border);}
+[data-theme="tech"] .pixel-cell i{background-image:linear-gradient(90deg,#ffffff20,transparent 45%,#00000015);box-shadow:inset 0 1px 0 #ffffff50;}
+[data-theme="tech"] #tabs .tab-btn{border-radius:2px;letter-spacing:.35px;}
+
+/* A small scroll-linked shift in Tech's existing card lighting. */
+[data-theme="tech"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){
+  background-size:100% calc(100% + 48px);background-repeat:no-repeat;
+  background-position:center calc(50% + var(--tech-gradient-shift,0px));
+}
+@media(prefers-reduced-motion:reduce){
+  [data-theme="tech"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){background-position:center;}
+}
+
+/* Theme and light/dark switches crossfade (see crossfade() in panel.js). */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.32s;animation-timing-function:cubic-bezier(.4,0,.2,1);}
+
+/* Nature: a pressed-botanical field journal, with open, unoutlined wreaths. */
+[data-theme="nature"]{
+  --bg:#101A16;--surface:#101A16;--text:#E4EBDF;
+  --border:#32463B;--input-bg:#17261E;--card-bg-alt:#142119;
+  --stat-bg:#1C2D23;--stat-border:#364D3E;--popup-bg:#17261E;
+  --muted:#A5B6A1;--tab-text:#A5B6A1;--hero-title:#E4EBDF;
+  --hero-complete:#A5B6A1;--ring-track:#293D31;--bar-track:#293D31;
+  --asgn-hover:#22362A;--nature-disc:#243B2D;--nature-rule:#8EAA78;
+}
+[data-theme="nature"][data-mode="light"]{
+  --bg:#FAFAF3;--surface:#FAFAF3;--text:#293F32;
+  --border:#D6DECB;--input-bg:#F0F3E7;--card-bg-alt:#F5F6EC;
+  --stat-bg:#EAF0DF;--stat-border:#D6DECB;--popup-bg:#FAFAF3;
+  --muted:#60735C;--tab-text:#60735C;--hero-title:#293F32;
+  --hero-complete:#60735C;--ring-track:#E2E8D8;--bar-track:#E2E8D8;
+  --asgn-hover:#EAF0DF;--nature-disc:#E7EEDB;--nature-rule:#69865A;
+}
+[data-theme="nature"] #hero{
+  background-image:radial-gradient(ellipse at 10% 0%,color-mix(in srgb,var(--nature-rule) 9%,transparent),transparent 60%);
+}
+[data-theme="nature"] #hero-title{font-style:italic;font-size:24px;}
+[data-theme="nature"] #hero-date{font-size:25px;font-weight:400;letter-spacing:-.6px;}
+[data-theme="nature"] #hero-complete{font-size:11px;letter-spacing:.2px;}
+[data-theme="nature"] #ring-wrap{margin:4px auto 8px;}
+[data-theme="nature"] #chart-style-bar{border-color:var(--border);border-radius:20px;}
+[data-theme="nature"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){
+  background:var(--card-bg-alt);border-radius:16px 4px 16px 4px;box-shadow:none;
+}
+[data-theme="nature"] .grade-card-left{width:3px;border-radius:0;}
+[data-theme="nature"] .asgn-item{border-radius:12px 3px 12px 3px;}
+[data-theme="nature"] .nature-material-picker{padding:12px 8px;border-radius:12px;background:var(--surface);}
+[data-theme="nature"] .nature-material-picker-label{font-size:9px;letter-spacing:1px;color:var(--muted);}
+.nature-specimen-disc{fill:var(--nature-disc);}
+[data-theme="nature"] .nature-material-option.selected::before{box-shadow:0 0 0 1.5px var(--nature-rule);background:transparent;}
+[data-theme="nature"] .nature-material-art{filter:none;}
+.nature-sprout{animation:nature-unfurl .55s ease-out both;transform-box:fill-box;transform-origin:center;}
+@keyframes nature-unfurl{from{opacity:0;transform:scale(.65);}to{opacity:1;transform:scale(1);}}
+@media(prefers-reduced-motion:reduce){.nature-sprout{animation:none;}}
+
+/* The overview yields to navigation in short Canvas frames. Only the overview
+   scrolls; all three destination tabs always have a reserved, reachable row. */
+#app{height:100dvh;}
+#hero{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+#hero>*{flex-shrink:0;}
+#app:not(.panel-focused) #body{flex:0 0 0;padding:0;overflow:hidden;}
+#tabs{flex:0 0 auto;position:relative;z-index:5;background:var(--bg);border-top:1px solid var(--border);padding-bottom:max(10px,env(safe-area-inset-bottom));}
+#app::before{content:"";position:absolute;inset:0 0 auto;height:42px;background:var(--bg);z-index:40;pointer-events:none;}
+#app.panel-focused #hero{overflow:hidden;}
+
+/* Geometric / Memphis print: warm stock, sculptural type, patterned data bands. */
+[data-theme="geometric"]{
+  --font:"Neue Haas Grotesk Display","Helvetica Neue",sans-serif;
+  --bg:#191821;--surface:#22212C;--text:#FFF2D3;--muted:#C2BACC;
+  --border:#6B6276;--input-bg:#2D2939;--card-bg-alt:#24212E;
+  --stat-bg:#302C3B;--stat-border:#665D73;--popup-bg:#24212E;
+  --tab-text:#E0D4E9;--hero-title:#FFF2D3;--hero-complete:#C2BACC;
+  --ring-track:#38313F;--bar-track:#38313F;--asgn-hover:#302C3B;
+  --poster-yellow:#F0CE70;--poster-pink:#E1A8BB;--poster-ink:#100F16;
+  --card-radius:14px;--radius-pill:8px;--stroke-w:2px;
+}
+[data-theme="geometric"][data-mode="light"]{
+  --bg:#F8F0DC;--surface:#FFF9EA;--text:#292330;--muted:#67566C;
+  --border:#39303E;--input-bg:#F4E8CB;--card-bg-alt:#FFF9EA;
+  --stat-bg:#F2E6CC;--stat-border:#CBBBA4;--popup-bg:#FFF9EA;
+  --tab-text:#39303E;--hero-title:#292330;--hero-complete:#67566C;
+  --ring-track:#E7DBC1;--bar-track:#E7DBC1;--asgn-hover:#F1E1C7;
+  --poster-ink:#39303E;
+}
+:is([data-theme="geometric"],[data-theme="tech"]) #ring-wrap{width:min(264px,calc(100vw - 40px));margin:6px auto;}
+[data-theme="geometric"] #hero{background-image:radial-gradient(var(--border) .65px,transparent .65px);background-size:13px 13px;}
+[data-theme="geometric"] #ring-info{background:var(--bg);padding:14px 4px 4px;}
+[data-theme="geometric"] #hero-title{display:inline-block;padding:5px 8px;background:var(--poster-yellow);color:#302536;font-size:9px;font-weight:800;letter-spacing:1.8px;transform:rotate(-2deg);}
+[data-theme="geometric"] #hero-date{font-family:"Archivo Black",sans-serif;font-size:30px;line-height:1.15;letter-spacing:-1.5px;margin:12px 0 6px;}
+[data-theme="geometric"] #hero-complete{font-size:12px;font-weight:600;margin-bottom:14px;}
+[data-theme="geometric"] #chart-cycle-btn{background:var(--poster-pink);color:#302536;border:2px solid var(--poster-ink);box-shadow:3px 3px 0 var(--poster-ink);border-radius:5px;padding:8px 14px;font-weight:700;}
+.poster-confetti{fill:var(--poster-pink);stroke:var(--poster-pink);stroke-width:2;stroke-linejoin:round;}
+.chart-total text{text-anchor:middle;dominant-baseline:middle;fill:var(--text);font:700 14px "Neue Haas Grotesk Display",sans-serif;}
+.chart-total .chart-total-label{font-size:5px;letter-spacing:1px;fill:var(--muted);}
+[data-theme="geometric"] :is(.asgn-item,.grade-card,.card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card,#tutoring-link){background:var(--card-bg-alt);border:2px solid var(--border);box-shadow:4px 4px 0 var(--poster-ink);margin:0 5px 15px 0;border-radius:12px;}
+[data-theme="geometric"] .grade-card-title{font-family:"Archivo Black",sans-serif;font-size:17px;letter-spacing:-.6px;}
+[data-theme="geometric"] .gstat{border-radius:6px;background:var(--stat-bg);}
+[data-theme="geometric"] .cbar-track{height:9px;border-radius:0;background:var(--ring-track);}
+[data-theme="geometric"] .cbar-fill{border-radius:0;outline:none!important;background-image:repeating-linear-gradient(135deg,#FFFFFF35 0 2px,transparent 2px 7px);}
+[data-theme="geometric"] #tabs{gap:7px;padding-top:16px!important;border-top:2px solid var(--border);}
+[data-theme="geometric"] #tabs .tab-btn{border-radius:6px;min-height:39px;background:var(--surface);box-shadow:2px 2px 0 var(--poster-ink);font-size:12px;}
+[data-theme="geometric"] #tabs .tab-btn.active{background:var(--poster-yellow);color:#302536;transform:translateY(-2px);}
+[data-theme="geometric"] .tab-notif-dots{background:var(--bg);}
+[data-theme="geometric"] .graphic-bar-track.geometric{border:0;border-radius:6px 6px 0 0;box-shadow:none;background:var(--bar-track);}
+[data-theme="geometric"] .graphic-bar-fill{outline:0;box-shadow:none!important;background-image:repeating-linear-gradient(135deg,#FFFFFF55 0 2px,transparent 2px 8px);}
+[data-theme="geometric"] .asgn-check{border-color:var(--muted);border-radius:4px;}
+
+/* Tech / precision instruments: deep navy, fine rules, meaningful readouts. */
+[data-theme="tech"]{
+  --font:"Neue Haas Grotesk Display","Helvetica Neue",sans-serif;
+  --bg:#09121C;--surface:#0F1D2B;--text:#E1EDF6;--muted:#9BAFC1;
+  --border:#30485D;--input-bg:#132638;--card-bg-alt:#10202E;
+  --stat-bg:#142A3B;--stat-border:#30485D;--popup-bg:#10202E;
+  --tab-text:#A8C0D2;--hero-title:#E1EDF6;--hero-complete:#9BAFC1;
+  --ring-track:#203447;--bar-track:#203447;--asgn-hover:#1A3042;
+  --instrument-accent:#77D8E8;--instrument-grid:#2E526126;
+  --card-radius:7px;--radius-pill:4px;--stroke-w:1px;
+}
+[data-theme="tech"][data-mode="light"]{
+  --bg:#EDF3F7;--surface:#F8FCFF;--text:#152D40;--muted:#496779;
+  --border:#B6CBD9;--input-bg:#E4EEF5;--card-bg-alt:#F8FCFF;
+  --stat-bg:#E6EFF5;--stat-border:#B6CBD9;--popup-bg:#F8FCFF;
+  --tab-text:#496779;--hero-title:#152D40;--hero-complete:#496779;
+  --ring-track:#D1E0EA;--bar-track:#D1E0EA;--asgn-hover:#DDEAF3;
+  --instrument-accent:#176A83;--instrument-grid:#7194AD18;
+}
+[data-theme="tech"] #hero{background-image:linear-gradient(var(--instrument-grid) 1px,transparent 1px),linear-gradient(90deg,var(--instrument-grid) 1px,transparent 1px);background-size:28px 28px;}
+[data-theme="tech"] #ring-info{background:var(--bg);border-top:1px solid var(--border);padding:16px 4px 6px;margin-top:15px;}
+[data-theme="tech"] #hero-title{color:var(--instrument-accent);font:500 9px "JetBrains Mono",monospace;letter-spacing:2px;}
+[data-theme="tech"] #hero-date{font-size:28px;letter-spacing:-.9px;font-weight:500;margin:9px 0;}
+[data-theme="tech"] #hero-complete{font:400 11px "JetBrains Mono",monospace;margin-bottom:16px;}
+.instrument-frame{fill:none;stroke:var(--instrument-accent);stroke-width:1;opacity:.75;}
+.instrument-tick{stroke:var(--muted);stroke-width:.7;opacity:.65;}
+.instrument-scale{fill:var(--muted);text-anchor:middle;font:5px "JetBrains Mono",monospace;}
+[data-theme="tech"] .chart-total text{font-family:"JetBrains Mono",monospace;font-size:12px;fill:var(--instrument-accent);}
+[data-theme="tech"] .chart-total .chart-total-label{font-size:5px;fill:var(--muted);}
+[data-theme="tech"] #chart-cycle-btn{font:500 10px "JetBrains Mono",monospace;color:var(--instrument-accent);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:8px 14px;}
+[data-theme="tech"] :is(.grade-card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card){background:var(--card-bg-alt);border:1px solid var(--border);border-top:2px solid var(--instrument-accent);border-radius:7px;box-shadow:0 4px 16px #0000000A;}
+[data-theme="tech"] .grade-card-title{font-size:18px;letter-spacing:-.3px;font-weight:500;}
+[data-theme="tech"] .asgn-item{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--instrument-accent);border-radius:5px;}
+[data-theme="tech"] .asgn-name{font-size:13px;line-height:1.35;font-weight:500;}
+[data-theme="tech"] :is(.gstat-k,.section-label,.gpa-label){font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.5px;}
+[data-theme="tech"] .gstat-v{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;}
+[data-theme="tech"] .cbar-track{height:6px;border-radius:1px;}
+[data-theme="tech"] .cbar-fill{outline:none!important;background-image:none!important;box-shadow:none;}
+[data-theme="tech"] .cbar-code{font:500 10px "JetBrains Mono",monospace;}
+[data-theme="tech"] #tabs{padding-top:16px!important;gap:0;border-top:1px solid var(--border);}
+[data-theme="tech"] #tabs .tab-btn{border:0;border-radius:0;min-height:42px;font:500 11px "JetBrains Mono",monospace;letter-spacing:0;}
+[data-theme="tech"] #tabs .tab-btn.active{color:var(--instrument-accent);background:var(--surface);box-shadow:inset 0 2px 0 var(--instrument-accent);}
+[data-theme="tech"] .tab-notif-dots{background:var(--bg);}
+[data-theme="tech"] .pixel-cell{box-shadow:none;border-radius:1px;}
+[data-theme="tech"] .pixel-cell i{outline:0;box-shadow:none;background-image:linear-gradient(90deg,#FFFFFF16,transparent);}
+[data-theme="tech"] .graphic-bar-track.tech{gap:3px;}
+.cbar-progress-number{min-width:27px;text-align:right;flex-shrink:0;color:var(--muted);font:500 10px "JetBrains Mono",monospace;}
+@media(max-width:300px){
+  [data-theme="geometric"] #hero-date{font-size:25px;}
+  [data-theme="tech"] #hero-date{font-size:23px;}
+  [data-theme="tech"] #tabs .tab-btn{font-size:10px;}
+}
+:is([data-theme="geometric"],[data-theme="tech"]) .cbar-track{background:var(--ring-track);}
+
+/* Geometric: the same six shape/texture pairs identify a course in rings,
+   vertical columns and the compact horizontal summary. */
+[data-theme="geometric"]{--card-radius:5px;--radius-pill:3px;--stroke-w:1.5px;}
+[data-theme="geometric"] #hero{background-image:linear-gradient(color-mix(in srgb,var(--border) 7%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--border) 7%,transparent) 1px,transparent 1px);background-size:32px 32px;}
+[data-theme="geometric"] #hero-title{transform:none;border-left:5px solid var(--poster-pink);padding:6px 10px;letter-spacing:1.5px;}
+[data-theme="geometric"] #chart-style-bar{transform:none;}
+[data-theme="geometric"] #chart-cycle-btn{border-radius:3px;box-shadow:2px 2px 0 var(--poster-ink);background:var(--poster-yellow);}
+[data-theme="geometric"] :is(.asgn-item,.grade-card,.card,.gpa-current-card,.gpa-eot-card,.gpa-goal-card,#tutoring-link){border-radius:5px;border-width:1.5px;box-shadow:3px 3px 0 var(--poster-ink);}
+[data-theme="geometric"] #tabs .tab-btn{border-radius:3px;}
+.style-opt-btn[data-style="geometric"]::before{border-width:0;border-radius:0;transform:none;background:linear-gradient(90deg,currentColor 0 45%,transparent 45% 55%,currentColor 55%) 0 100%/100% 45% no-repeat,radial-gradient(circle at 25% 25%,currentColor 0 22%,transparent 24%);}
+[data-theme="geometric"] #bar-chart-wrap{width:min(264px,calc(100vw - 40px));height:264px;gap:7px;padding:10px 0 0;align-items:flex-end;}
+.geometric-column{gap:0;}
+.geometric-bar-art{display:block;width:100%;height:212px;overflow:visible;}
+[data-theme="geometric"] .graphic-bar-value{font-family:"Archivo Black",sans-serif;font-size:13px;margin:0;}
+[data-theme="geometric"] .graphic-bar-code{border:0;padding:4px 0 0;font-size:9px;font-weight:700;}
+[data-theme="geometric"] #bar-chart-wrap.many-courses{height:264px;}
+[data-theme="geometric"] #bar-chart-wrap.many-courses .geometric-bar-art{height:145px;}
+[data-theme="geometric"] .cbar-fill{background-image:var(--geometry-texture);background-size:8px 8px;}
+[data-theme="geometric"] .cbar-dot{border:0;width:9px;height:9px;}
+[data-theme="geometric"] .cbar-row:nth-child(6n+2) .cbar-dot{border-radius:0;}
+[data-theme="geometric"] .cbar-row:nth-child(6n+3) .cbar-dot{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);}
+[data-theme="geometric"] .cbar-row:nth-child(6n+4) .cbar-dot{border-radius:0;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);}
+[data-theme="geometric"] .cbar-row:nth-child(6n+5) .cbar-dot{border-radius:0;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
+[data-theme="geometric"] .cbar-row:nth-child(6n) .cbar-dot{border-radius:0;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);}
+/* Course colors arrive as inline background shorthands; retain their texture. */
+[data-theme="geometric"] .cbar-fill{background-image:var(--geometry-texture)!important;}
+[data-theme="geometric"] .cbar-fill{background-size:8px 8px!important;}

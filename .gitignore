@@ -1,0 +1,22 @@
+node_modules/
+.DS_Store
+*.log
+*.bundle
+
+# Local-only working material: kept on disk, not published.
+/.claude/
+/artifacts/
+/demos-src/
+/mockups/
+/research/
+/tests/
+/tools/
+/demos/mockups/
+/demos/film-archive.html
+/demos/canvas-widget/test/
+/demos/assets/logos/source/
+/demos/assets/logos/*prompt*.txt
+/demos/assets/logos/pencil-transparent-logos.zip
+/demos/assets/logos/pencil-transparent/manifest.json
+/disney-download/
+/demos/assets/logos/pencil-transparent/preview*.jpg

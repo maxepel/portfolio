@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Finder</title>
+<link rel="stylesheet" href="finder.css?v=folder-colors-3">
+</head>
+<body>
+
+<div class="app">
+  <header class="top">
+    <label class="search" aria-disabled="true">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Add a folder to start searching" autocomplete="off" spellcheck="false" disabled aria-label="Search the library">
+    </label>
+    <span class="count" id="count">0 images</span>
+    <button class="reset" id="reset" type="button" hidden>Clear</button>
+  </header>
+
+  <div class="date-filters" id="date-filters" hidden>
+    <span>Date taken</span>
+    <label>From <input id="date-from" type="date" aria-label="Date taken from"></label>
+    <label>Through <input id="date-through" type="date" aria-label="Date taken through"></label>
+    <button id="date-clear" type="button">Clear dates</button>
+  </div>
+  <div class="suggest" id="suggest" hidden></div>
+
+  <aside class="desk" aria-label="Folders on your computer">
+    <p class="desk-label">On your computer</p>
+    <button class="folder" type="button" data-folder="ocean" style="--c:#2f7fb5">
+      <svg class="folder-art" viewBox="0 0 64 52" aria-hidden="true">
+        <path class="f-back" d="M3 8a4 4 0 014-4h15l5 5h30a4 4 0 014 4v31a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+        <rect class="f-paper" x="10" y="11" width="40" height="28" rx="2"/>
+        <rect class="f-paper p2" x="14" y="8" width="40" height="28" rx="2"/>
+        <path class="f-front" d="M3 18a4 4 0 014-4h50a4 4 0 014 4v26a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+      </svg>
+      <span class="folder-name">Ocean Futures</span>
+      <span class="folder-meta">16 images</span>
+    </button>
+    <button class="folder" type="button" data-folder="travel" style="--c:#d08a1e">
+      <svg class="folder-art" viewBox="0 0 64 52" aria-hidden="true">
+        <path class="f-back" d="M3 8a4 4 0 014-4h15l5 5h30a4 4 0 014 4v31a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+        <rect class="f-paper" x="10" y="11" width="40" height="28" rx="2"/>
+        <rect class="f-paper p2" x="14" y="8" width="40" height="28" rx="2"/>
+        <path class="f-front" d="M3 18a4 4 0 014-4h50a4 4 0 014 4v26a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+      </svg>
+      <span class="folder-name">Travel</span>
+      <span class="folder-meta">28 images</span>
+    </button>
+    <button class="folder" type="button" data-folder="misc" style="--c:#7a5bc4">
+      <svg class="folder-art" viewBox="0 0 64 52" aria-hidden="true">
+        <path class="f-back" d="M3 8a4 4 0 014-4h15l5 5h30a4 4 0 014 4v31a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+        <rect class="f-paper" x="10" y="11" width="40" height="28" rx="2"/>
+        <rect class="f-paper p2" x="14" y="8" width="40" height="28" rx="2"/>
+        <path class="f-front" d="M3 18a4 4 0 014-4h50a4 4 0 014 4v26a4 4 0 01-4 4H7a4 4 0 01-4-4z"/>
+      </svg>
+      <span class="folder-name">Misc</span>
+      <span class="folder-meta">27 images</span>
+    </button>
+    <p class="hint" id="hint" aria-hidden="true">drag me in &rarr;</p>
+  </aside>
+
+  <main class="library" id="library" aria-label="Library">
+    <div class="empty" id="empty">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 14a4 4 0 014-4h9l4 4h15a4 4 0 014 4v18a4 4 0 01-4 4H10a4 4 0 01-4-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M24 21v11m0-11l-4.5 4.5M24 21l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p class="empty-title">Drag a folder here</p>
+      <p class="empty-sub">Every image gets scanned and tagged, so you can search by what&rsquo;s in it.</p>
+    </div>
+    <p class="note" id="note" hidden></p>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer class="status" id="status" role="status" aria-live="polite">
+    <span class="status-text" id="status-text">Library is empty</span>
+    <span class="status-tags" id="status-tags" hidden></span>
+    <span class="bar"><i id="bar"></i></span>
+  </footer>
+</div>
+
+<div class="viewer" id="viewer" hidden>
+  <div class="viewer-card" role="dialog" aria-modal="true" aria-labelledby="v-title">
+    <div class="viewer-img" id="v-img"></div>
+    <div class="viewer-info">
+      <h2 id="v-title"></h2>
+      <div class="viewer-tags" id="v-tags"></div>
+      <form class="viewer-add" id="v-add">
+        <input id="v-new-tag" type="text" placeholder="Add a tag" maxlength="40" autocomplete="off" aria-label="New tag">
+        <button type="submit">Add</button>
+      </form>
+      <dl class="viewer-meta" id="v-meta"></dl>
+      <button class="viewer-close" type="button" id="v-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="library.js?v=chatgpt-2"></script>
+<script src="credits.js"></script>
+<script src="dates.js"></script>
+<script src="finder.js?v=chatgpt-2"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+/* The original notepad, with the work ahead of the optional page toys. */
+body.paper-play { --ink: #000; --muted: #000; }
+body.paper-play :is(.paper-tray button, .paper-hint) { color: #000; }
+/* Short project stories with handwritten development notes. */
+body[data-project-focus].paper-play .desc .project-status {
+  margin-bottom: var(--paper-line-height, 32px);
+  font: 700 17px/1.4 var(--hand);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.project-notes { display: grid; gap: 24px; margin: 28px 0 32px; }
+.project-note { margin: 0; padding-left: 16px; position: relative; }
+.project-note::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  border-radius: 50% 30% 40% 60%;
+  background: #000;
+  opacity: .2;
+  transform: rotate(-.5deg);
+}
+.paper-play .project-note h3 {
+  display: table;
+  position: relative;
+  margin: 0 0 10px;
+  font: 700 22px/1.25 var(--hand);
+  color: var(--ink);
+}
+.project-note h3::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -3px;
+  bottom: -3px;
+  height: 2px;
+  background: currentColor;
+  opacity: .35;
+  border-radius: 40% 60% 30% 50%;
+  transform: rotate(-.7deg);
+}
+.paper-play .project-note p {
+  margin: 0;
+  font: 400 20px/1.5 var(--hand);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.paper-play .demo-context {
+  margin: 12px 4px 0;
+  max-width: 54ch;
+  font: 400 17px/1.4 var(--hand);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+/* One-line demo footnote; wraps again on narrow screens. */
+.paper-play .demo-context-one-line { max-width: none; white-space: nowrap; }
+@media (max-width: 520px) { .paper-play .demo-context-one-line { white-space: normal; } }
+/* The Download pill sits above the art-study link, the pair centred in the banner image. */
+.paper-play .banner-cta { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+.art-study-link {
+  pointer-events: auto;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  padding-inline: 26px;
+  padding-block: 7px;
+  color: #000;
+  background: #fffdf5;
+  border: 1.5px solid currentColor;
+  border-radius: 9px 12px 8px 10px;
+  font: 700 24px/1.3 var(--hand);
+  text-decoration: none;
+}
+.art-study-link:hover { color: #a34839; }
+/* Platform links under the Download pill: a small paper slip, like the art-study link. */
+.dl-platforms {
+  pointer-events: auto;
+  margin: -12px 0 0;
+  padding: 4px 14px;
+  max-width: min(92%, 420px);
+  color: #000;
+  background: #fffdf5;
+  border-radius: 8px 10px 7px 9px;
+  font: 700 18px/1.3 var(--hand);
+  text-align: center;
+}
+.dl-platforms a { color: inherit; }
+.dl-platforms a:hover { color: #a34839; }
+.closing-projects a { color: #000; font: 700 22px/1.4 var(--hand); }
+body[data-project-focus] .paper-tools:not(.is-touring) {
+  top: auto;
+  left: auto;
+  right: 18px;
+  bottom: 18px;
+  width: max-content;
+  transform: none;
+}
+.paper-box-toggle {
+  display: grid;
+  place-items: center;
+  width: 136px;
+  height: 92px;
+  padding: 0;
+  color: #000;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.paper-box-sketch { display: block; width: 100%; height: 100%; overflow: visible; }
+.paper-box-lid { transform-origin: 29px 25px; transition: transform .18s ease-out; }
+.paper-box-toggle:hover .paper-box-lid,
+.paper-box-toggle[aria-expanded=true] .paper-box-lid { transform: translateY(-3px) rotate(-2deg); }
+.paper-box-toggle:focus-visible { outline: 2px dashed currentColor; outline-offset: 2px; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .paper-box-lid { transition: none; }
+}
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tool-panel {
+  position: absolute;
+  bottom: calc(100% - 3px);
+  right: 0;
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
+  padding: 5px;
+  transform-origin: calc(100% - 62px) bottom;
+}
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  width: max-content;
+  gap: 12px 6px;
+  padding: 16px 12px 12px;
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: 7px 6px 8px 6px;
+  background: #fff;
+  box-shadow: 2px 3px 0 #0000000b;
+}
+/* A steady outer contour with a few faint pencil retraces, rather than a second frame. */
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20164%22%20preserveAspectRatio%3D%22none%22%20fill%3D%22none%22%20stroke%3D%22%23151515%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9%203Q65%202%20124%203T247%203Q253%203%20253%209L252.5%2080%20253%20154Q253%20160%20246%20160Q187%20159%20129%20160L9%20160Q3%20160%203%20153L3.5%2082%203%2010Q3%203%209%203Z%22%20stroke-width%3D%221.25%22%20vector-effect%3D%22non-scaling-stroke%22%2F%3E%3Cpath%20d%3D%22M11%205Q80%203.5%20139%205M251%2014l-.6%2066%20.8%2066M12%20158q67%20.8%20112%200m45%200%2072%20.3M5%2027l.4%2057%22%20opacity%3D%22.32%22%20stroke-width%3D%22.6%22%20vector-effect%3D%22non-scaling-stroke%22%2F%3E%3Cpath%20d%3D%22m254%20122-2%204m2%204-2%204m2%204-2%204m2%204-2%204m2%204-2%204m-9%204-4-2m-4%202-4-2m-4%202-4-2m-4%202-4-2%22%20opacity%3D%22.25%22%20stroke-width%3D%22.7%22%20vector-effect%3D%22non-scaling-stroke%22%2F%3E%3C%2Fsvg%3E") center / 100% 100% no-repeat;
+}
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tool { justify-content: center; }
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray button:not(.paper-help) {
+  width: 68px;
+  height: 58px;
+  padding: 5px;
+  gap: 5px;
+  border-radius: 3px 5px 2px 4px;
+  font: 700 17px/1 var(--hand);
+}
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray button[aria-pressed=true] {
+  border-color: #000;
+  background: repeating-linear-gradient(-35deg, #00000009 0 1px, transparent 1px 5px), #fff;
+}
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray button:hover:not(:disabled) { background-color: #f1f1ed; }
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray :is(svg, .paper-pin-icon) { filter: grayscale(1); }
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-divider { display: none; }
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-help { top: -5px; right: -1px; opacity: 1; }
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-hint { display: none; }
+.paper-tools.is-touring .paper-box-toggle { display: none; }
+body[data-project-focus] .music-controls {
+  right: auto;
+  left: 16px;
+  bottom: 12px;
+  opacity: .55;
+  transform: scale(.76);
+  transform-origin: bottom left;
+}
+body[data-project-focus] .music-controls:hover,
+body[data-project-focus] .music-controls:focus-within { opacity: 1; }
+@media(max-width:600px) {
+  body[data-project-focus] .paper-tools:not(.is-touring) { bottom: 12px; right: 12px; }
+  body[data-project-focus] .paper-hint { display: none; }
+  .paper-box-toggle { width: 120px; height: 82px; }
+}
+
+body[data-project-focus] .paper-tools:not(.is-touring) .paper-tray .paper-tool-sketch {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.35;
+  filter: none;
+}
+
+/* Project layout: title, then the lead and notes flowing in two balanced columns, then the demo, then the tools.
+   Every line is 32px tall and every gap is a multiple of 32px, so all text rests on the blue ruling. */
+body[data-project-focus].paper-play .project-note { margin: 0 0 var(--paper-line-height); padding-left: 16px; }
+body[data-project-focus].paper-play .project-note::before { top: 4px; bottom: 4px; }
+body[data-project-focus].paper-play .project-note h3 {
+  display: table; margin: 0; font: 700 22px/var(--paper-line-height) var(--hand);
+  translate: 0 var(--paper-line-shift, 0px);
+}
+body[data-project-focus].paper-play .project-note h3::after { bottom: 3px; }
+body[data-project-focus].paper-play .project-note p {
+  margin: 0; font: 400 20px/var(--paper-line-height) var(--hand);
+  translate: 0 var(--paper-line-shift, 0px);
+}
+body[data-project-focus].paper-play .project-text > .lead { padding-left: 16px; position: relative; margin: 0 0 var(--paper-line-height); font-size: 22px; }
+body[data-project-focus].paper-play .project-text > .lead::before {
+  content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 50% 30% 40% 60%;
+  background: var(--link-accent, #000); opacity: .75; transform: rotate(-.5deg);
+}
+body[data-project-focus].paper-play .demo-context { margin: var(--paper-line-height) 0 0; max-width: none; color: #7a7a7a; font: 400 18px/var(--paper-line-height) var(--hand); translate: 0 var(--paper-line-shift, 0px); }
+body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-line-height); font: 700 18px/var(--paper-line-height) var(--hand); }
+
+@media (min-width: 761px) {
+  body[data-project-focus].paper-play .project {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: 0;
+    min-height: 0;
+    align-items: start;
+  }
+  body[data-project-focus].paper-play .project > .desc,
+  body[data-project-focus].paper-play .project .project-notes { display: contents !important; }
+  body[data-project-focus].paper-play .project .desc > .title { order: 1; margin-bottom: var(--paper-line-height); }
+  body[data-project-focus].paper-play .project .desc > .project-status { order: 1; }
+  body[data-project-focus].paper-play .project .project-text {
+    order: 2; min-width: 0;
+    column-count: 2; column-gap: clamp(40px, 6vw, 88px); column-fill: balance;
+    padding-bottom: 0.01px;
+  }
+  body[data-project-focus].paper-play .project .project-text > .lead,
+  body[data-project-focus].paper-play .project .project-text .project-note { break-inside: avoid; }
+  body[data-project-focus].paper-play .project > .demo { order: 3; margin-top: var(--paper-line-height); }
+  body[data-project-focus].paper-play .project > :is(.chips, .project-credits),
+  body[data-project-focus].paper-play .project > .desc > :is(.chips, .project-credits) {
+    order: 4; margin-top: calc(2 * var(--paper-line-height)); top: 0 !important; width: auto !important; max-width: none !important; align-self: start !important;
+  }
+  body[data-project-focus].paper-play .project { margin-bottom: 0 !important; }
+
+  /* The Canvas widget is phone-shaped: text on the left, widget on the right, so neither side leaves a gap. */
+  body[data-project-focus].paper-play #canvas-widget { grid-template-columns: minmax(0, 440px) minmax(0, 420px); column-gap: clamp(40px, 5vw, 72px); justify-content: start; }
+  body[data-project-focus].paper-play #canvas-widget .title { grid-column: 1 / -1; }
+  body[data-project-focus].paper-play #canvas-widget .project-text { grid-column: 1; grid-row: 2; column-count: 1; }
+  body[data-project-focus].paper-play #canvas-widget > .demo { grid-column: 2; grid-row: 2 / span 2; margin-top: 0; }
+  body[data-project-focus].paper-play #canvas-widget .chips { grid-column: 1 / -1; grid-row: 4; }
+  /* The Canvas description sits a touch lower than the ruled grid would put it. */
+  body[data-project-focus].paper-play #canvas-widget .project-text { translate: 0 6px; }
+  /* The Tutorial button moves up beside the title so the widget itself starts on the rule. */
+  body[data-project-focus].paper-play #canvas-widget .widget-stack > .tut-btn { position: absolute; right: 0; bottom: calc(100% + 14px); margin: 0; }
+  /* Both demos ride a little higher, so their tops sit on the rule above the first line of text. */
+  body[data-project-focus].paper-play #canvas-widget > .demo { translate: 0 var(--demo-rise, 0px); }
+  body[data-project-focus].paper-play #node-maps > .demo { translate: 0 var(--demo-rise, 0px); }
+  /* Credits sit closer to the demo footnotes, leaving less white space before the divider. */
+  body[data-project-focus].paper-play #canvas-widget .chips { margin-top: var(--paper-line-height); }
+  body[data-project-focus].paper-play #node-maps > .chips { margin-top: calc(3 * var(--paper-line-height)); }
+
+  /* Questboard: a tall, narrow map beside all of the text, as high as the three text blocks. */
+  body[data-project-focus].paper-play #node-maps { grid-template-columns: minmax(0, 440px) minmax(0, 1fr); column-gap: clamp(40px, 5vw, 72px); }
+  body[data-project-focus].paper-play #node-maps .title { grid-column: 1 / -1; }
+  body[data-project-focus].paper-play #node-maps .project-text { grid-column: 1; grid-row: 2; column-count: 1; }
+  body[data-project-focus].paper-play #node-maps > .demo { grid-column: 2; grid-row: 2; margin-top: 0; align-self: stretch; position: relative; display: grid; }
+  body[data-project-focus].paper-play #node-maps .frame-preview { height: auto; min-height: 340px; }
+  body[data-project-focus].paper-play #node-maps .demo-context { position: absolute; top: 100%; left: 0; right: 0; }
+  body[data-project-focus].paper-play #node-maps > .chips { grid-column: 1 / -1; grid-row: 4; margin-top: calc(3 * var(--paper-line-height)); }
+
+  /* Disney: the last note sits four lines below the one above it, and both right-hand notes are nudged 2px left. */
+  body[data-project-focus].paper-play #disney .project-note:last-child { margin-top: calc(4 * var(--paper-line-height)); }
+  body[data-project-focus].paper-play #disney .project-note:nth-child(n+3) { translate: -2px 0; }
+
+  /* Content Finder: credits two lines lower. */
+  body[data-project-focus].paper-play #content-finder > .desc > .chips { margin-top: calc(4 * var(--paper-line-height)); }
+}
+
+/* The tutorial's tab notes sit just below the widget, where the sample-data footnote is; it returns when the tutorial closes. */
+body.canvas-widget-tutorial #canvas-widget .demo-context { opacity: 0; visibility: hidden; }

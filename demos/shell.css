@@ -1,0 +1,331 @@
+/* Portfolio shell. White page, neutral chrome; each project sets one accent for the timeline and small details. */
+:root {
+  --bg: #fff;
+  --surface: #fff;
+  --ink: #0b0b0c;
+  --muted: #6b6b72;
+  --line: rgba(11, 11, 12, .1);
+  --shadow: 0 1px 2px rgba(11, 11, 12, .04), 0 24px 48px -28px rgba(11, 11, 12, .24);
+  --nav-h: 56px;
+  --rail-w: 148px;
+  --rail-accent: var(--ink);
+  --sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(.22, .8, .24, 1);
+  color-scheme: light;
+}
+
+/* Per-project accent: timeline, numbers, bullets, button hover. Everything else stays black and white. */
+[data-accent="finder"] { --accent: #d63838; --accent2: #e0a800; }
+[data-accent="widget"] { --accent: #2f5fd0; --accent2: #7fb0ff; }
+[data-accent="nodes"]  { --accent: #34845b; --accent2: #f2c230; }
+[data-accent="disney"] { --accent: #c2661f; --accent2: #f0b866; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+body {
+  margin: 0; background: #fff; color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+body.no-scroll { overflow: hidden; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent, var(--ink)); outline-offset: 3px; border-radius: 4px; }
+
+/* ── Nav ─────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 30; height: var(--nav-h); gap: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background: rgba(255, 255, 255, .82);
+  backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-brand { flex: none; font-weight: 650; letter-spacing: -.02em; text-decoration: none; }
+.nav-links { min-width: 0; margin-left: auto; display: flex; align-items: center; gap: clamp(14px, 2.4vw, 30px); height: calc(var(--nav-h) - 1px); padding: 8px; overflow-x: auto; scrollbar-width: none; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  position: relative; flex: none; white-space: nowrap; font-size: 13.5px; color: var(--muted);
+  text-decoration: none; padding: 6px 0; transition: color .25s var(--ease);
+}
+.nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
+  background: var(--link-accent, var(--rail-accent)); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease);
+}
+.nav-links a:hover, .nav-links a.is-active { color: var(--ink); }
+.nav-links a.is-active::after { transform: scaleX(1); }
+.nav-links a[data-link="content-finder"], .project[data-accent="finder"] { --link-accent: #d63838; }
+.nav-links a[data-link="canvas-widget"], .project[data-accent="widget"] { --link-accent: #2f5fd0; }
+.nav-links a[data-link="disney"], .project[data-accent="disney"] { --link-accent: #FF6EA0; }
+.nav-links a[data-link="node-maps"], .project[data-accent="nodes"] { --link-accent: #34845b; }
+
+/* A pair of pencil notes in the bottom corner; music starts only on request. */
+.music-controls {
+  position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 60;
+  display: flex; align-items: center; gap: 8px;
+}
+.music-toggle, .music-skip {
+  position: relative;
+  display: grid; place-items: center; width: 48px; height: 48px; padding: 5px;
+  color: var(--ink); background: #fff; border: 1.5px solid currentColor;
+  border-radius: 15px 19px 14px 18px / 19px 14px 18px 15px; box-shadow: 2px 3px 0 #28221617;
+  cursor: pointer; transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+.music-toggle::before { content: ''; position: absolute; inset: -3px -2px -2px -3px; border: 1px solid currentColor; border-radius: 19px 14px 18px 15px / 14px 18px 15px 19px; opacity: .3; rotate: -2deg; pointer-events: none; }
+.music-toggle:hover { background: #efe9d8; }
+.music-skip { width: 40px; height: 44px; }
+.music-skip:hover { background: #efe9d8; }
+.music-skip svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.music-controls button:focus-visible { outline: 2px dashed currentColor; outline-offset: 4px; }
+.music-toggle[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.music-notes { display: block; width: 34px; height: 34px; fill: currentColor; }
+.music-note-stems, .music-note-retrace { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.music-note-retrace { opacity: .35; stroke-width: .8; }
+
+/* ── Timeline rail ───────────────────────────────────── */
+.rail { position: fixed; z-index: 10; top: var(--nav-h); bottom: 0; left: 0; width: var(--rail-w); pointer-events: none; }
+.rail-label { position: absolute; left: 24px; top: 40px; line-height: 1; }
+.rail-month {
+  display: block; font-size: 52px; font-weight: 600; letter-spacing: -.045em; color: var(--rail-accent);
+  opacity: 0; transition: color .5s var(--ease);
+}
+.rail-year { display: block; margin-top: 6px; font: 500 11px/1 var(--mono); letter-spacing: .08em; color: var(--muted); opacity: 0; transition: opacity .4s; }
+.rail.has-month .rail-year { opacity: 1; }
+.rail-month.in  { animation: month-in .5s var(--ease) both; }
+.rail-month.out { opacity: 0; transition: opacity .22s ease; }
+@keyframes month-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.rail-track { position: absolute; left: 36px; top: 150px; bottom: 56px; width: 0; }
+.rail-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.rail-progress { position: absolute; left: 0; top: 0; width: 2px; margin-left: -.5px; height: 100%; background: var(--rail-accent); transform-origin: top; transform: scaleY(var(--progress, 0)); transition: background .5s var(--ease); }
+.rail-dots { list-style: none; margin: 0; padding: 0; }
+.rail-dots li {
+  position: absolute; left: 0; top: var(--y, 0%); width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; background: #fff;
+  border: 1px solid #b9b9c0; transition: background .4s var(--ease), border-color .4s var(--ease), transform .4s var(--ease);
+}
+.rail-dots li.is-past { border-color: var(--rail-accent); background: var(--rail-accent); }
+.rail-dots li.is-active { background: var(--rail-accent); border-color: var(--rail-accent); transform: scale(1.5); box-shadow: 0 0 0 4px color-mix(in srgb, var(--rail-accent) 18%, transparent); }
+
+/* ── Layout ──────────────────────────────────────────── */
+.page { overflow-x: clip; padding: 0 clamp(16px, 4vw, 48px) 0 calc(var(--rail-w) + clamp(0px, 2vw, 24px)); max-width: 1500px; margin: 0 auto; }
+.eyebrow { margin: 0 0 18px; font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.eyebrow .num { color: var(--accent); margin-right: 10px; }
+
+.project {
+  position: relative; display: grid; grid-template-columns: minmax(300px, 400px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px); align-items: center; min-height: 100vh; padding: 88px 0;
+  border-top: 1px solid var(--line);
+}
+.project:first-child { border-top: 0; }
+.month-tag { display: none; }
+.desc h2 { margin: 0 0 14px; font-size: clamp(28px, 3vw, 40px); line-height: 1.1; font-weight: 600; letter-spacing: -.035em; text-wrap: balance; }
+.tagline { margin: 0 0 12px; font-size: 19px; font-weight: 560; line-height: 1.3; }
+.lead { margin: 0 0 22px; font-size: 16px; color: var(--muted); }
+.why { margin: 0 0 22px; color: var(--muted); }
+.features { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 9px; font-size: 15px; }
+.features li { position: relative; padding-left: 22px; }
+.features li::before { content: ""; position: absolute; left: 0; top: .72em; width: 11px; height: 2px; border-radius: 2px; background: var(--accent); }
+#disney .features li::before { background: #FF6EA0; }
+
+.chips { margin: 0; display: grid; gap: 10px; }
+.chips > div { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.chips dt { width: 84px; white-space: nowrap; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.chips dd { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.chips span { padding: 5px 11px; font-size: 12.5px; line-height: 1.2; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.chips div:first-child span { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 520; }
+/* Each model keeps its own colour. */
+.chips dd span[data-ai="gemini"] { background: #4285f4; border-color: #4285f4; color: #fff; }
+/* Claude and Codex are drawn logos, no pill behind them. */
+.chips dd span[data-ai="claude"], .chips dd span[data-ai="codex"] { padding: 0; background: none; border: 0; }
+.chips dd span[data-ai] img { display: block; width: 33px; height: 33px; }
+
+/* ── Buttons: black pills, the project accent fills in on hover ── */
+.btn-try {
+  display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; cursor: pointer; text-decoration: none;
+  font-size: 13px; font-weight: 560; letter-spacing: -.005em; color: #fff; background: var(--ink);
+  transition: background-color .25s var(--ease), transform .25s var(--ease);
+}
+.btn-try { padding: 7px 14px; font-size: 12.5px; }
+.btn-try svg { width: 12px; height: 12px; flex: none; }
+.btn-try:hover { background: var(--accent, var(--ink)); transform: translateY(-1px); }
+.btn-try:active { transform: none; }
+
+/* ── Demo frame ──────────────────────────────────────── */
+.demo { min-width: 0; }
+.frame { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; height: clamp(440px, 72vh, 680px); }
+.frame-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px 0 18px; height: 46px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.frame-title { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frame-actions { display: flex; align-items: center; gap: 10px; flex: none; }
+.frame-body { position: relative; flex: 1; min-height: 0; }
+.frame-body iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--surface); }
+.pill { padding: 3px 9px; font: 500 10.5px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px dashed rgba(11, 11, 12, .24); border-radius: 999px; white-space: nowrap; }
+
+/* Content Finder has no title bar; clip the embedded demo to the whole frame. */
+#content-finder .frame-body { border-radius: inherit; overflow: hidden; }
+#content-finder .frame iframe { border-radius: inherit; }
+
+/* Canvas Widget: the panel is a 430px sidebar, so the frame is exactly that wide and never stretched. */
+#canvas-widget .demo { display: grid; justify-items: center; }
+.widget-stack { display: grid; width: min(430px, 100%); }
+#canvas-widget .frame { width: 100%; height: clamp(652px, calc(75vh - 48px), 700px); background: #000; border-color: rgba(11, 11, 12, .18); }
+
+/* Tutorial: a pen-and-ink pass over the page and into the widget. */
+@font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+.tut-btn {
+  justify-self: end;
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 12px; padding: 9px 18px 9px 15px; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: var(--accent); background: #fff; border: 1.5px solid var(--accent); border-radius: 999px;
+  box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: background-color .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+}
+.tut-btn svg { width: 15px; height: 15px; }
+.tut-btn:hover, .tut-btn[aria-pressed="true"] { background: var(--accent); color: #fff; transform: translateY(-1px); }
+.tut-layer { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 25; pointer-events: none; font-family: "Caveat", "Segoe Print", "Bradley Hand", cursive; transition: opacity .3s var(--ease); }
+.tut-layer.is-leaving { opacity: 0; }
+#canvas-widget .widget-stack { transition: translate .45s var(--ease); }
+#canvas-widget .demo-context { transition: transform .45s var(--ease); }
+.tut-layer svg { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; }
+.tut-layer path { fill: none; stroke: #15141f; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; animation: tut-draw .6s cubic-bezier(.5, 0, .2, 1) var(--d, 0s) both; }
+.tut-layer path.faint { stroke: rgba(21, 20, 31, .5); }
+.tut-layer path.halo { stroke: #fff; opacity: 0; }
+@keyframes tut-draw { 0% { opacity: 0; stroke-dashoffset: 1; } 1% { opacity: 1; stroke-dashoffset: 1; } 100% { opacity: 1; stroke-dashoffset: 0; } }
+.tut-note { position: absolute; width: max-content; max-width: var(--max, 220px); font-size: var(--fs, 25px); font-weight: 700; line-height: 1.02; color: #15141f; rotate: var(--tilt, 0deg);
+  -webkit-text-stroke: 5px #fff; paint-order: stroke fill; /* white edge keeps the ink readable on the widget's dark panel */
+  /* The ink runs in left to right behind a soft edge, like a pen moving along the line. */
+  -webkit-mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 250% 100% no-repeat;
+  mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 250% 100% no-repeat;
+  animation: tut-write 1s cubic-bezier(.35, .1, .3, 1) var(--d, 0s) forwards; }
+@keyframes tut-write { to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
+.tut-layer.is-updating .tut-note { animation: none; -webkit-mask: none; mask: none; }
+.tut-layer.is-updating path { animation: none; stroke-dashoffset: 0; opacity: 1; }
+@media (max-width: 1099px) { .tut-btn { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tut-layer path { animation: none; stroke-dashoffset: 0; opacity: 1; } .tut-note { animation: none; -webkit-mask: none; mask: none; } }
+
+/* Node Maps: a small, look-only window onto the map, with a big way in. */
+.frame-preview { height: clamp(300px, 46vh, 400px); }
+.frame-preview iframe { pointer-events: none; }
+/* Keep the preview edge-to-edge; the title bar returns with Close when opened. */
+.frame-preview:not(.is-open) .frame-bar { display: none; }
+.frame-preview:not(.is-open) .frame-body { border-radius: inherit; overflow: hidden; }
+.try-big {
+  position: absolute; left: 50%; bottom: 22px; translate: -50% 0; display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px; border: 0; border-radius: 999px; cursor: pointer; color: #fff; background: var(--accent);
+  font-size: 16px; font-weight: 650; letter-spacing: -.005em; white-space: nowrap;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, .85), 0 18px 34px -12px color-mix(in srgb, var(--accent) 80%, transparent);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+  animation: try-nudge 3.2s ease-in-out infinite;
+}
+.try-big svg { width: 16px; height: 16px; transition: transform .3s var(--ease); }
+.try-big:hover { transform: translateY(-2px) scale(1.03); animation-play-state: paused; box-shadow: 0 0 0 9px rgba(255, 255, 255, .9), 0 24px 40px -12px color-mix(in srgb, var(--accent) 90%, transparent); }
+.try-big:hover svg { transform: translateX(3px); }
+@keyframes try-nudge { 0%, 70%, 100% { translate: -50% 0; } 80% { translate: -50% -5px; } 90% { translate: -50% 0; } }
+.frame.is-open .try-big, .frame.is-full:not(.is-grow) .try-big { display: none; }
+
+/* Try it out: the frame stretches right to left to fill the screen. */
+.frame.is-full { position: fixed; z-index: 60; margin: 0; left: auto; }
+.frame.is-grow { transition: width .6s var(--ease), right .6s var(--ease), top .6s var(--ease) .12s, height .6s var(--ease) .12s, border-radius .6s var(--ease); }
+.frame.is-open { border-radius: 0; }
+
+/* ── Canvas Widget: the real panel beside a faux Canvas page ── */
+.canvas-stage { display: flex; background: #f4f4f5; }
+.canvas-fake { flex: 1; min-width: 0; padding: 22px; display: grid; align-content: start; gap: 12px; }
+.canvas-fake i { height: 14px; border-radius: 7px; background: #dcdce0; }
+.canvas-fake i:nth-child(1) { width: 38%; height: 20px; background: #c9c9ce; }
+.canvas-fake i:nth-child(2) { width: 62%; }
+.canvas-fake i:nth-child(3) { width: 48%; margin-bottom: 10px; }
+.canvas-fake b { height: 64px; border-radius: 10px; background: #fff; border: 1px solid var(--line); }
+.canvas-stage iframe { position: static; flex: none; width: min(420px, 100%); height: 100%; border-left: 1px solid var(--line); }
+@media (max-width: 700px) { .canvas-fake { display: none; } }
+
+/* ── Placeholder mocks (until real demos land) ───────── */
+.mock { padding: 22px; overflow: hidden; background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--accent))); }
+.finder-top { display: flex; gap: 10px; }
+.finder-search { flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); font-size: 14px; }
+.finder-search svg { width: 16px; height: 16px; flex: none; }
+.finder-drop { display: flex; align-items: center; gap: 8px; padding: 0 16px; border: 1.5px dashed var(--accent); border-radius: 12px; color: var(--accent); font-size: 13.5px; white-space: nowrap; }
+.finder-drop svg { width: 20px; height: 20px; }
+.finder-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 20px; }
+.finder-tags span { padding: 5px 12px; font-size: 12.5px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; }
+.finder-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.finder-grid i { aspect-ratio: 4 / 3; border-radius: 10px; background: linear-gradient(150deg, hsl(var(--h) 42% 66%), hsl(var(--h) 50% 34%)); }
+.finder-grid i:nth-child(3n) { background: linear-gradient(150deg, hsl(var(--h) 70% 64%), hsl(var(--h) 72% 38%)); }
+
+/* ── Disney banner: full-width screenshot with a pink Download button ── */
+.project.disney { grid-template-columns: minmax(0, 1fr); align-items: start; min-height: 0; gap: 40px; }
+.disney .desc { max-width: 640px; }
+.banner { position: relative; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); background: #cfd8ee; }
+.banner img { display: block; width: 100%; height: auto; min-height: 260px; object-fit: cover; object-position: 50% 40%; }
+/* Download: a gilded pink pill in a storybook serif. It floats, shimmers, and throws pixie dust. */
+.banner-cta { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.btn-download {
+  position: relative; pointer-events: auto; display: inline-flex; align-items: center; gap: 16px; padding: 10px 10px 10px 34px;
+  border: 2px solid transparent; border-radius: 999px; text-decoration: none; color: #fff;
+  font: italic 600 23px/1 "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif; letter-spacing: .01em;
+  background: linear-gradient(135deg, #ff7eab 0%, #ff4f8b 55%, #ff6f7d 100%) padding-box, linear-gradient(135deg, #fff6c9, #ffc65a 50%, #fff6c9) border-box;
+  text-shadow: 0 1px 2px rgba(130, 10, 70, .35);
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, .22), 0 18px 40px -10px rgba(255, 64, 129, .75), inset 0 1px 0 rgba(255, 255, 255, .55);
+  animation: dl-float 4.5s ease-in-out infinite;
+  transition: scale .35s var(--ease), rotate .35s var(--ease), box-shadow .35s var(--ease), filter .35s var(--ease);
+}
+@keyframes dl-float { 50% { translate: 0 -6px; } }
+/* The shine is a wide gradient band slid across with transform, clipped to the pill, so
+   it runs on the compositor instead of repainting the button and its shadow every frame. */
+.btn-download .shine { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.btn-download .shine::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 250%;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .6) 50%, transparent 62%);
+  transform: translateX(-120%); animation: dl-shine 5s ease-in-out 1.2s infinite; }
+@keyframes dl-shine { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(60%); } }
+.btn-download:hover { scale: 1.06; rotate: -1.5deg; filter: saturate(1.12); box-shadow: 0 0 0 11px rgba(255, 255, 255, .28), 0 26px 52px -10px rgba(255, 64, 129, .85), inset 0 1px 0 rgba(255, 255, 255, .6); }
+.btn-download:active { scale: .97; }
+.btn-download:focus-visible { outline: 2px solid #fff; outline-offset: 10px; }
+/* Pixie dust: four-point stars that twinkle around the button. (No drop-shadow glow: the
+   star's clip-path cuts any shadow away, so it only cost paint time.) */
+.sp { position: absolute; width: var(--s); height: var(--s); pointer-events: none; background: #fff6c9;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); animation: dl-twinkle 2.6s ease-in-out var(--d) infinite; }
+/* Looping animations pause while scrolled out of view (shell.js sets .is-offscreen). */
+.is-offscreen, .is-offscreen *, .is-offscreen *::before { animation-play-state: paused !important; }
+.sp.s1 { --s: 20px; --d: 0s; left: -22px; top: -18px; }
+.sp.s2 { --s: 14px; --d: .9s; right: 52px; top: -22px; background: #fff; }
+.sp.s3 { --s: 17px; --d: 1.6s; right: -20px; bottom: -16px; }
+.sp.s4 { --s: 10px; --d: .4s; left: 26px; bottom: -22px; background: #fff; }
+@keyframes dl-twinkle { 0%, 100% { opacity: 0; scale: .3; rotate: 0deg; } 50% { opacity: 1; scale: 1; rotate: 45deg; } }
+.btn-download:hover .sp { animation-duration: 1.1s; }
+
+/* ── Footer & game overlay ───────────────────────────── */
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 32px clamp(16px, 4vw, 48px) 48px calc(var(--rail-w) + clamp(0px, 2vw, 24px)); border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.footer a { text-decoration: none; color: var(--ink); }
+.footer a:hover { text-decoration: underline; }
+.footer p { flex-basis: 100%; margin: 0; }
+.game-overlay { position: fixed; inset: 0; z-index: 80; background: #000; display: none; }
+.game-overlay.is-open { display: block; }
+.game-overlay iframe { width: 100%; height: 100%; border: 0; }
+
+/* Scroll reveals. Only active when JS has added .js, so content is never hidden without it. */
+.js .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* ── Phones and tablets ──────────────────────────────── */
+@media (max-width: 960px) {
+  :root { --rail-w: 0px; }
+  .rail { display: none; }
+  .page { padding: 0 16px; }
+  .footer { padding: 32px 16px 48px; }
+  .music-label { display: none; }
+  .project { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: 28px; padding: 56px 0; align-items: start; }
+  .month-tag { display: inline-block; justify-self: start; margin: 0; padding: 4px 11px; font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; }
+  .frame { height: min(70vh, 560px); }
+}
+
+/* On phones the drawing toolbar runs along the bottom, so the music controls sit just above it. */
+@media (max-width: 600px) {
+  .music-controls { bottom: calc(max(12px, env(safe-area-inset-bottom)) + 74px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rail-month { opacity: 1; }
+  .rail-month.out { opacity: 0; }
+  .js .rv { opacity: 1; transform: none; }
+}

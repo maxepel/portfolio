@@ -1,0 +1,73 @@
+/* Dungeon Kit (Voxel) - Level 1 demo. The HUD is laid out on the Godot 1920x1080 canvas
+   and scaled by --s (set from the viewport in main.js). Fonts: Kenney (CC0). */
+@font-face { font-family: 'Mini Square'; src: url('../assets/fonts/KenneyMiniSquare.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Pixel Square'; src: url('../assets/fonts/KenneyPixelSquare.ttf') format('truetype'); font-display: swap; }
+
+:root {
+  --s: 1;
+  --text: #f1ead8; --dim: #9aa0b4; --accent: #5cf6ff; --danger: #ff4a3a; --hp: #e0433a; --gold: #ffc44a;
+  --panel: rgba(15, 18, 28, 0.7); --hp-back: rgba(13, 13, 23, 0.75);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #07080d; overflow: hidden; }
+body { font-family: 'Mini Square', 'Courier New', monospace; color: var(--text); -webkit-user-select: none; user-select: none; }
+#app { position: fixed; inset: 0; overflow: hidden; background: #07080d; }
+#view { display: block; width: 100%; height: 100%; outline: none; cursor: crosshair; }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+.hidden { display: none !important; }
+
+/* outlined text like the Godot LabelSettings */
+.ol { -webkit-text-stroke: calc(var(--s) * 4px) rgba(0, 0, 0, 0.85); paint-order: stroke fill; letter-spacing: 0.02em; }
+.abs { position: absolute; white-space: nowrap; }
+
+/* --- HUD --- */
+#hud { opacity: 1; }
+#vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(230, 26, 26, 0) 40%, rgba(230, 26, 26, 1) 100%); opacity: 0; }
+#status { left: calc(var(--s) * 24px); top: calc(var(--s) * 24px); width: calc(var(--s) * 460px); height: calc(var(--s) * 150px); background: var(--panel); }
+#hp-back { left: calc(var(--s) * 44px); top: calc(var(--s) * 44px); width: calc(var(--s) * 420px); height: calc(var(--s) * 30px); background: var(--hp-back); }
+#hp-fill { left: calc(var(--s) * 44px); top: calc(var(--s) * 44px); width: calc(var(--s) * 420px); height: calc(var(--s) * 30px); background: var(--hp); transform-origin: left; }
+#hp-label { left: calc(var(--s) * 54px); top: calc(var(--s) * 44px); font-size: calc(var(--s) * 20px); line-height: calc(var(--s) * 30px); }
+#gold { left: calc(var(--s) * 44px); top: calc(var(--s) * 84px); font-size: calc(var(--s) * 24px); color: var(--gold); }
+#weapon { left: calc(var(--s) * 200px); top: calc(var(--s) * 87px); font-size: calc(var(--s) * 20px); color: var(--dim); }
+#qlabel { left: calc(var(--s) * 44px); top: calc(var(--s) * 122px); font-size: calc(var(--s) * 20px); color: var(--accent); }
+.pip { top: calc(var(--s) * 128px); width: calc(var(--s) * 18px); height: calc(var(--s) * 18px); background: var(--accent); }
+#potions { left: calc(var(--s) * 44px); bottom: calc(var(--s) * 40px); font-size: calc(var(--s) * 24px); }
+#boss { left: 50%; top: calc(var(--s) * 30px); width: calc(var(--s) * 800px); margin-left: calc(var(--s) * -400px); height: calc(var(--s) * 70px); }
+#boss-name { left: 0; top: 0; width: 100%; text-align: center; font-family: 'Pixel Square', monospace; font-size: calc(var(--s) * 24px); color: var(--danger); }
+#boss-back { left: 0; top: calc(var(--s) * 44px); width: 100%; height: calc(var(--s) * 18px); background: var(--hp-back); }
+#boss-fill { left: 0; top: calc(var(--s) * 44px); width: 100%; height: calc(var(--s) * 18px); background: var(--danger); transform-origin: left; }
+#card { left: 50%; top: 50%; width: calc(var(--s) * 1040px); max-width: 96%; margin-left: calc(var(--s) * -520px); margin-top: calc(var(--s) * -200px); height: calc(var(--s) * 140px); background: var(--panel); opacity: 0; display: flex; align-items: center; justify-content: center; }
+#card-text { font-family: 'Pixel Square', monospace; font-size: calc(var(--s) * 60px); text-align: center; }
+#bark { left: 0; right: 0; bottom: calc(var(--s) * 110px); text-align: center; font-size: calc(var(--s) * 26px); opacity: 0; }
+#prompt { left: 0; right: 0; bottom: calc(var(--s) * 160px); text-align: center; font-size: calc(var(--s) * 24px); color: var(--accent); }
+#soundbtn { position: absolute; right: calc(var(--s) * 24px); bottom: calc(var(--s) * 24px); pointer-events: auto; cursor: pointer; font: inherit; font-size: calc(var(--s) * 18px); color: var(--dim); background: var(--panel); border: 0; padding: calc(var(--s) * 8px) calc(var(--s) * 14px); }
+#soundbtn:hover, #soundbtn:focus-visible { color: var(--text); outline: 2px solid var(--accent); }
+#exitbtn { position: fixed; z-index: 50; top: calc(var(--s) * 20px); right: calc(var(--s) * 24px); cursor: pointer; font: inherit; font-size: calc(var(--s) * 20px); color: var(--text); background: var(--panel); border: calc(var(--s) * 2px) solid var(--dim); padding: calc(var(--s) * 8px) calc(var(--s) * 16px); letter-spacing: 0.04em; }
+#exitbtn:hover, #exitbtn:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.title.win { font-size: calc(var(--s) * 104px); color: var(--accent); animation: win-pop .6s cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes win-pop { from { opacity: 0; transform: scale(.7); } }
+@media (prefers-reduced-motion: reduce) { .title.win { animation: none; } }
+
+/* --- screens (title, end, pause, loading) --- */
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2vh 4vw; pointer-events: none; }
+.screen > * { pointer-events: auto; }
+.screen .shade { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); pointer-events: none; }
+.screen .stack { position: relative; display: flex; flex-direction: column; align-items: center; gap: calc(var(--s) * 18px); }
+.title { font-family: 'Pixel Square', monospace; font-size: calc(var(--s) * 96px); line-height: 1; }
+.title.small { font-size: calc(var(--s) * 70px); }
+.sub { font-size: calc(var(--s) * 30px); color: var(--dim); }
+.accent { font-size: calc(var(--s) * 24px); color: var(--accent); }
+.gold { font-size: calc(var(--s) * 26px); color: var(--gold); }
+.controls { font-size: calc(var(--s) * 20px); color: var(--dim); max-width: 92vw; line-height: 1.5; }
+.demo-note { font-size: calc(var(--s) * 24px); color: #1b1305; background: var(--gold); padding: calc(var(--s) * 7px) calc(var(--s) * 18px); letter-spacing: 0.06em; -webkit-text-stroke: 0; }
+.blink { animation: blink 1.9s ease-in-out infinite; }
+@keyframes blink { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+.btn { font: inherit; font-size: calc(var(--s) * 28px); color: var(--text); background: rgba(15, 18, 28, 0.85); border: calc(var(--s) * 3px) solid var(--accent); padding: calc(var(--s) * 12px) calc(var(--s) * 34px); cursor: pointer; letter-spacing: 0.05em; }
+.btn:hover, .btn:focus-visible { background: var(--accent); color: #07131a; outline: none; }
+.btn.secondary { border-color: var(--dim); font-size: calc(var(--s) * 22px); }
+.row { display: flex; gap: calc(var(--s) * 16px); }
+#loading { background: #07080d; z-index: 5; pointer-events: auto; }
+#loading .title { font-size: calc(var(--s) * 56px); }
+#screen-pause { background: rgba(0, 0, 0, 0.55); z-index: 4; pointer-events: auto; cursor: pointer; }
+.embed .standalone-only { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .blink { animation: none; opacity: 1; } }

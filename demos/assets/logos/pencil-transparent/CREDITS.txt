@@ -1,0 +1,11 @@
+Pencil-drawn brand illustrations generated with built-in image_gen for portfolio technology credits. All individual PNGs use 1254 x 1254 RGBA canvases. These are hand-drawn interpretations, not official brand artwork.
+
+Godot logo original: Andrea Calabro, CC BY 4.0. This version changes the rendering to colored pencil.
+Godot source and attribution: https://godotengine.org/press/
+License: https://creativecommons.org/licenses/by/4.0/
+Blender logo source and usage: https://www.blender.org/about/logo/
+Aseprite: https://www.aseprite.org/
+MCP: https://modelcontextprotocol.io/
+Mammoth.js: https://github.com/mwilliamson/mammoth.js
+
+Brand names and marks belong to their respective owners. The manifest records each generation prompt and verification results.

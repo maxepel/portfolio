@@ -1,0 +1,107 @@
+/* A paper surface for the existing portfolio; typography comes from shell.css. */
+body.paper-play {
+  position: relative; /* the drawing layers below are sized to the page */
+  cursor: var(--paper-cursor, auto); /* pencil, eraser, or pin pointer, set by paper-play.js */
+  --paper: #f8f6ef;
+  --paper-red: #ac4839;
+  --ruling: rgba(98, 144, 204, .3);
+  --bg: var(--paper);
+  background-color: var(--paper);
+  --paper-crumple: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1400'%20height='1400'%20viewBox='0%200%201400%201400'%3E%3Cfilter%20id='c'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%3E%3CfeTurbulence%20type='turbulence'%20baseFrequency='.0038%20.0048'%20numOctaves='2'%20seed='11'%20stitchTiles='stitch'%20result='t'/%3E%3CfeDiffuseLighting%20in='t'%20surfaceScale='9'%20diffuseConstant='1'%20lighting-color='%23fff'%20result='l'%3E%3CfeDistantLight%20azimuth='225'%20elevation='58'/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer%20in='l'%3E%3CfeFuncR%20type='linear'%20slope='.38'%20intercept='.63'/%3E%3CfeFuncG%20type='linear'%20slope='.38'%20intercept='.63'/%3E%3CfeFuncB%20type='linear'%20slope='.38'%20intercept='.635'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect%20width='1400'%20height='1400'%20filter='url%28%23c%29'/%3E%3C/svg%3E");
+  --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23847760' opacity='.065' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+  /* Top to bottom: blue ruled lines, soft crumple shading, fine paper grain. */
+  background-image:
+    linear-gradient(to bottom, transparent 31px, var(--ruling) 31px, var(--ruling) 32px),
+    var(--paper-crumple),
+    var(--paper-grain);
+  background-size: 100% 32px, 1400px 1400px, 180px 180px;
+  background-position: 0 14px, 0 0, 0 0;
+  background-blend-mode: normal, multiply, normal;
+}
+.paper-play .nav { z-index: 42; background: color-mix(in srgb, var(--paper) 88%, transparent); }
+.paper-play .rail-dots li { background: var(--paper); }
+.paper-play .rail-dots li.is-active, .paper-play .rail-dots li.is-past { background: var(--rail-accent); }
+.paper-play .footer { padding-bottom: 160px; }
+.paper-intro {
+  display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 40px;
+  max-width: 1500px; margin: auto;
+  padding: 72px clamp(16px, 4vw, 48px) 64px calc(var(--rail-w) + clamp(0px, 2vw, 24px));
+  border-bottom: 1px solid var(--line);
+}
+.paper-intro .eyebrow { font-size: 10px; letter-spacing: .075em; line-height: 1.6; }
+.paper-intro h1 { font-size: clamp(36px, 4.4vw, 66px); line-height: 1.06; letter-spacing: -.055em; font-weight: 550; margin: 0; }
+.paper-intro-copy > p:not(.eyebrow) { color: var(--muted); font-size: 13px; margin: 24px 0; }
+.paper-intro a { position: relative; z-index: 42; font-size: 12px; text-decoration: none; display: inline-flex; gap: 28px; align-items: center; }
+.paper-intro a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.paper-playground { position: relative; min-width: 0; height: 240px; }
+.paper-playground-note, .paper-playground-caption { position: absolute; left: 0; right: 0; text-align: center; font: 10px/1.6 var(--mono); color: var(--muted); }
+.paper-playground-note { top: 10px; transform: rotate(-3deg); }
+.paper-playground-caption { bottom: 5px; font-family: var(--sans); font-size: 11px; }
+/* Page-sized, so its canvases scroll with the content. It clips them at the page
+   edges; they are taller than the screen and would otherwise lengthen the page. */
+.paper-layer { position: absolute; inset: 0; z-index: 35; overflow: hidden; overflow: clip; contain: strict; pointer-events: none; }
+.paper-canvas { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.paper-pin-targets { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.paper-pin-targets circle { fill: transparent; pointer-events: all; cursor: grab; touch-action: none; }
+/* The toolbar: a vertical strip down the right edge, always out. */
+.paper-tools { position: fixed; z-index: 58; right: 12px; top: 50%; transform: translateY(-50%); }
+.paper-tray {
+  display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px;
+  border: 1px solid #d5d0c3; border-radius: 13px; background: #fffdf7;
+  box-shadow: 0 2px 3px #332a1710, 0 12px 34px -12px #332a1735;
+}
+.paper-tray button {
+  border: 1px solid transparent; border-radius: 7px; background: transparent; cursor: pointer;
+  width: 54px; height: 50px; padding: 4px; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; gap: 4px; font: 9.5px/1 var(--sans); color: var(--muted);
+  transition: background .18s var(--ease), color .18s var(--ease);
+}
+.paper-tray button:hover:not(:disabled) { background: #eeeae0; color: var(--ink); }
+.paper-tray button[aria-pressed="true"] { background: #ebe6d9; color: var(--ink); border-color: #dcd5c5; }
+.paper-tray button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.paper-tray button:disabled { opacity: .3; cursor: default; }
+.paper-tray svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.paper-tray .paper-pin-icon { width: 21px; height: 24px; }
+.paper-tray .paper-divider { width: 30px; height: 1px; background: var(--line); margin: 3px 0; }
+/* Pencil colors: four dots under the pencil. Picking one also picks up the pencil. */
+.paper-tray .paper-colors { display: grid; grid-template-columns: repeat(2, 14px); gap: 6px; margin: 2px 0 4px; }
+.paper-tray .paper-colors button {
+  width: 14px; height: 14px; padding: 0; border-radius: 50%;
+  background: var(--swatch); border: 2px solid #fffdf7; box-shadow: 0 0 0 1px #cfc9ba;
+  transition: box-shadow .15s var(--ease), scale .15s var(--ease);
+}
+.paper-tray .paper-colors button:hover { background: var(--swatch); scale: 1.18; }
+.paper-tray .paper-colors button[aria-checked="true"] { box-shadow: 0 0 0 1.5px var(--ink); }
+/* The hint sits to the left of the strip, near its foot. */
+.paper-hint { position: absolute; right: calc(100% + 10px); bottom: 4px; width: max-content; max-width: 230px; margin: 0; padding: 4px 10px; border-radius: 10px; background: color-mix(in srgb, #fffdf7 94%, transparent); box-shadow: 0 0 0 1px #e2ddd0; color: #686458; font: 10px/1.45 var(--sans); }
+.paper-tool-panel { position: relative; }
+.paper-hint { transition: opacity .3s var(--ease), visibility .3s; }
+.paper-hint.is-hidden { opacity: 0; visibility: hidden; }
+/* Room on the right for the toolbar. */
+.paper-play .page, .paper-play .footer, .paper-intro { padding-right: calc(clamp(16px, 4vw, 48px) + 72px); }
+.paper-play.no-scroll .paper-tools, .paper-play.no-scroll .paper-layer { visibility: hidden; }
+@media (max-width: 960px) {
+  /* No timeline rail here; just leave room for the toolbar. */
+  .paper-play .page, .paper-play .footer { padding-right: 84px; }
+  .paper-intro { padding: 48px 84px 38px 24px; gap: 20px; }
+  .paper-intro h1 { font-size: clamp(34px, 5vw, 48px); }
+}
+@media (max-width: 600px) {
+  .paper-intro { grid-template-columns: 1fr; padding: 38px 20px 20px; gap: 12px; }
+  .paper-intro h1 { font-size: 43px; }
+  .paper-playground { height: 190px; }
+  .paper-playground-note { top: 6px; font-size: 9px; }
+  .paper-intro-copy > p:not(.eyebrow) { font-size: 12px; margin: 20px 0; }
+  /* Phones are too narrow for a side strip: the same toolbar runs along the bottom. */
+  .paper-play .page, .paper-play .footer { padding-right: 16px; }
+  .paper-intro { padding-right: 20px; }
+  .paper-tools { top: auto; right: auto; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); }
+  .paper-tray { flex-direction: row; padding: 5px; gap: 2px; border-radius: 11px; }
+  .paper-tray button { width: 39px; padding: 5px; height: 50px; font-size: 9px; }
+  .paper-tray svg { width: 21px; height: 21px; }
+  .paper-tray .paper-divider { width: 1px; height: 28px; margin: 0 1px; }
+  .paper-hint { position: static; right: auto; font-size: 9px; max-width: 330px; margin: 7px auto 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paper-tray button { transition: none; }
+}

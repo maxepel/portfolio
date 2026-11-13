@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Stickothy at rest: generated from figurePose on a flat course, with hands on hips. -->
+  <title>Stickothy in his idle pose</title>
+  <defs>
+    <pattern id="rule" width="800" height="34" patternUnits="userSpaceOnUse"><path d="M0 33.5H800" stroke="#c9d6e8" stroke-width="1.4"/></pattern>
+  </defs>
+  <rect width="800" height="600" fill="#fbf9f1"/>
+  <rect width="800" height="600" fill="url(#rule)"/>
+  <path d="M96 0V600" stroke="#e7a5a0" stroke-width="2"/>
+  <path d="M250 540C340 534 470 537 560 541" fill="none" stroke="#15141f" stroke-width="5" stroke-linecap="round"/>
+  <g transform="translate(400 539) scale(11)" fill="none" stroke="#141412" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="1.45">
+      <path d="M0.00,-16.73L-6.50,0.00"/>
+      <path d="M0.00,-26.23L-6.54,-22.55L-2.50,-16.23"/>
+    </g>
+    <g stroke-width="1.7">
+      <path d="M0.00,-16.73L0.00,-28.73"/>
+      <circle cx="0.00" cy="-34.73" r="4.3"/>
+      <path d="M0.00,-16.73L6.50,0.00"/>
+      <path d="M0.00,-26.23L6.54,-22.55L2.50,-16.23"/>
+    </g>
+  </g>
+</svg>
