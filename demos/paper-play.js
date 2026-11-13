@@ -1,7 +1,7 @@
 import { createRope, stepRope, kickRope } from './paper-physics.js';
 import { threadHousePins, HOUSE_LINKS } from './paper-house.js';
 import { drawCord, drawKnot, pinSprite, pinWaist, PIN_HEAD_REACH } from './paper-art.js';
-import { createGuide } from './paper-guide.js?tour=12&pin-visibility=1&walk-frequency=1&climb-fall=1&description-wrap=1&polish=6&stickothy=1&recognition=1&quiet=1&native-cursors=1&wrap=1&pages=1&dj=2&notes=3';
+import { createGuide } from './paper-guide.js?gap=20&tour=12&pin-visibility=1&walk-frequency=1&climb-fall=1&description-wrap=1&polish=6&stickothy=1&recognition=1&quiet=1&native-cursors=1&wrap=1&pages=1&dj=2&notes=3';
 
 /* Page-space pencil marks, springy cotton string, and a guide who walks the paths you build. */
 (() => {

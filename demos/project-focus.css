@@ -236,8 +236,8 @@ body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-li
   /* Both demos ride a little higher, so their tops sit on the rule above the first line of text. */
   body[data-project-focus].paper-play #canvas-widget > .demo { translate: 0 var(--demo-rise, 0px); }
   body[data-project-focus].paper-play #node-maps > .demo { translate: 0 var(--demo-rise, 0px); }
-  /* Credits sit closer to the demo footnotes, leaving less white space before the divider. */
-  body[data-project-focus].paper-play #canvas-widget .chips { margin-top: var(--paper-line-height); }
+  /* Credits sit closer to the demo footnotes, two lines higher than one rule below (2026-11-13). */
+  body[data-project-focus].paper-play #canvas-widget .chips { margin-top: calc(-1 * var(--paper-line-height)); }
   body[data-project-focus].paper-play #node-maps > .chips { margin-top: calc(3 * var(--paper-line-height)); }
 
   /* Questboard: a tall, narrow map beside all of the text, as high as the three text blocks. */

@@ -276,7 +276,7 @@ button { font: inherit; color: inherit; }
   background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .6) 50%, transparent 62%);
   transform: translateX(-120%); animation: dl-shine 5s ease-in-out 1.2s infinite; }
 @keyframes dl-shine { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(60%); } }
-.btn-download:hover { scale: 1.06; rotate: -1.5deg; filter: saturate(1.12); box-shadow: 0 0 0 11px rgba(255, 255, 255, .28), 0 26px 52px -10px rgba(255, 64, 129, .85), inset 0 1px 0 rgba(255, 255, 255, .6); }
+.btn-download:hover { scale: 1.06; filter: saturate(1.12); box-shadow: 0 0 0 11px rgba(255, 255, 255, .28), 0 26px 52px -10px rgba(255, 64, 129, .85), inset 0 1px 0 rgba(255, 255, 255, .6); }
 .btn-download:active { scale: .97; }
 .btn-download:focus-visible { outline: 2px solid #fff; outline-offset: 10px; }
 /* Pixie dust: four-point stars that twinkle around the button. (No drop-shadow glow: the

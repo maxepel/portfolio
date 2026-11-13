@@ -26,7 +26,7 @@ document.head.append(css);
 const mix = (a, b, t) => a + (b - a) * t;
 const INK = '#141412'; // his pencil: plain black
 const HOP = .42;       // seconds in the air for a hop
-const SPEECH_GAP = 30000; // milliseconds between spontaneous remarks
+const SPEECH_GAP = 20000; // milliseconds between spontaneous remarks
 const QUEST_GAP = 120000; // shared spacing for unsolicited quest requests and reminders
 const GRAVITY = 1400;  // px/s², for falls and launches
 // The slingshot ride home: fast off the band, easing up, then dropping onto the string.
