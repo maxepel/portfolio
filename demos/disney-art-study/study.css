@@ -134,3 +134,4 @@ main.article{max-width:820px}
 .article .artwork{max-height:none}
 .article .paired .artwork img{max-height:340px;object-fit:contain;background:#fff}
 @media(max-width:760px){.article .paired{grid-template-columns:1fr}}
+.article #painting,.article #paper{padding-top:var(--line)}
