@@ -223,8 +223,8 @@ body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-li
   }
   body[data-project-focus].paper-play .project { margin-bottom: 0 !important; }
 
-  /* The Canvas widget is phone-shaped: text on the left, widget on the right, so neither side leaves a gap. */
-  body[data-project-focus].paper-play #canvas-widget { grid-template-columns: minmax(0, 440px) minmax(0, 420px); column-gap: clamp(40px, 5vw, 72px); justify-content: start; }
+  /* Share the full page width, keeping the real sidebar centred in its half. */
+  body[data-project-focus].paper-play #canvas-widget { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 72px); }
   body[data-project-focus].paper-play #canvas-widget .title { grid-column: 1 / -1; }
   body[data-project-focus].paper-play #canvas-widget .project-text { grid-column: 1; grid-row: 2; column-count: 1; }
   body[data-project-focus].paper-play #canvas-widget > .demo { grid-column: 2; grid-row: 2 / span 2; margin-top: 0; }
@@ -257,6 +257,28 @@ body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-li
 
   /* Content Finder: credits two lines lower. */
   body[data-project-focus].paper-play #content-finder > .desc > .chips { margin-top: calc(4 * var(--paper-line-height)); }
+}
+
+/* Stack the sidebar before a tablet-sized column would squeeze its controls. */
+@media (min-width: 761px) and (max-width: 999px) {
+  body[data-project-focus].paper-play #canvas-widget { grid-template-columns: minmax(0, 1fr); }
+  body[data-project-focus].paper-play #canvas-widget :is(.title, .project-text, .chips),
+  body[data-project-focus].paper-play #canvas-widget > .demo { grid-column: 1; grid-row: auto; }
+  body[data-project-focus].paper-play #canvas-widget > .demo { margin-top: calc(2 * var(--paper-line-height)); translate: none; }
+  body[data-project-focus].paper-play #canvas-widget .chips { margin-top: var(--paper-line-height); }
+}
+
+@media (max-width: 760px) {
+  body[data-project-focus].paper-play #canvas-widget { row-gap: 0; }
+  body[data-project-focus].paper-play #canvas-widget > .desc { display: contents; }
+  body[data-project-focus].paper-play #canvas-widget .title { order: 1; }
+  body[data-project-focus].paper-play #canvas-widget .project-text { order: 2; }
+  body[data-project-focus].paper-play #canvas-widget .project-notes { margin-bottom: 0; }
+  body[data-project-focus].paper-play #canvas-widget .project-note:last-child { margin-bottom: 0; }
+  body[data-project-focus].paper-play #canvas-widget > .demo { order: 3; margin-top: var(--paper-line-height); }
+  body[data-project-focus].paper-play #canvas-widget .chips {
+    order: 4; width: auto; max-width: 100%; margin: var(--paper-line-height) 0 0;
+  }
 }
 
 /* The tutorial's tab notes sit just below the widget, where the sample-data footnote is; it returns when the tutorial closes. */

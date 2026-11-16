@@ -193,7 +193,7 @@
 .paper-play .curiosity-intro .curiosity-sketch[href="#content-finder"] { translate: -10px 0; }
 
 /* The navigation is a strip of notebook paper with a pencilled edge. */
-#top.nav {
+#top > .nav {
   background: var(--paper, #f8f6ef);
   background-image: var(--paper-grain), var(--pencil-rule);
   background-size: 180px 180px, 100% 6px;
@@ -203,10 +203,10 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-#top.nav .nav-links a::after { background: var(--link-accent, var(--ink)); transform: scaleX(0); }
-#top.nav .nav-links a:is(.is-active, :hover, :focus-visible)::after { transform: scaleX(1); }
+#top > .nav .nav-links a::after { background: var(--link-accent, var(--ink)); transform: scaleX(0); }
+#top > .nav .nav-links a:is(.is-active, :hover, :focus-visible)::after { transform: scaleX(1); }
 
-#top.nav :is(.nav-brand, .nav-links a){color:#000;}
+#top > .nav :is(.nav-brand, .nav-links a){color:#000;}
 
 /* Handwritten invitations to explore. */
 .curiosity-intro:not([data-entrance-complete="true"]) :is(.explore-invitation, .explore-scroll) {

@@ -1157,7 +1157,7 @@ export function createGuide(api) {
   const bubbleText = make('p', 'paper-bubble-text', bubble), bubbleActions = make('div', 'paper-bubble-actions', bubble), tail = make('span', 'paper-bubble-tail', bubble);
   // A comic tail, drawn twice like the outline; its fill covers the bubble's edge where they join.
   tail.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="fill" d="M1 0Q9 6 11 19 15 8 25 0Z"/><path d="M1.5.5Q9 6 11 19 15 8 24.5.5"/><path class="faint" d="M4 1.2Q10.5 7.5 11.8 17.5"/></svg>';
-  let bubbleKey = null, bubbleSize = { w: 200, h: 60 }, bubbleSide = null, bubbleAt = null;
+  let bubbleKey = null, bubbleSize = { w: 200, h: 60 };
   // The handwriting face can arrive after the first words, so measure whenever the bubble changes size.
   new ResizeObserver(() => { if (!bubble.hidden) { bubbleSize = { w: bubble.offsetWidth, h: bubble.offsetHeight }; place(); } }).observe(bubble);
   const spotButton = make('button', 'paper-guide-spot', uiLayer);
@@ -1219,12 +1219,10 @@ export function createGuide(api) {
       for (const [label,run,primary] of actions) if (!more || !primary) button(label,run,primary);
       if (more) button('Next dialogue page', () => {pageIndex++;renderPage();}, true);
       clearTimeout(leaveTimer); bubble.classList.remove('is-leaving');
-      const fresh = bubble.hidden;
       bubble.hidden = false;
       typesetText(bubbleText);
       bubbleSize = {w:bubble.offsetWidth,h:bubble.offsetHeight};
-      if (fresh) {bubbleSide=null;bubbleAt=null;}
-      if (ui) placeUi(ui.x,ui.y,ui.below);
+      if (ui) placeUi(ui.x, ui.y);
       api.wake(3);
     }
     renderPage();
@@ -1602,8 +1600,8 @@ export function createGuide(api) {
       if (calm && bubble.hidden) say('welcome', 'Welcome to Max’s portfolio! Make yourself at home. Click me to learn more about the page.');
       else if (!calm && bubbleKey === 'welcome') hush();
     }
-    placeUi(shown.x, shown.y, !!(tour.on && goal && goal.point.y < body.y - 40));
     updateHitFigure(pose, shown);
+    placeUi(shown.x, shown.y);
     if (!pose || !inView(shown.y - (jump?.flight ? 100 : 0), shown.y, 60)) return;
     ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     // All in black ink; the far limbs are only a touch thinner.
@@ -1645,8 +1643,7 @@ export function createGuide(api) {
     }
     ctx.restore();
   }
-  // Keeps the bubble and the click target on him, in page coordinates. Only the
-  // bubble's side depends on the viewport: below him when above would hit the header.
+  // Keep the bubble and click target attached to him in page coordinates.
   let ui = null;
   const written = new WeakMap();
   function updateHitFigure(pose, shown) {
@@ -1688,8 +1685,8 @@ export function createGuide(api) {
         top:rect.top + scrollY, bottom:rect.bottom + scrollY}));
     return liftBubbleAboveDemos({left,top,width,height}, demos);
   }
-  function placeUi(x, y, below) {
-    ui = { x, y, below };
+  function placeUi(x, y) {
+    ui = { x, y };
     setStyle(spotButton, 'transform', `translate(${x - 17}px,${y - 46}px)`);
     if (bubble.hidden) return;
     const { w, h } = bubbleSize;
@@ -1704,35 +1701,18 @@ export function createGuide(api) {
       return;
     }
     setStyle(tail, 'top', '');
-    // The side (above or below him) is picked when a line starts and only changes once the
-    // other side is clearly needed, so a bob near the header can't flip it back and forth.
-    const room = y - scrollY - 58 - h;
-    if (bubbleSide === null) bubbleSide = !below && room > 64 ? 'above' : 'below';
-    else if (bubbleSide === 'above' && (below || room < 40)) bubbleSide = 'below';
-    else if (bubbleSide === 'below' && !below && room > 100) bubbleSide = 'above';
-    let above = bubbleSide === 'above';
-    const left = Math.max(12, Math.min(document.documentElement.clientWidth - w - 12, x - w / 2));
-    const desiredTop = above ? y - 58 - h : y + 20;
-    const top = clearDemoTop(left, desiredTop, w, h);
-    if (top < desiredTop) { above = true; bubbleSide = 'above'; }
-    bubble.classList.toggle('is-below', !above);
-    // It eases after him rather than snapping to every step and string bounce, then settles
-    // on whole pixels (a fractional offset smears the handwriting).
-    const now = performance.now(), k = tour.on ? 1 : bubbleAt ? 1 - Math.exp(-Math.min(.1, (now - bubbleAt.time) / 1000) * 12) : 1;
-    bubbleAt = bubbleAt ? { x: mix(bubbleAt.x, left, k), y: mix(bubbleAt.y, top, k), time: now } : { x: left, y: top, time: now };
-    const settled = Math.abs(bubbleAt.x - left) < .5 && Math.abs(bubbleAt.y - top) < .5;
-    const bx = settled ? Math.round(left) : bubbleAt.x;
-    // Easing may cross a demo even when the destination is clear. Lift immediately.
-    const by = clearDemoTop(bx, settled ? Math.round(top) : bubbleAt.y, w, h);
-    bubbleAt.y = by;
-    if (by < (above ? y - 58 - h : y + 20)) bubble.classList.remove('is-below');
-    setStyle(tail, 'left', `${Math.max(24, Math.min(w - 26, x - bx))}px`);
-    setStyle(bubble, 'transform', `translate(${bx.toFixed(1)}px,${by.toFixed(1)}px)`);
-    if (!settled) api.wake(.2);
+    // Share his page-space head position instead of reacting to viewport edges or
+    // demo bounds. Scrolling then moves both together without flipping or lagging.
+    const head = renderedPose?.head || { x, y: y - 36 };
+    const left = Math.max(12, Math.min(document.documentElement.clientWidth - w - 12, head.x - w / 2));
+    const top = head.y - h - 22;
+    bubble.classList.remove('is-below');
+    setStyle(tail, 'left', `${Math.max(24, Math.min(w - 26, head.x - left))}px`);
+    setStyle(bubble, 'transform', `translate(${left.toFixed(1)}px,${top.toFixed(1)}px)`);
   }
   const place = () => {
-    if (toolShow) { body = toolShow.step(0); api.wake(.2); placeUi(body.x, body.y, false); }
-    else if (ui && !bubble.hidden) placeUi(ui.x, ui.y, ui.below);
+    if (toolShow) { body = toolShow.step(0); api.wake(.2); placeUi(body.x, body.y); }
+    else if (ui && !bubble.hidden) placeUi(ui.x, ui.y);
   };
 
   // ── Wiring ─────────────────────────────────────────────────────
