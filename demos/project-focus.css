@@ -250,8 +250,10 @@ body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-li
   body[data-project-focus].paper-play #node-maps > .chips { grid-column: 1 / -1; grid-row: 4; margin-top: calc(3 * var(--paper-line-height)); }
 
   /* Disney: the last note sits four lines below the one above it, and both right-hand notes are nudged 2px left. */
-  body[data-project-focus].paper-play #disney .project-note:last-child { margin-top: calc(4 * var(--paper-line-height)); }
-  body[data-project-focus].paper-play #disney .project-note:nth-child(n+3) { translate: -2px 0; }
+  body[data-project-focus].paper-play #disney .project-note:last-child { margin-top: calc(2 * var(--paper-line-height)); }
+  body[data-project-focus].paper-play #disney .project-note:nth-child(n+2) { translate: -2px 0; }
+  /* The photo frame sits one line higher than the other projects' demos. */
+  body[data-project-focus].paper-play #disney > .demo { margin-top: 0; }
 
   /* Content Finder: credits two lines lower. */
   body[data-project-focus].paper-play #content-finder > .desc > .chips { margin-top: calc(4 * var(--paper-line-height)); }

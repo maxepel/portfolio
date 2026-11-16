@@ -247,3 +247,5 @@ body.paper-play {
 /* Shared project format: title, context, description, then features, with a blank ruled line between blocks. */
 .paper-play .desc :is(.title, .why, .lead) { margin-bottom: var(--paper-line-height); }
 .paper-play .desc [data-wrap="natural"] { text-wrap: wrap; }
+
+.paper-play .dl-help { font-family: var(--hand); font-size: 24px; }
