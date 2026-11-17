@@ -395,7 +395,7 @@
   }
 
   // ── Viewer ─────────────────────────────────
-  const viewer = $('viewer'), vImg = $('v-img');
+  const viewer = $('viewer'), vImg = $('v-img'), app = document.querySelector('.app');
   const tagForm = $('v-add'), tagInput = $('v-new-tag');
   let returnFocus = null, viewing = null;
   function renderTags(en) {
@@ -449,17 +449,32 @@
     if (credit) rows += `<dt>Credit</dt><dd><a href="${esc(credit.url)}" target="_blank" rel="noopener">${esc(credit.by)}</a> · ${esc(credit.license)}</dd>`;
     $('v-meta').innerHTML = rows;
     viewer.hidden = false;
+    app.inert = true;
     $('v-close').focus();
   }
   function closeViewer() {
     if (viewer.hidden) return;
     viewer.hidden = true;
+    app.inert = false;
     vImg.innerHTML = ''; // stops a playing clip
-    returnFocus?.focus();
+    if (returnFocus?.isConnected && !returnFocus.hidden) returnFocus.focus();
+    else q.focus(); // removing the last matching tag can hide the original tile
   }
   $('v-close').addEventListener('click', closeViewer);
   viewer.addEventListener('click', (e) => { if (e.target === viewer) closeViewer(); });
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeViewer(); });
+  addEventListener('keydown', (e) => {
+    if (viewer.hidden) return;
+    if (e.key === 'Escape') return closeViewer();
+    if (e.key !== 'Tab') return;
+    const focusable = [...viewer.querySelectorAll('button, input, a[href], video[controls]')]
+      .filter(el => !el.disabled && el.getClientRects().length);
+    const first = focusable[0], last = focusable.at(-1);
+    if (e.shiftKey && (document.activeElement === first || !viewer.contains(document.activeElement))) {
+      e.preventDefault(); last?.focus();
+    } else if (!e.shiftKey && (document.activeElement === last || !viewer.contains(document.activeElement))) {
+      e.preventDefault(); first?.focus();
+    }
+  });
 
   // ── Clear ──────────────────────────────────
   resetBtn.addEventListener('click', () => {

@@ -128,10 +128,13 @@
 
   // Try it out: the frame goes position:fixed at its own rect, then its right edge stays put
   // while width grows leftward and height follows, so it stretches right to left over the page.
-  let fullFrame = null;
+  let fullFrame = null, finishClosing = null;
   const vw = () => document.documentElement.clientWidth;
   function openFrame(frame) {
     if (fullFrame) return;
+    // A fast reopen must finish the previous shrink before measuring the slot.
+    // Otherwise its pending callback removes the newly opened frame's classes.
+    finishClosing?.();
     const slot = frame.parentElement, r = frame.getBoundingClientRect();
     slot.style.height = r.height + 'px'; // keep the column from collapsing
     frame.classList.add('is-full');
@@ -153,6 +156,7 @@
     document.body.classList.remove('no-scroll');
     setLabel(frame, false);
     const done = () => {
+      finishClosing = null;
       frame.classList.remove('is-full', 'is-grow', 'is-open');
       ['top', 'right', 'width', 'height'].forEach((p) => frame.style.removeProperty(p));
       slot.style.removeProperty('height');
@@ -164,8 +168,15 @@
     if (reduced.matches) return done();
     let finished = false;
     const end = () => { if (!finished) { finished = true; done(); } };
-    frame.addEventListener('transitionend', (e) => { if (e.propertyName === 'height') end(); }, { once: false });
-    setTimeout(end, 900);
+    const onEnd = (e) => { if (e.target === frame && e.propertyName === 'height') finish(); };
+    const finish = () => {
+      frame.removeEventListener('transitionend', onEnd);
+      clearTimeout(timer);
+      end();
+    };
+    const timer = setTimeout(finish, 900);
+    finishClosing = finish;
+    frame.addEventListener('transitionend', onEnd);
   }
   function setLabel(frame, open) {
     const btn = frame.querySelector('[data-fullscreen]');
@@ -175,6 +186,22 @@
     btn.addEventListener('click', () => {
       const frame = btn.closest('[data-frame]');
       frame === fullFrame ? closeFrame() : openFrame(frame);
+    });
+  });
+
+  // Keyboard events inside an iframe do not bubble to the shell. Keep Escape
+  // working after the visitor starts interacting with the expanded demo.
+  document.querySelectorAll('iframe[data-try-src]').forEach((iframe) => {
+    iframe.addEventListener('load', () => {
+      try {
+        iframe.contentWindow.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape' || !fullFrame?.contains(iframe)) return;
+          // The map's inspector owns the first Escape, as do nested dialogs.
+          if (iframe.contentDocument.querySelector('.inspector, dialog[open], [role="dialog"][aria-modal="true"]')) return;
+          // Let the demo's handlers consume the event before closing its frame.
+          setTimeout(() => { if (!e.defaultPrevented && fullFrame?.contains(iframe)) closeFrame(); }, 0);
+        }, { capture: true });
+      } catch (_) { /* A cross-origin demo retains its visible Close button. */ }
     });
   });
 
