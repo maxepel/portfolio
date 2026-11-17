@@ -281,5 +281,11 @@ body[data-project-focus].paper-play .project-status { margin: 0 0 var(--paper-li
   }
 }
 
+/* Fullscreen must use the viewport, rather than the preview's translated column. */
+body[data-project-focus].paper-play #node-maps > .demo:has(.frame.is-full) {
+  translate: none;
+  transform: none;
+}
+
 /* The tutorial's tab notes sit just below the widget, where the sample-data footnote is; it returns when the tutorial closes. */
 body.canvas-widget-tutorial #canvas-widget .demo-context { opacity: 0; visibility: hidden; }
