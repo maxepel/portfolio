@@ -10,20 +10,18 @@ The site is everything in [`demos/`](demos/), with [`demos/index.html`](demos/in
 as the entry. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) deploys
 it to GitHub Pages on every push to `main`.
 
-## Disneyland Papercraft 1.0.6 download
+## Disneyland Papercraft 1.0.7 download
 
 The game is built with Godot 4.7 from a separate repository and published as
 release files here:
 
-- [Windows](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.6/Disneyland-Papercraft-Setup.exe)
-- [Mac](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.6/Disneyland-Papercraft-Mac.zip)
+- [Windows](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.7/Disneyland-Papercraft-Setup.exe)
+- [Mac](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.7/Disneyland-Papercraft-Mac.zip)
 
-Version 1.0.6 keeps saved photos free of tutorial hints and other UI, and
-includes the latest November 16 startup and loading improvements,
-independent save slots, and the completed Sunny tutorial before free play.
-It also includes the character artwork updates and automatic quest/minigame
-saves with a small Saving… / Complete indicator. Completed rewards and replay
-bonuses are saved before leaving the results screen.
+Version 1.0.7 updates the end credits to the approved four lines:
+Disneyland Papercraft; Made by Max Epel; A fun project to test tools and
+creativity; Thanks for playing! It includes the saved-photo, startup/loading,
+save-slot, tutorial, artwork, and autosave improvements from 1.0.6.
 
 No Godot install needed. The Windows installer asks where to put the game (the Desktop by default) and places one file there.
 
