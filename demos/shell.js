@@ -104,7 +104,7 @@
       box.className = 'dl-help';
       box.setAttribute('role', 'status');
       box.innerHTML = mac
-        ? '<b>Your download has started.</b> macOS will say it cannot verify the app, because it is not signed, meaning it is not officially registered with Apple (that costs $99 a year). It is safe: it is my own build. To open it: double-click the app, dismiss the warning, then go to <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>. You only do this once.'
+        ? '<b>Download started.</b> Open the app, dismiss the macOS warning, then go to <b>System Settings → Privacy &amp; Security → Open Anyway</b>. Only needed once.'
         : '<b>Your download has started.</b> Windows may say it protected your PC, because the installer is not signed, meaning it is not officially registered with Microsoft (that costs money each year). It is safe: it is my own build. Click <b>More info</b>, then <b>Run anyway</b>. If your browser blocks it, choose <b>Keep</b>.';
       const x = document.createElement('button');
       x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.textContent = '×';
