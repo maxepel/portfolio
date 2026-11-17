@@ -10,18 +10,19 @@ The site is everything in [`demos/`](demos/), with [`demos/index.html`](demos/in
 as the entry. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) deploys
 it to GitHub Pages on every push to `main`.
 
-## Disneyland Papercraft 1.0.7 download
+## Disneyland Papercraft 1.0.8 download
 
 The game is built with Godot 4.7 from a separate repository and published as
 release files here:
 
-- [Windows](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.7/Disneyland-Papercraft-Setup.exe)
-- [Mac](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.7/Disneyland-Papercraft-Mac.zip)
+- [Windows](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.8/Disneyland-Papercraft-Setup.exe)
+- [Mac](https://github.com/maxepel/portfolio/releases/download/disney-v1.0.8/Disneyland-Papercraft-Mac.zip)
 
-Version 1.0.7 updates the end credits to the approved four lines:
-Disneyland Papercraft; Made by Max Epel; A fun project to test tools and
-creativity; Thanks for playing! It includes the saved-photo, startup/loading,
-save-slot, tutorial, artwork, and autosave improvements from 1.0.6.
+Version 1.0.8 includes all current game updates, including the latest Train
+Photo Game music transitions, continuous train sounds, and the removal of the
+separate Tomorrowland station whistle. It retains the updated end credits,
+saved-photo, startup/loading, save-slot, tutorial, artwork, and autosave
+improvements from earlier releases.
 
 No Godot install needed. The Windows installer asks where to put the game (the Desktop by default) and places one file there.
 
